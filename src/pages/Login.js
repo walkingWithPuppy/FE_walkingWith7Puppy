@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 const MotionContainer = motion('div');
-const SignUp = () => {
+const Login = () => {
   return (
     <MotionContainer
       initial={{ y: -50, opacity: 0 }}
@@ -13,4 +13,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default Login;
