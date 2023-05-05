@@ -35,7 +35,7 @@ footer, header, hgroup, main, menu, nav, section {
 }
 body {
   line-height: 1;
-  font-family:'Source Sans Pro', sans-serif; 
+  font-family:'Source Sans Pro', sans-serif;  
 }
 a{
   text-decoration: none;
