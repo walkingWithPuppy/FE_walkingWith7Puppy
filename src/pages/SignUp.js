@@ -14,6 +14,7 @@ import {
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useNavigate } from 'react-router-dom';
+import { user } from '../api/axios';
 const MotionContainer = motion('div');
 
 const Container = styled.div`
@@ -33,7 +34,7 @@ const Container = styled.div`
   }
 `;
 const Margin = styled.div`
-  margin-top: 20px;
+  margin-top: 30px;
 `;
 const BtnWrap = styled.div`
   display: flex;
@@ -47,18 +48,55 @@ const BtnWrap = styled.div`
     width: 50%;
   }
 `;
-//sx={{ mt: '5px', width: 100vh }}
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [passwordCheck, setPasswordCheck] = useState(true);
+  const [inputData, setInputData] = useState({
+    id: '',
+    password: '',
+    password2: '',
+    nickname: '',
+    email: '',
+  });
+  const { id, password, password2, nickname, email } = inputData;
+  const change = e => {
+    const { name, value } = e.target;
+    setInputData({
+      ...inputData,
+      [name]: value,
+    });
+    setPasswordCheck(true);
+  };
+  const signupUser = async () => {
+    try {
+      if (password2 !== password) {
+        setPasswordCheck(prev => !prev);
+        return;
+      }
+      delete inputData.password2;
+      await user.post('/register', inputData);
+      setInputData({
+        id: '',
+        password: '',
+        password2: '',
+        nickname: '',
+        email: '',
+      });
+      setPasswordCheck(true);
+      navigate('/login');
+    } catch (error) {
+      alert('이미 존재하는 id입니다');
+    }
+  };
 
   const navigate = useNavigate();
   const goLogin = () => {
     navigate('/login');
   };
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleClickShowPassword = () => setShowPassword(show => !show);
 
-  const handleMouseDownPassword = (event) => {
+  const handleMouseDownPassword = event => {
     event.preventDefault();
   };
   return (
@@ -71,23 +109,22 @@ const SignUp = () => {
       <Container>
         <div>
           <Typography variant="h4">Sign up</Typography>
-          <Margin>
+          <Margin style={{ marginTop: 0 }}>
             <TextField
-              id="outlined-basic"
               label="ID"
               variant="outlined"
               margin="normal"
               fullWidth
               size="small"
+              name="id"
+              value={id || ''}
+              onChange={change}
             />
           </Margin>
           <Margin>
             <FormControl variant="outlined" fullWidth>
-              <InputLabel htmlFor="outlined-adornment-password">
-                Password
-              </InputLabel>
+              <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
               <OutlinedInput
-                id="outlined-adornment-password"
                 // size="small"
                 type={showPassword ? 'text' : 'password'}
                 endAdornment={
@@ -103,44 +140,64 @@ const SignUp = () => {
                   </InputAdornment>
                 }
                 label="Password"
+                name="password2"
+                value={password2 || ''}
+                onChange={change}
               />
             </FormControl>
 
-            <TextField
-              id="outlined-basic"
-              size="small"
-              label="다시 한번 더 입력해주세요"
-              type="password"
-              variant="outlined"
-              margin="dense"
-              fullWidth
-            />
+            {passwordCheck ? (
+              <TextField
+                label="다시 한번 더 입력해주세요"
+                helperText=" "
+                size="small"
+                type="password"
+                variant="outlined"
+                margin="dense"
+                fullWidth
+                name="password"
+                value={password || ''}
+                onChange={change}
+              />
+            ) : (
+              <TextField
+                error
+                label="error"
+                helperText="패스워드가 일치하지않습니다"
+                size="small"
+                type="password"
+                variant="outlined"
+                margin="dense"
+                fullWidth
+                name="password"
+                value={password || ''}
+                onChange={change}
+              />
+            )}
           </Margin>
-          <Margin>
+          <Margin style={{ marginTop: '0' }}>
             <TextField
-              id="outlined-basic"
               size="small"
               label="NickName"
               variant="outlined"
               margin="dense"
               fullWidth
+              name="nickname"
+              value={nickname || ''}
+              onChange={change}
             />
           </Margin>
           <TextField
-            id="outlined-basic"
             size="small"
             label="Email"
             variant="outlined"
             margin="dense"
             fullWidth
+            name="email"
+            value={email || ''}
+            onChange={change}
           />
-          {/* <TextField
-            id="outlined-basic"
-            label="Area"
-            variant="outlined"
-            margin="dense"
-            fullWidth
-          /> */}
+
           <BtnWrap>
             <div>
               <Button variant="outlined" fullWidth onClick={goLogin}>
@@ -148,8 +205,8 @@ const SignUp = () => {
               </Button>
             </div>
             <div>
-              <Button variant="outlined" fullWidth>
-                signup
+              <Button variant="outlined" fullWidth onClick={signupUser}>
+                sign up
               </Button>
             </div>
           </BtnWrap>

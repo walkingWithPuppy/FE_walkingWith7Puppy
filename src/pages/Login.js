@@ -1,13 +1,17 @@
-import React from 'react';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import { TextField, Button, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { user } from '../api/axios';
+import Cookies from 'js-cookie';
+import jwtDecode from 'jwt-decode';
+
 const MotionContainer = motion('div');
 
 const Container = styled.div`
   margin: 0 auto;
-  width: 45%;
+  width: 35%;
   height: 400px;
   margin-top: 170px;
   display: flex;
@@ -35,10 +39,39 @@ const BtnWrap = styled.div`
 `;
 
 const Login = () => {
+  const [userInput, setUserInput] = useState({
+    username: '',
+    password: '',
+  });
   const navigate = useNavigate();
+  const inputChange = e => {
+    const { name, value } = e.target;
+    setUserInput({
+      ...userInput,
+      [name]: value,
+    });
+  };
+  const { username, password } = userInput;
+  const userLogin = async () => {
+    try {
+      const response = await user.post('/login', userInput);
+      const accessHeader = response.headers.get('Authorization');
+      const token = accessHeader.split(' ')[1];
+      const userToken = jwtDecode(token);
+      const expirationTime = new Date(userToken.exp * 1000);
+      Cookies.set('token', token, { expires: expirationTime });
+      setUserInput({
+        id: '',
+        password: '',
+      });
+    } catch (error) {
+      alert('존재하지않는 id입니다');
+    }
+  };
   const goSinup = () => {
     navigate('/signup');
   };
+
   return (
     <MotionContainer
       initial={{ y: -50, opacity: 0 }}
@@ -50,23 +83,27 @@ const Login = () => {
         <div>
           <Typography variant="h4">Login</Typography>
           <TextField
-            id="outlined-basic"
             label="ID"
             variant="outlined"
             margin="dense"
             fullWidth
+            name="username"
+            value={username}
+            onChange={inputChange}
           />
           <TextField
-            id="outlined-basic"
             label="Password"
             type="password"
             variant="outlined"
             margin="dense"
             fullWidth
+            name="password"
+            value={password}
+            onChange={inputChange}
           />
           <BtnWrap>
             <div>
-              <Button variant="outlined" fullWidth>
+              <Button variant="outlined" fullWidth onClick={userLogin}>
                 Login
               </Button>
             </div>
