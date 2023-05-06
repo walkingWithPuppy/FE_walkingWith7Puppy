@@ -4,4 +4,5 @@ export const PATH_URL = {
   SIGNUP: '/signup',
   BOARD: '/boards',
   POST: '/boards/:boardId',
+  CREATE: '/boards/create',
 };
