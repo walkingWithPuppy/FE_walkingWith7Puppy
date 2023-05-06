@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import HomeSection01 from '../component/home/HomeSection01';
+import HomeSection02 from '../component/home/HomeSection02';
 
 const MotionContainer = motion('div');
 const Home = () => {
@@ -13,6 +14,7 @@ const Home = () => {
         transition={{ duration: 0.2 }}
       >
         <HomeSection01 />
+        <HomeSection02 />
       </MotionContainer>
     </>
   );
