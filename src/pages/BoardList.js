@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import List from '../component/List';
 
 const MotionContainer = motion('div');
 const BoardList = () => {
@@ -9,7 +10,9 @@ const BoardList = () => {
       animate={{ y: 0, opacity: 1 }}
       exit={{ y: -50, opacity: 0 }}
       transition={{ duration: 0.2 }}
-    ></MotionContainer>
+    >
+      <List />
+    </MotionContainer>
   );
 };
 
