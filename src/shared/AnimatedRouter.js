@@ -6,17 +6,18 @@ import BoardList from '../pages/BoardList';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
 import SignUp from '../pages/SignUp';
+import { PATH_URL } from './constants';
 
 const AnimatedRouter = () => {
   const location = useLocation();
   return (
     <AnimatePresence mode="wait">
       <Routes key={location.key} location={location}>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/Board" element={<BoardList />} />
-        <Route path="/Board/:boardId" element={<BoardDetail />} />
+        <Route path={PATH_URL.HOME} element={<Home />} />
+        <Route path={PATH_URL.LOGIN} element={<Login />} />
+        <Route path={PATH_URL.SIGNUP} element={<SignUp />} />
+        <Route path={PATH_URL.BOARD} element={<BoardList />} />
+        <Route path={PATH_URL.POST} element={<BoardDetail />} />
       </Routes>
     </AnimatePresence>
   );

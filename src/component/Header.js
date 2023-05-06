@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as LogoIcon } from '../assets/LogoIcon.svg';
+import { Link } from 'react-router-dom';
+import { PATH_URL } from '../shared/constants';
 
 const Header = () => {
   // TEST CODE: login token 검증
@@ -8,30 +10,38 @@ const Header = () => {
 
   const logoutElements = (
     <div className="elements-wrapper">
-      {/* TODO: 로그인 상태 변화 TEST CODE 수정 */}
-      <Button color="#fbae03" onClick={() => setIsLogin(true)}>
-        로그인
-      </Button>
-      <Button color="#fff" background="#fbae03">
-        회원가입
-      </Button>
+      <Link to={PATH_URL.LOGIN}>
+        {/* TODO: 로그인 상태 변화 TEST CODE 수정 */}
+        <Button color="#fbae03" onClick={() => setIsLogin(true)}>
+          로그인
+        </Button>
+      </Link>
+      <Link to={PATH_URL.SIGNUP}>
+        <Button color="#fff" background="#fbae03">
+          회원가입
+        </Button>
+      </Link>
     </div>
   );
 
   const loginElements = (
     <div className="elements-wrapper">
       동네친구 찾기
-      {/* TODO: 로그인 상태 변화 TEST CODE 수정 */}
-      <Button onClick={() => setIsLogin(false)}>로그아웃</Button>
+      <Link to={PATH_URL.HOME}>
+        {/* TODO: 로그인 상태 변화 TEST CODE 수정, 로그아웃 이후 안내창 Handler 함수로 구현 */}
+        <Button onClick={() => setIsLogin(false)}>로그아웃</Button>
+      </Link>
     </div>
   );
 
   return (
     <HeaderWrapper>
-      <HeaderTitle>
-        <LogoIcon width={23} height={23} />
-        WWP
-      </HeaderTitle>
+      <Link to={PATH_URL.HOME}>
+        <HeaderTitle>
+          <LogoIcon width={23} height={23} />
+          WWP
+        </HeaderTitle>
+      </Link>
       {isLogin ? loginElements : logoutElements}
     </HeaderWrapper>
   );
