@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import { TextField, Button, Typography } from '@mui/material';
+import { PATH_URL } from '../shared/constants';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { user } from '../api/axios';
@@ -40,7 +41,7 @@ const BtnWrap = styled.div`
 
 const Login = () => {
   const [userInput, setUserInput] = useState({
-    username: '',
+    usename: '',
     password: '',
   });
   const navigate = useNavigate();
@@ -52,24 +53,28 @@ const Login = () => {
     });
   };
   const { username, password } = userInput;
+
   const userLogin = async () => {
     try {
-      const response = await user.post('/login', userInput);
+      const response = await user.post(`/user${PATH_URL.LOGIN}`, userInput);
+      // const response = await user.post(PATH_URL.LOGIN, userInput); //테스트용
       const accessHeader = response.headers.get('Authorization');
       const token = accessHeader.split(' ')[1];
       const userToken = jwtDecode(token);
       const expirationTime = new Date(userToken.exp * 1000);
       Cookies.set('token', token, { expires: expirationTime });
+      // Cookies.set('token', response.data.token); //테스트용
       setUserInput({
         username: '',
         password: '',
       });
     } catch (error) {
-      alert('존재하지않는 id입니다');
+      console.log(error); //통신시 키값 맞출 예정
+      // alert('존재하지않는 id입니다');
     }
   };
   const goSinup = () => {
-    navigate('/signup');
+    navigate(PATH_URL.SIGNUP);
   };
 
   return (

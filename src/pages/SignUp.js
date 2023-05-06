@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
+import { PATH_URL } from '../shared/constants';
 import {
   TextField,
   Button,
@@ -50,6 +51,7 @@ const BtnWrap = styled.div`
 `;
 
 const SignUp = () => {
+  console.log(process.env.REACT_APP_SERVER_URL);
   const [showPassword, setShowPassword] = useState(false);
   const [passwordCheck, setPasswordCheck] = useState(true);
   const [inputData, setInputData] = useState({
@@ -68,6 +70,7 @@ const SignUp = () => {
     });
     setPasswordCheck(true);
   };
+  console.log(PATH_URL.SIGNUP);
   const signupUser = async () => {
     try {
       if (password2 !== password) {
@@ -75,7 +78,8 @@ const SignUp = () => {
         return;
       }
       delete inputData.password2;
-      await user.post('/register', inputData);
+      await user.post(`user/${PATH_URL.SIGNUP}`, inputData);
+      // await user.post(`/register`, inputData); //테스트용
       setInputData({
         id: '',
         password: '',
@@ -84,15 +88,16 @@ const SignUp = () => {
         email: '',
       });
       setPasswordCheck(true);
-      navigate('/login');
+      navigate(PATH_URL.LOGIN);
     } catch (error) {
-      alert('이미 존재하는 id입니다');
+      console.log(error); //통신 시 키값 맞출예정
+      // alert(error.response.data.message);
     }
   };
 
   const navigate = useNavigate();
   const goLogin = () => {
-    navigate('/login');
+    navigate(PATH_URL.LOGIN);
   };
   const handleClickShowPassword = () => setShowPassword(show => !show);
 
