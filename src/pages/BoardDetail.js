@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import Detail from '../component/board/Detail';
+import CommentList from '../component/comment/CommentList';
 
 const MotionContainer = motion('div');
 const BoardDetail = () => {
@@ -12,6 +13,7 @@ const BoardDetail = () => {
       transition={{ duration: 0.2 }}
     >
       <Detail />
+      <CommentList />
     </MotionContainer>
   );
 };
