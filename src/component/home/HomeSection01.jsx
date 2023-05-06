@@ -25,7 +25,7 @@ const Section01 = styled.div`
   border-radius: 5rem;
   background-image: url(${headerImg});
   background-repeat: no-repeat;
-  background-position: 90% 46%;
+  background-position: 90% 80%;
   background-size: 35rem;
 
   display: flex;
