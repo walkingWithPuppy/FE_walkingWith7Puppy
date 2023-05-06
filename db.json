@@ -1,0 +1,107 @@
+{
+    "boards": [
+      {
+        "id": 1,
+        "title": "같이산책하실분",
+        "content": "근처 공원에서 같이 산책할 친구를 구해요. 8시에 만나요",
+        "nickname": "테스트 닉네임 1",
+        "area": "강서구",
+        "imgurl": "https://images.unsplash.com/photo-1587463272361-565200f82b33?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDR8fHB1cHB5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
+        "comments": [
+          {
+            "id": 1,
+            "content": "저랑 같이 가요!",
+            "nickname": "rlarjs7879",
+            "createdAt": "2023-04-28T17:00:50.300795",
+            "modifiedAt": "2023-04-28T17:25:52.282354"
+          },
+          {
+            "id": 2,
+            "content": "나두나두!",
+            "nickname": "abcd",
+            "createdAt": "2023-04-28T17:00:50.300795",
+            "modifiedAt": "2023-04-28T17:25:52.282354"
+          }
+        ],
+        "createdAt": "2023-05-05T14:48:43.7499586",
+        "modifiedAt": "2023-05-05T14:48:43.7499586"
+      },
+      {
+        "id": 2,
+        "title": "테스트 제목 2",
+        "content": "테스트 내용 2",
+        "nickname": "테스트 닉네임 2",
+        "area": "강서구",
+        "imgurl": "https://images.unsplash.com/photo-1597633425046-08f5110420b5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
+        "comments": [],
+        "createdAt": "2023-05-04T14:48:43.7499586",
+        "modifiedAt": "2023-05-04T14:48:43.7499586"
+      },
+      {
+        "id": 3,
+        "title": "테스트 제목 3",
+        "content": "테스트 내용 3",
+        "nickname": "테스트 닉네임 3",
+        "area": "강남구",
+        "imgurl": "https://images.unsplash.com/photo-1625794084867-8ddd239946b1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
+        "comments": [],
+        "createdAt": "2023-05-04T14:48:43.7499586",
+        "modifiedAt": "2023-05-04T14:48:43.7499586"
+      },
+      {
+        "id": 4,
+        "title": "테스트 제목 4",
+        "content": "테스트 내용 4",
+        "nickname": "테스트 닉네임 4",
+        "area": "종로구",
+        "imgurl": "https://images.unsplash.com/photo-1573649627965-234d5bcc860f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MzgxfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60",
+        "comments": [],
+        "createdAt": "2023-05-04T14:48:43.7499586",
+        "modifiedAt": "2023-05-04T14:48:43.7499586"
+      },
+      {
+        "id": 5,
+        "title": "테스트 제목 5",
+        "content": "테스트 내용 5",
+        "nickname": "테스트 닉네임 5",
+        "area": "종로구",
+        "comments": [],
+        "imgurl": "https://images.unsplash.com/photo-1598133893847-a3b6858156d6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8OTZ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
+        "createdAt": "2023-05-04T14:48:43.7499586",
+        "modifiedAt": "2023-05-04T14:48:43.7499586"
+      },
+      {
+        "id": 6,
+        "title": "테스트 제목 6",
+        "content": "테스트 내용 6",
+        "nickname": "테스트 닉네임 6",
+        "area": "마포구",
+        "comments": [],
+        "imgurl": "https://images.unsplash.com/photo-1559076728-a51fe1c1f97a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8Mzk1fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60",
+        "createdAt": "2023-05-04T14:48:43.7499586",
+        "modifiedAt": "2023-05-04T14:48:43.7499586"
+      },
+      {
+        "id": 7,
+        "title": "테스트 제목 7",
+        "content": "테스트 내용 7",
+        "nickname": "테스트 닉네임 7",
+        "area": "광진구",
+        "imgurl": "https://images.unsplash.com/photo-1532397476918-0b485c271c7f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MTkzfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60",
+        "comments": [],
+        "createdAt": "2023-05-04T14:48:43.7499586",
+        "modifiedAt": "2023-05-04T14:48:43.7499586"
+      },
+      {
+        "id": 8,
+        "title": "테스트 제목 8",
+        "content": "테스트 내용 8",
+        "nickname": "테스트 닉네임 8",
+        "area": "동작구",
+        "imgurl": "https://images.unsplash.com/photo-1583512603806-077998240c7a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2069&q=80",
+        "comments": [],
+        "createdAt": "2023-05-04T14:48:43.7499586",
+        "modifiedAt": "2023-05-04T14:48:43.7499586"
+      }
+    ]
+  }
