@@ -40,6 +40,7 @@ const CreateForm = () => {
     const { name, value } = e.target;
     setFormValue({ ...formValue, [name]: value });
   };
+  const { title, area, content } = formValue;
 
   // 이미지 업로드 input의 onChange
   const saveImgFile = () => {
@@ -59,6 +60,7 @@ const CreateForm = () => {
         </Label>
         <Input
           name="title"
+          value={title}
           type="text"
           placeholder="제목을 입력하세요"
           onChange={handleInputChange}
@@ -66,6 +68,7 @@ const CreateForm = () => {
         <Label htmlFor="area">지역구</Label>
         <Input
           name="area"
+          value={area}
           type="text"
           placeholder="거주하시는 지역구를 입력하세요"
           onChange={handleInputChange}
@@ -87,7 +90,7 @@ const CreateForm = () => {
           <input type="file" accept="image/*" id="imgFile" onChange={saveImgFile} ref={imgRef} />
         </ImageWrapper>
         <Label htmlFor="content">내용</Label>
-        <Textarea name="content" onChange={handleInputChange} />
+        <Textarea value={content} name="content" onChange={handleInputChange} />
         <ButtonWrapper>
           <Button onClick={goHome} background="#fff" color="#fbae03">
             취소하기
