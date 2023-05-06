@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { PATH_URL } from '../../shared/constants';
 import { useState, useRef } from 'react';
+import { PATH_URL } from '../../shared/constants';
 
 const CreateForm = () => {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ const CreateForm = () => {
   const [imgFile, setImgFile] = useState('');
 
   const goHome = () => {
-    navigate(PATH_URL.BOARD);
+    navigate(PATH_URL.HOME);
   };
 
   const onSubmitHandler = e => {
@@ -33,7 +33,6 @@ const CreateForm = () => {
       console.log(data);
     }
     // alert('등록되었습니다');
-    // 등록한 글 내용으로 가도록?
     navigate(PATH_URL.HOME);
   };
 
