@@ -3,20 +3,19 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { PATH_URL } from '../../shared/constants';
 
-const Post = () => {
+const Post = ({ post }) => {
   return (
     <PostWrapper>
       <Link to={PATH_URL.POST}>
-        <Area>강서구</Area>
-        <Image
+        <Area>{post.area}</Area>
+        {/* <Image
           src="/assets/images/board/puppy1.jpg"
           alt="강아지이미지"
-        />
+        /> */}
+        <Image src={post.imgurl} alt="puppy" />
         <Info>
-          <Title>같이 산책할 친구 구합니다</Title>
-          <Content>
-            오늘 저녁 8시에 한강에서 같이 산책할 친구 구해요. 사교성이 좋고 친구들을 좋아합니다...
-          </Content>
+          <Title>{post.title}</Title>
+          <Content>{post.content}</Content>
         </Info>
       </Link>
     </PostWrapper>

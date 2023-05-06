@@ -1,7 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
+import boards from '../modules/boardsSlice';
 
 const store = configureStore({
-  reducer: {},
+  reducer: {
+    boards,
+  },
   devTools: process.env.NODE_ENV === 'development',
 });
 

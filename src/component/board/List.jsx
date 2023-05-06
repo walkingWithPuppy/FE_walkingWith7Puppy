@@ -1,12 +1,17 @@
 import Post from './Post';
 import styled from 'styled-components';
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CreateIcon from '@mui/icons-material/Create';
 import { Link } from 'react-router-dom';
 import { PATH_URL } from '../../shared/constants';
+import { useDispatch, useSelector } from 'react-redux';
+import { __getList } from '../../redux/modules/boardsSlice';
 
 const List = () => {
+  const dispatch = useDispatch();
+  const posts = useSelector(state => state.boards.boards);
+
   const AREAS_SELECT = [
     { value: 'gangnam', label: '강남구' },
     { value: 'gangseo', label: '강서구' },
@@ -14,9 +19,15 @@ const List = () => {
     { value: 'jongro', label: '종로구' },
   ];
   const [area, setArea] = useState(AREAS_SELECT[0].value);
+
   const handleChange = event => {
     setArea(event.target.value);
   };
+
+  useEffect(() => {
+    dispatch(__getList());
+  }, [dispatch]);
+
   return (
     <ListWrapper>
       <SelectWrapper>
@@ -40,12 +51,15 @@ const List = () => {
         </StFormControl>
       </SelectWrapper>
       <PostWrapper>
+        {/* <Post />
         <Post />
         <Post />
         <Post />
         <Post />
-        <Post />
-        <Post />
+        <Post /> */}
+        {posts?.map(post => {
+          return <Post key={post.id} post={post} />;
+        })}
       </PostWrapper>
       <Link to={PATH_URL.CREATE}>
         <CreateButton>
