@@ -26,7 +26,9 @@ const Header = () => {
 
   const loginElements = (
     <div className="elements-wrapper">
-      동네친구 찾기
+      <Link to={PATH_URL.BOARD}>
+        <div id="linkToBoardLabel">산책메이트 찾기</div>
+      </Link>
       <Link to={PATH_URL.HOME}>
         {/* TODO: 로그인 상태 변화 TEST CODE 수정, 로그아웃 이후 안내창 Handler 함수로 구현 */}
         <Button onClick={() => setIsLogin(false)}>로그아웃</Button>
@@ -60,6 +62,10 @@ const HeaderWrapper = styled.header`
     align-items: center;
     color: #fbae03;
     font-weight: 600;
+  }
+
+  #linkToBoardLabel {
+    cursor: pointer;
   }
 `;
 
