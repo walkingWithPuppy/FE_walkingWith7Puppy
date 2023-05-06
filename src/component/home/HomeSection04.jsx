@@ -1,13 +1,21 @@
 import styled from 'styled-components';
 import useScrollFadeIn from '../../hooks/useScrollFadeIn';
+import { Link } from 'react-router-dom';
+import { PATH_URL } from '../../shared/constants';
+import Cookies from 'js-cookie';
 
 const HomeSection04 = () => {
   const animatedItem = {
     0: useScrollFadeIn('down', 1, 0.2),
   };
+
+  const token = Cookies.get('token');
+
   return (
     <Section04 {...animatedItem[0]}>
-      <Button>우리 동네 강아지 친구, 지금 찾아보세요!</Button>
+      <Link to={token ? PATH_URL.CREATE : PATH_URL.LOGIN}>
+        <Button>우리 동네 강아지 친구, 지금 찾아보세요!</Button>
+      </Link>
     </Section04>
   );
 };

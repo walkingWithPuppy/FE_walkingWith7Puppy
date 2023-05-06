@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import headerImg from '../../assets/HeaderImage.png';
+import { Link } from 'react-router-dom';
+import { PATH_URL } from '../../shared/constants';
 
 const HomeSection01 = () => {
   const rightArrowIcon = <i className="fa-solid fa-chevron-right" />;
@@ -14,7 +16,9 @@ const HomeSection01 = () => {
           <b>우리동네 애견 산책 메이트</b> 찾기 서비스
         </Describe>
       </TextContainer>
-      <Button>WWP 산책메이트 찾기{rightArrowIcon}</Button>
+      <Link to={PATH_URL.BOARD}>
+        <Button>WWP 산책메이트 찾기{rightArrowIcon}</Button>
+      </Link>
     </Section01>
   );
 };
