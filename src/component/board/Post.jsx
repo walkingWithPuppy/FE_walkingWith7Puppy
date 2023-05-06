@@ -9,7 +9,7 @@ const Post = () => {
       <Link to={PATH_URL.POST}>
         <Area>강서구</Area>
         <Image
-          src="https://images.unsplash.com/photo-1587463272361-565200f82b33?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDR8fHB1cHB5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60"
+          src="/assets/images/board/puppy1.jpg"
           alt="강아지이미지"
         />
         <Info>
