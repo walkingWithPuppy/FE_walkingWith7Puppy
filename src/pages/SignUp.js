@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import { PATH_URL } from '../shared/constants';
+
 import {
   TextField,
   Button,
@@ -17,38 +18,6 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useNavigate } from 'react-router-dom';
 import { user } from '../api/axios';
 const MotionContainer = motion('div');
-
-const Container = styled.div`
-  margin: 0 auto;
-  width: 40%;
-  height: 550px;
-  margin-top: 120px;
-  display: flex;
-  flex-direction: column;
-  border: 2px solid #fbae03;
-  border-radius: 10px;
-
-  > div:first-child {
-    width: 70%;
-    margin: 0 auto;
-    padding-top: 50px;
-  }
-`;
-const Margin = styled.div`
-  margin-top: 30px;
-`;
-const BtnWrap = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin-top: 50px;
-  width: 100%;
-  gap: 10px;
-
-  > div {
-    width: 50%;
-  }
-`;
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -77,7 +46,7 @@ const SignUp = () => {
         return;
       }
       delete inputData.password2;
-      // await user.post(`user/${PATH_URL.SIGNUP}`, inputData);
+      // await user.post(`${PATH_URL.SIGNUP}`, inputData);
       await user.post(`/register`, inputData); //테스트용
       setInputData({
         id: '',
@@ -219,5 +188,36 @@ const SignUp = () => {
     </MotionContainer>
   );
 };
+const Container = styled.div`
+  margin: 0 auto;
+  width: 40%;
+  height: 550px;
+  margin-top: 120px;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #fbae03;
+  border-radius: 10px;
+
+  > div:first-child {
+    width: 70%;
+    margin: 0 auto;
+    padding-top: 50px;
+  }
+`;
+const Margin = styled.div`
+  margin-top: 30px;
+`;
+const BtnWrap = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 50px;
+  width: 100%;
+  gap: 10px;
+
+  > div {
+    width: 50%;
+  }
+`;
 
 export default SignUp;

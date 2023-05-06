@@ -10,35 +10,6 @@ import jwtDecode from 'jwt-decode';
 
 const MotionContainer = motion('div');
 
-const Container = styled.div`
-  margin: 0 auto;
-  width: 35%;
-  height: 400px;
-  margin-top: 170px;
-  display: flex;
-  flex-direction: column;
-  border: 2px solid #fbae03;
-  border-radius: 10px;
-
-  > div:first-child {
-    width: 60%;
-    margin: 0 auto;
-    padding-top: 50px;
-  }
-`;
-const BtnWrap = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin-top: 55px;
-  width: 100%;
-  gap: 10px;
-
-  > div {
-    width: 50%;
-  }
-`;
-
 const Login = () => {
   const [userInput, setUserInput] = useState({
     id: '',
@@ -56,8 +27,8 @@ const Login = () => {
 
   const userLogin = async () => {
     try {
-      // const response = await user.post(`/user${PATH_URL.LOGIN}`, userInput);
-      const response = await user.post(PATH_URL.LOGIN, userInput); //테스트용
+      // const response = await user.post(`${PATH_URL.LOGIN}`, userInput);
+      const response = await user.post('/login', userInput); //테스트용
       // const accessHeader = response.headers.get('Authorization');
       // const token = accessHeader.split(' ')[1];
       // const userToken = jwtDecode(token);
@@ -87,7 +58,7 @@ const Login = () => {
       exit={{ y: -50, opacity: 0 }}
       transition={{ duration: 0.2 }}
     >
-      <Container>
+      <LoginContainer>
         <div>
           <Typography variant="h4">Login</Typography>
           <TextField
@@ -109,7 +80,7 @@ const Login = () => {
             value={password}
             onChange={inputChange}
           />
-          <BtnWrap>
+          <LoginBtnWrap>
             <div>
               <Button variant="outlined" fullWidth onClick={userLogin}>
                 Login
@@ -120,11 +91,39 @@ const Login = () => {
                 signup
               </Button>
             </div>
-          </BtnWrap>
+          </LoginBtnWrap>
         </div>
-      </Container>
+      </LoginContainer>
     </MotionContainer>
   );
 };
+const LoginContainer = styled.div`
+  margin: 0 auto;
+  width: 35%;
+  height: 400px;
+  margin-top: 170px;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #fbae03;
+  border-radius: 10px;
+
+  > div:first-child {
+    width: 60%;
+    margin: 0 auto;
+    padding-top: 50px;
+  }
+`;
+const LoginBtnWrap = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 55px;
+  width: 100%;
+  gap: 10px;
+
+  > div {
+    width: 50%;
+  }
+`;
 
 export default Login;
