@@ -51,7 +51,6 @@ const BtnWrap = styled.div`
 `;
 
 const SignUp = () => {
-  console.log(process.env.REACT_APP_SERVER_URL);
   const [showPassword, setShowPassword] = useState(false);
   const [passwordCheck, setPasswordCheck] = useState(true);
   const [inputData, setInputData] = useState({
@@ -70,7 +69,7 @@ const SignUp = () => {
     });
     setPasswordCheck(true);
   };
-  console.log(PATH_URL.SIGNUP);
+
   const signupUser = async () => {
     try {
       if (password2 !== password) {
