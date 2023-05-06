@@ -3,7 +3,7 @@ import headerImg from '../../assets/HeaderImage.png';
 
 const HomeSection01 = () => {
   return (
-    <Container>
+    <Section01>
       <TextContainer>
         <Title>Walking with Puppy</Title>
         <Describe>
@@ -13,11 +13,11 @@ const HomeSection01 = () => {
         </Describe>
       </TextContainer>
       <Button>WWP 산책메이트 찾기</Button>
-    </Container>
+    </Section01>
   );
 };
 
-const Container = styled.div`
+const Section01 = styled.div`
   background-color: #fbae03;
   height: 25rem;
   border-radius: 5rem;
