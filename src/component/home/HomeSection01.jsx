@@ -13,7 +13,7 @@ const HomeSection01 = () => {
         <Describe>
           우리 강아지도 친구를 만들어주세요!
           <br />
-          <b>우리동네 애견 산책 메이트</b> 찾기 서비스
+          <b>우리 동네 반려견 산책 메이트</b> 찾기 서비스
         </Describe>
       </TextContainer>
       <Link to={PATH_URL.BOARD}>
