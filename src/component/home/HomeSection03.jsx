@@ -118,7 +118,7 @@ const Section03 = styled.div`
 const TextLabel = styled.h1`
   font-size: 1.5rem;
   font-weight: 700;
-  margin-bottom: 2.5rem;
+  margin-bottom: 3rem;
   display: flex;
   flex-direction: column;
   align-items: center;

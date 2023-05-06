@@ -37,7 +37,7 @@ const TextLabel = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 0.8rem;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2.7rem;
   #title {
     font-size: 1.8rem;
     font-weight: 700;

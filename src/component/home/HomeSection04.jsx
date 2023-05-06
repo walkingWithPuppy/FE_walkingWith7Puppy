@@ -15,7 +15,6 @@ const HomeSection04 = () => {
 const Section04 = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 2rem;
   margin-bottom: 12rem;
 `;
 
@@ -28,6 +27,11 @@ const Button = styled.button`
   font-size: 1.5rem;
   color: white;
   font-weight: 600;
+
+  :hover {
+    transition: 0.7s;
+    background-color: #fe7e01;
+  }
 `;
 
 export default HomeSection04;

@@ -30,7 +30,7 @@ const Home = () => {
 const HomeContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 6rem;
+  gap: 7rem;
 `;
 
 export default Home;
