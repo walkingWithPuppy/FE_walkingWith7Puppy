@@ -4,8 +4,6 @@ import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { useState } from 'react';
 
 const List = () => {
-
-
   const AREAS_SELECT = [
     { value: 'gangnam', label: '강남구' },
     { value: 'gangseo', label: '강서구' },
@@ -50,8 +48,6 @@ const List = () => {
   );
 };
 
-export default List;
-
 const ListWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -89,3 +85,5 @@ const StSelect = styled(Select)`
     color: #fbae03;
   }
 `;
+
+export default List;
