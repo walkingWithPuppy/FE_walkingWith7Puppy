@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import List from '../component/List';
+import List from '../component/board/List';
 
 const MotionContainer = motion('div');
 const BoardList = () => {

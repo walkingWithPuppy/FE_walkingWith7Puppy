@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import CreateForm from '../component/CreateForm';
+import CreateForm from '../component/board/CreateForm';
 
 const MotionContainer = motion('div');
 const BoardCreate = () => {
