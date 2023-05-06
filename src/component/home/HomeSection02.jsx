@@ -17,7 +17,6 @@ const Section02 = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-top: 5rem;
 `;
 
 const TextLabel = styled.div`
