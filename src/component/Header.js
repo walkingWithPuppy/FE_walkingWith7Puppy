@@ -1,20 +1,32 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as LogoIcon } from '../assets/LogoIcon.svg';
 import { Link } from 'react-router-dom';
 import { PATH_URL } from '../shared/constants';
+import Cookies from 'js-cookie';
 
 const Header = () => {
   // TEST CODE: login token 검증
   const [isLogin, setIsLogin] = useState(false);
+  const token = Cookies.get('token');
+
+  useEffect(() => {
+    if (token) {
+      setIsLogin(() => true);
+    }
+  }, [token]);
+
+  const logoutHandle = () => {
+    Cookies.remove('token');
+    setIsLogin(prev => !prev);
+    window.location.replace(PATH_URL.HOME);
+  };
 
   const logoutElements = (
     <div className="elements-wrapper">
       <Link to={PATH_URL.LOGIN}>
         {/* TODO: 로그인 상태 변화 TEST CODE 수정 */}
-        <Button color="#fbae03" onClick={() => setIsLogin(true)}>
-          로그인
-        </Button>
+        <Button color="#fbae03">로그인</Button>
       </Link>
       <Link to={PATH_URL.SIGNUP}>
         <Button color="#fff" background="#fbae03">
@@ -31,7 +43,7 @@ const Header = () => {
       </Link>
       <Link to={PATH_URL.HOME}>
         {/* TODO: 로그인 상태 변화 TEST CODE 수정, 로그아웃 이후 안내창 Handler 함수로 구현 */}
-        <Button onClick={() => setIsLogin(false)}>로그아웃</Button>
+        {isLogin && <Button onClick={logoutHandle}>로그아웃</Button>}
       </Link>
     </div>
   );
