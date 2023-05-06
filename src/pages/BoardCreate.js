@@ -1,9 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import List from '../component/board/List';
+import CreateForm from '../component/board/CreateForm';
 
 const MotionContainer = motion('div');
-const BoardList = () => {
+const BoardCreate = () => {
   return (
     <MotionContainer
       initial={{ y: -50, opacity: 0 }}
@@ -11,9 +11,9 @@ const BoardList = () => {
       exit={{ y: -50, opacity: 0 }}
       transition={{ duration: 0.2 }}
     >
-      <List />
+      <CreateForm />
     </MotionContainer>
   );
 };
 
-export default BoardList;
+export default BoardCreate;
