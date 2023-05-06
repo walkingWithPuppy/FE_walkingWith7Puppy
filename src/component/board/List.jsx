@@ -2,6 +2,9 @@ import Post from './Post';
 import styled from 'styled-components';
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { useState } from 'react';
+import CreateIcon from '@mui/icons-material/Create';
+import { Link } from 'react-router-dom';
+import { PATH_URL } from '../../shared/constants';
 
 const List = () => {
   const AREAS_SELECT = [
@@ -44,6 +47,11 @@ const List = () => {
         <Post />
         <Post />
       </PostWrapper>
+      <Link to={PATH_URL.CREATE}>
+        <CreateButton>
+          <CreateIcon />
+        </CreateButton>
+      </Link>
     </ListWrapper>
   );
 };
@@ -82,6 +90,21 @@ const StSelect = styled(Select)`
   height: 45px;
   .MuiSelect-icon {
     color: #fbae03;
+  }
+`;
+
+const CreateButton = styled.button`
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #fbae03;
+  border: none;
+  outline: none;
+  & > svg {
+    color: white;
   }
 `;
 
