@@ -63,6 +63,11 @@ const Button = styled.button`
   display: flex;
   justify-content: space-around;
   align-items: center;
+
+  :hover {
+    transition: 0.7s;
+    color: #fe7e01;
+  }
 `;
 
 export default HomeSection01;
