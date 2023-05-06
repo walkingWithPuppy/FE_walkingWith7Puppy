@@ -1,13 +1,13 @@
 import styled from 'styled-components';
-import exampleImage from '../../assets/Section3ExampleImage.png';
+// import exampleImage from '../../assets/Section3ExampleImage.png';
 
-const Section03Post = () => {
+const Section03Post = ({ title, area, img }) => {
   return (
     <PostContainer>
-      <img src={exampleImage} alt="dog Image" />
+      <img src={img} alt="dog Image" />
       <TextLabelContainer>
-        <h1>공원에서 산책하실 분!</h1>
-        <h5>강서구</h5>
+        <h1>{title}</h1>
+        <h5>{area}</h5>
       </TextLabelContainer>
     </PostContainer>
   );
@@ -18,6 +18,8 @@ const PostContainer = styled.div`
   height: 25rem;
   border-radius: 5rem 0;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  margin-bottom: 4rem;
+  background-color: white;
 
   overflow: hidden;
 
