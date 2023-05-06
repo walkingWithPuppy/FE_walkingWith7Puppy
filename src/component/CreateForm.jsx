@@ -24,7 +24,7 @@ const CreateForm = () => {
   const onSubmitHandler = e => {
     const formData = new FormData();
     e.preventDefault();
-    formData.append('imgFile', imgFile); 
+    formData.append('imgFile', imgFile);
     formData.append('title', formValue.title);
     formData.append('area', formValue.area);
     formData.append('content', formValue.content);
@@ -32,7 +32,7 @@ const CreateForm = () => {
     for (let data of formData.values()) {
       console.log(data);
     }
-    alert('등록되었습니다');
+    // alert('등록되었습니다');
     navigate(PATH_URL.HOME);
   };
 
@@ -92,7 +92,7 @@ const CreateForm = () => {
           <Button onClick={goHome} background="#fff" color="#fbae03">
             취소하기
           </Button>
-          <Button background="#fbae03" color="#fff">
+          <Button type="submit" background="#fbae03" color="#fff">
             등록하기
           </Button>
         </ButtonWrapper>
