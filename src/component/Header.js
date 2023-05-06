@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { ReactComponent as HeaderIcon } from '../assets/HeaderIcon.svg';
+import { ReactComponent as LogoIcon } from '../assets/LogoIcon.svg';
 
 const Header = () => {
   // TEST CODE: login token 검증
@@ -29,7 +29,7 @@ const Header = () => {
   return (
     <HeaderWrapper>
       <HeaderTitle>
-        <HeaderIcon width={23} height={23} />
+        <LogoIcon width={23} height={23} />
         WWP
       </HeaderTitle>
       {isLogin ? loginElements : logoutElements}

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ReactComponent as HeaderIcon } from '../assets/HeaderIcon.svg';
+import { ReactComponent as LogoIcon } from '../assets/LogoIcon.svg';
 
 const Footer = () => {
   const frontendMember = (
@@ -22,7 +22,7 @@ const Footer = () => {
   return (
     <FooterWrapper>
       <FooterTitle>
-        <HeaderIcon width={30} height={30} />
+        <LogoIcon width={30} height={30} />
         <div>
           Walking <br />
           With Puppy

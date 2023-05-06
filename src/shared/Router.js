@@ -6,8 +6,9 @@ import Layout from './Layout';
 const Router = () => {
   return (
     <BrowserRouter>
-      <AnimatedRouter />
-      <Layout></Layout>
+      <Layout>
+        <AnimatedRouter />
+      </Layout>
     </BrowserRouter>
   );
 };

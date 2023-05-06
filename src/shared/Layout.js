@@ -2,11 +2,11 @@ import styled from 'styled-components';
 import Header from '../component/Header';
 import Footer from '../component/Footer';
 
-const Layout = ({ content }) => {
+const Layout = ({ children }) => {
   return (
     <>
       <Header />
-      <Content>{content}</Content>
+      <Content>{children}</Content>
       <Footer />
     </>
   );
