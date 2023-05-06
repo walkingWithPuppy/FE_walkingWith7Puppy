@@ -1,8 +1,12 @@
 import styled from 'styled-components';
+import useScrollFadeIn from '../../hooks/useScrollFadeIn';
 
 const HomeSection04 = () => {
+  const animatedItem = {
+    0: useScrollFadeIn('down', 1, 0.2),
+  };
   return (
-    <Section04>
+    <Section04 {...animatedItem[0]}>
       <Button>우리 동네 강아지 친구, 지금 찾아보세요!</Button>
     </Section04>
   );

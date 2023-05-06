@@ -1,11 +1,18 @@
 import styled from 'styled-components';
 import Section03Post from './Section03Post';
+import useScrollFadeIn from '../../hooks/useScrollFadeIn';
 
 const HomeSection03 = () => {
+  const animatedItem = {
+    0: useScrollFadeIn('down', 1, 0.2),
+    1: useScrollFadeIn('down', 1.5, 0.8),
+  };
   return (
     <Section03>
-      <TextLabel>산책 메이트를 기다리고 있어요!</TextLabel>
-      <Section03Post />
+      <TextLabel {...animatedItem[0]}>산책 메이트를 기다리고 있어요!</TextLabel>
+      <div {...animatedItem[1]}>
+        <Section03Post />
+      </div>
     </Section03>
   );
 };
