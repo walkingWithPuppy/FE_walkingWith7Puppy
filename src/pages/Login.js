@@ -61,7 +61,7 @@ const Login = () => {
       const expirationTime = new Date(userToken.exp * 1000);
       Cookies.set('token', token, { expires: expirationTime });
       setUserInput({
-        id: '',
+        username: '',
         password: '',
       });
     } catch (error) {
