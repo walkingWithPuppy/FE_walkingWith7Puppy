@@ -39,6 +39,17 @@ const HomeSection03 = () => {
       img: exampleImage3,
     },
   ];
+
+  const swiperBreakpoints = {
+    325: { slidePrevView: 1, spaceBetween: 80 },
+    525: { slidePrevView: 1, spaceBetween: 70 },
+    925: { slidePrevView: 1, spaceBetween: 60 },
+    1025: { slidePerView: 1, spaceBetween: 50 },
+    1125: { slidesPerView: 1.5, spaceBetween: 30 },
+    1225: { slidesPerView: 2 },
+    1335: { slidesPerView: 2.2 },
+    1425: { slidesPerView: 2.5 },
+  };
   return (
     <Section03>
       <TextLabel {...animatedItem[0]}>산책 메이트를 기다리고 있어요!</TextLabel>
@@ -57,37 +68,7 @@ const HomeSection03 = () => {
             clickable: true,
           }}
           modules={[Keyboard, Scrollbar, Navigation, Pagination]}
-          breakpoints={{
-            325: {
-              slidePrevView: 1,
-              spaceBetween: 80,
-            },
-            525: {
-              slidePrevView: 1,
-              spaceBetween: 70,
-            },
-            925: {
-              slidePrevView: 1,
-              spaceBetween: 60,
-            },
-            1025: {
-              slidePerView: 1,
-              spaceBetween: 50,
-            },
-            1125: {
-              slidesPerView: 1.5,
-              spaceBetween: 30,
-            },
-            1225: {
-              slidesPerView: 2,
-            },
-            1335: {
-              slidesPerView: 2.2,
-            },
-            1425: {
-              slidesPerView: 2.5,
-            },
-          }}
+          breakpoints={swiperBreakpoints}
           style={{
             '--swiper-navigation-color': '#fff',
             '--swiper-pagination-color': '#fbae03',
