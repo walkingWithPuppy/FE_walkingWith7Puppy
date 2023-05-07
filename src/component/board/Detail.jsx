@@ -1,14 +1,25 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Cookies from 'js-cookie';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { PATH_URL } from '../../shared/constants';
+import {  __getPostById } from '../../redux/modules/boardsSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Detail = () => {
   const [isLogin, setIsLogin] = useState(false);
   const token = Cookies.get('token');
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const post = useSelector(state => state.boards.post);
+  const { boardId } = useParams();
+  // console.log('boardId',boardId);
+  // console.log('post',post);
 
+  useEffect(() => {
+    dispatch(__getPostById(boardId));
+  }, [dispatch,boardId]);
+  
   useEffect(() => {
     if (token) {
       setIsLogin(() => true);
@@ -30,17 +41,13 @@ const Detail = () => {
     <DetailWrapper>
       <Container>
         <ContentWrapper>
-          <Image src={'/assets/images/board/puppy1.jpg'} alt="noImg" />
+        <Image src={post.imgurl || '../../assets/images/board/noImg.jpg'} alt="puppy" />
           <Info>
-            <Title>같이 산책할 친구 구합니다.</Title>
-            <NickName>김집사(jipsa@gmail.com)</NickName>
-            <Area>여기서 만나요 : 강서구</Area>
+            <Title>{post.title}</Title>
+            <NickName>{post.nickname}</NickName>
+            <Area>{post.area}</Area>
             <Description>
-              이름은 뚱뚱이입니다.
-              <br />
-              오늘 저녁 8시에 한강에서 같이 산책할 친구 구해요.
-              <br />
-              사교성이 좋고 친구들을 좋아해요!
+              {post.content}
             </Description>
           </Info>
         </ContentWrapper>
@@ -65,7 +72,7 @@ const DetailWrapper = styled.div`
 
 const Container = styled.div`
   display: flex;
-  align-items: center;
+  // align-items: center;
   flex-direction: column;
   max-width: 800px;
   width: 100%;

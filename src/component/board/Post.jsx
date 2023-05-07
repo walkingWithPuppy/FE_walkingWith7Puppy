@@ -1,18 +1,18 @@
-import React from 'react';
+import react from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { PATH_URL } from '../../shared/constants';
 
-const Post = ({ post }) => {
+const Post = ({post }) => {
   return (
     <PostWrapper>
-      <Link to={PATH_URL.POST}>
+      <Link to={`${PATH_URL.BOARD}/${post.id}`}>
         <Area>{post.area}</Area>
         {/* <Image
           src="/assets/images/board/puppy1.jpg"
           alt="강아지이미지"
         /> */}
-        <Image src={post.imgurl} alt="puppy" />
+        <Image src={post.imgurl || '../../assets/images/board/noImg.jpg'} alt="puppy" />
         <Info>
           <Title>{post.title}</Title>
           <Content>{post.content}</Content>

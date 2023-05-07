@@ -5,20 +5,34 @@ import { boards } from '../../api/axios';
 
 const initialState = {
   boards: [],
+  post:[],
   isLoading: false,
   error: null,
 };
 
-export const __getList = createAsyncThunk(
-  'boards/getList',
-  async (payload, thunkAPI) => {
-    console.log(payload); // null이고
-    try {
-      // const response = await user.post(PATH_URL.LOGIN, userInput); //테스트용
+const header = {
+  'Content-Type': 'application/json',
+};
 
-      const data = await boards.get(PATH_URL.BOARD);
-      console.log(data.data);
-      return thunkAPI.fulfillWithValue(data.data);
+export const __getList = createAsyncThunk(
+  'boards/getList', 
+  async (payload, thunkAPI) => {
+  try {
+    const response = await boards.get(PATH_URL.BOARD);
+    console.log(response.data);
+    return thunkAPI.fulfillWithValue(response.data);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+// 조회
+export const __getPostById = createAsyncThunk(
+  'boards/getPostById',
+  async (id, thunkAPI) => {
+    try {
+      const response = await boards.get(`${PATH_URL.BOARD}/${id}`);
+      // console.log('response.data', response.data);
+      return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -31,7 +45,7 @@ export const boardsSlice = createSlice({
   reducers: {},
   extraReducers: {
     // __getList
-    [__getList.pending]: (state) => {
+    [__getList.pending]: state => {
       state.isLoading = true;
     },
     [__getList.fulfilled]: (state, action) => {
@@ -42,7 +56,21 @@ export const boardsSlice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
-  },
+    //__getPostById
+    [__getPostById.pending]: state => {
+      state.loading = true;
+      state.error = null;
+    },
+    [__getPostById.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.post = action.payload;
+    },
+    [__getPostById.rejected]: (state, action) => {
+      state.loading = false;
+      // error 객체를 저장하지 않도록 변경
+      state.error = action.payload;
+    }
+  }
 });
 
 export const {} = boardsSlice.actions;

@@ -11,9 +11,11 @@ export const user = axios.create({
 });
 
 // 임시 로컬테스트용
-const API_URL = process.env.development.local.REACT_APP_SERVER_URL;
+
+const API_URL = process.env.REACT_APP_SERVER_URL;
 
 export const boards = axios.create({
   // baseURL: `http://localhost:4000`
   baseURL: API_URL,
+  headers: { Authorization: `Bearer ${Cookies.get('token')}` },
 });
