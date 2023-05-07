@@ -34,6 +34,25 @@ export const __getPostById = createAsyncThunk('boards/getPostById', async (id, t
   }
 });
 
+// 등록
+export const __createPost = createAsyncThunk(
+  'boards/createPost',
+  async (payload, thunkAPI) => {
+    console.log('payload', payload);
+    try {
+      const response = await boards.post(PATH_URL.BOARD, payload, {
+        // headers: {
+        //   'Content-Type' : "multipart/form-data",
+        // },
+      });
+      console.log('response.data', response.data);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 // 수정
 export const __updatePost = createAsyncThunk(
   'boards/updatePost',
@@ -92,6 +111,22 @@ export const boardsSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    //__createPost
+    [__createPost.pending]: state => {
+      state.loading = true;
+      state.error = null;
+    },
+    [__createPost.fulfilled]: (state, action) => {
+      state.loading = false;
+      console.log(...state.post);
+      console.log(...action.payload);
+      state.post = [...state.post, { ...action.payload }];
+    },
+    [__createPost.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+
     //__updatePost
     [__updatePost.pending]: state => {
       state.isLoading = true;

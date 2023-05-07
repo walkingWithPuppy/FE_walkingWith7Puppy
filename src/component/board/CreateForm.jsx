@@ -2,46 +2,52 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useState, useRef } from 'react';
 import { PATH_URL } from '../../shared/constants';
+import { useDispatch } from 'react-redux';
+import { __createPost } from '../../redux/modules/boardsSlice';
 
 const CreateForm = () => {
   const navigate = useNavigate();
   const imgRef = useRef();
+  const dispatch = useDispatch();
 
   const initialValue = {
     title: '',
     area: '',
-    imageurl: '',
+    imgFile: '',
+    // imgurl: '',
     content: '',
   };
-
+  
   const [formValue, setFormValue] = useState(initialValue);
-  const [imgFile, setImgFile] = useState('');
-
+  const [imgFile, setImgFile ] = useState('');
+  // const { title, area, content,imgurl } = formValue;
+    const { title, area, content } = formValue;
+  
   const goHome = () => {
     navigate(PATH_URL.HOME);
   };
 
   const onSubmitHandler = e => {
-    const formData = new FormData();
     e.preventDefault();
-    formData.append('imgFile', imgFile);
-    formData.append('title', formValue.title);
-    formData.append('area', formValue.area);
-    formData.append('content', formValue.content);
-
-    for (let data of formData.values()) {
-      console.log(data);
-    }
-    // alert('등록되었습니다');
-    navigate(PATH_URL.HOME);
+    
+    const payload = {
+      // AS-IS : file(base64), url 통신테스트후 수정필요
+      // imgurl,   
+      imgFile,
+      title,
+      area,
+      content,
+    };
+    // console.log(title, area,content);
+    dispatch(__createPost(payload));
+    navigate(PATH_URL.BOARD);
   };
 
   const handleInputChange = e => {
     const { name, value } = e.target;
     setFormValue({ ...formValue, [name]: value });
   };
-  const { title, area, content } = formValue;
-
+  
   // 이미지 업로드 input의 onChange
   const saveImgFile = () => {
     const file = imgRef.current.files[0];
@@ -73,21 +79,20 @@ const CreateForm = () => {
           placeholder="거주하시는 지역구를 입력하세요"
           onChange={handleInputChange}
         />
-        {/* 일단 이미지 url을 넣어서 등록되도록 나중에 파일형태로 전달 */}
-        {/* <Label htmlFor="image">이미지</Label>
-        <Input
-          name="imageurl"
-          type="text"
-          placeholder="이미지 url을 입력하세요"
-          onChange={handleInputChange}
-        /> */}
-
         {/*업로드된 이미지 미리보기 */}
         <ImageWrapper>
           {/* url방식 */}
           <PreviewImage src={imgFile ? imgFile : '/assets/images/board/noImg.jpg'} alt="noImg" />
           {/* // 이미지 업로드 input */}
-          <input type="file" accept="image/*" id="imgFile" onChange={saveImgFile} ref={imgRef} />
+          {/* url방식으로 저장되는 것 확인 */}
+          {/* <Input
+            name="imgurl"
+            type="text"
+            placeholder="이미지 url을 입력하세요"
+            onChange={handleInputChange}
+            /> */}
+            {/* base64저장 */}
+        <input type="file" accept="image/*" id="imgFile" onChange={saveImgFile} ref={imgRef} />
         </ImageWrapper>
         <Label htmlFor="content">내용</Label>
         <Textarea value={content} name="content" onChange={handleInputChange} />
