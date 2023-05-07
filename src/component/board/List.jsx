@@ -7,26 +7,34 @@ import { Link } from 'react-router-dom';
 import { PATH_URL } from '../../shared/constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { __getList } from '../../redux/modules/boardsSlice';
+import Cookies from 'js-cookie';
 
 const List = () => {
+  const [isLogin, setIsLogin] = useState(false);
+  const token = Cookies.get('token');
   const dispatch = useDispatch();
   const posts = useSelector(state => state.boards.boards);
 
+  useEffect(() => {
+    if (token) {
+      setIsLogin(true);
+    }
+    dispatch(__getList());
+  }, [token, dispatch]);
+
+  // api받을지 결정필요(임시데이터)
   const AREAS_SELECT = [
     { value: 'gangnam', label: '강남구' },
     { value: 'gangseo', label: '강서구' },
     { value: 'mapo', label: '마포구' },
     { value: 'jongro', label: '종로구' },
   ];
+
   const [area, setArea] = useState(AREAS_SELECT[0].value);
 
   const handleChange = event => {
     setArea(event.target.value);
   };
-
-  useEffect(() => {
-    dispatch(__getList());
-  }, [dispatch]);
 
   return (
     <ListWrapper>
@@ -51,20 +59,16 @@ const List = () => {
         </StFormControl>
       </SelectWrapper>
       <PostWrapper>
-        {/* <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post /> */}
         {posts?.map(post => {
           return <Post key={post.id} post={post} />;
         })}
       </PostWrapper>
       <Link to={PATH_URL.CREATE}>
-        <CreateButton>
-          <CreateIcon />
-        </CreateButton>
+        {isLogin && (
+          <CreateButton>
+            <CreateIcon />
+          </CreateButton>
+        )}
       </Link>
     </ListWrapper>
   );
