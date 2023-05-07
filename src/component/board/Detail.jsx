@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Cookies from 'js-cookie';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PATH_URL } from '../../shared/constants';
-import {  __deletePost, __getPostById } from '../../redux/modules/boardsSlice';
+import { __deletePost, __getPostById } from '../../redux/modules/boardsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 const Detail = () => {
@@ -13,50 +13,45 @@ const Detail = () => {
   const dispatch = useDispatch();
   const post = useSelector(state => state.boards.post);
   const { boardId } = useParams();
-  // console.log('boardId',boardId);
-  // console.log('post',post);
 
   useEffect(() => {
     dispatch(__getPostById(boardId));
-  }, [dispatch,boardId]);
-  
+  }, []);
+
   useEffect(() => {
     if (token) {
       setIsLogin(() => true);
     }
   }, [token]);
 
-  // id 전달받아서 수정,삭제 코드 작성 예정
-  const handleUpdate = () => {
-    alert('수정되었습니다');
-    navigate(PATH_URL.BOARD);
+  const handleUpdate = boardId => {
+    // 쿼리파라미터
+    navigate(`${PATH_URL.CREATE}?id=${boardId}`, { state: { post } });
+    // navigate(`${PATH_URL.CREATE}`, { state: { post: post, isEdit: true } });
   };
-  
+
   const handleDelete = () => {
     if (window.confirm('정말 삭제하시겠습니까?')) {
       dispatch(__deletePost(boardId));
       navigate(PATH_URL.BOARD);
     }
   };
-
   return (
     <DetailWrapper>
       <Container>
         <ContentWrapper>
-        <Image src={post.imgurl || '../../assets/images/board/noImg.jpg'} alt="puppy" />
+          <Image src={post.imgurl || '../../assets/images/board/noImg.jpg'} alt="puppy" />
           <Info>
             <Title>{post.title}</Title>
             <NickName>{post.nickname}</NickName>
             <Area>{post.area}</Area>
-            <Description>
-              {post.content}
-            </Description>
+            <Description>{post.content}</Description>
           </Info>
         </ContentWrapper>
         {/* 로그인한경우 id 같은 경우만 (+작성자id비교로직 추가필요) 수정,삭제 버튼 보이도록 */}
         {isLogin && (
           <ButtonWrapper>
-            <Button onClick={() => handleUpdate()}>수정하기</Button>
+            <Button onClick={() => handleUpdate(post.id)}>수정하기</Button>
             <Button onClick={() => handleDelete()}>삭제하기</Button>
           </ButtonWrapper>
         )}

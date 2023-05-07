@@ -35,41 +35,37 @@ export const __getPostById = createAsyncThunk('boards/getPostById', async (id, t
 });
 
 // 등록
-export const __createPost = createAsyncThunk(
-  'boards/createPost',
-  async (payload, thunkAPI) => {
-    console.log('payload', payload);
-    try {
-      const response = await boards.post(PATH_URL.BOARD, payload, {
-        // headers: {
-        //   'Content-Type' : "multipart/form-data",
-        // },
-      });
-      console.log('response.data', response.data);
-      return response.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error);
-    }
+export const __createPost = createAsyncThunk('boards/createPost', async (payload, thunkAPI) => {
+  // console.log('payload', payload);
+  try {
+    const response = await boards.post(PATH_URL.BOARD, payload, {
+      // headers: {
+      //   'Content-Type' : "multipart/form-data",
+      // },
+    });
+    // console.log('response.data', response.data);
+    return response.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
   }
-);
+});
 
 // 수정
-export const __updatePost = createAsyncThunk(
-  'boards/updatePost',
-  async ({ id, title, nickname, area, content }, thunkAPI) => {
-    try {
-      const response = await boards.put(`${PATH_URL.BOARD}/${id}`, {
-        title,
-        nickname,
-        area,
-        content,
-      });
-      return response.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error);
-    }
+export const __updatePost = createAsyncThunk('boards/updatePost', async (payload, thunkAPI) => {
+  console.log(payload);
+  const { title, content, nickname, area } = payload;
+  try {
+    const response = await boards.put(`${PATH_URL.BOARD}/${payload.id}`, {
+      title,
+      nickname,
+      area,
+      content,
+    });
+    return response.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
   }
-);
+});
 
 // 삭제
 export const __deletePost = createAsyncThunk('boards/deletePost', async (id, thunkAPI) => {
@@ -118,9 +114,8 @@ export const boardsSlice = createSlice({
     },
     [__createPost.fulfilled]: (state, action) => {
       state.loading = false;
-      console.log(...state.post);
-      console.log(...action.payload);
-      state.post = [...state.post, { ...action.payload }];
+      state.post = [action.payload];
+      state.post.push(action.payload);
     },
     [__createPost.rejected]: (state, action) => {
       state.loading = false;

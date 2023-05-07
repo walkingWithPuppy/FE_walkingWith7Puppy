@@ -1,14 +1,18 @@
-import { useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { PATH_URL } from '../../shared/constants';
 import { useDispatch } from 'react-redux';
-import { __createPost } from '../../redux/modules/boardsSlice';
+import { __createPost, __updatePost } from '../../redux/modules/boardsSlice';
 
 const CreateForm = () => {
   const navigate = useNavigate();
-  const imgRef = useRef();
   const dispatch = useDispatch();
+  const location = useLocation();
+  const imgRef = useRef();
+  const { post } = location.state || {};
+  const boardId = new URLSearchParams(location.search).get('id');
+  const isEdit = !!boardId;
 
   const initialValue = {
     title: '',
@@ -17,29 +21,47 @@ const CreateForm = () => {
     // imgurl: '',
     content: '',
   };
-  
+  // console.log(post);
+
   const [formValue, setFormValue] = useState(initialValue);
-  const [imgFile, setImgFile ] = useState('');
+  const [imgFile, setImgFile] = useState('');
   // const { title, area, content,imgurl } = formValue;
-    const { title, area, content } = formValue;
-  
-  const goHome = () => {
-    navigate(PATH_URL.HOME);
-  };
+  const { title, area, content } = formValue;
+  useEffect(() => {
+    if (post) {
+      setFormValue({
+        ...formValue,
+        title: post.title,
+        area: post.area,
+        content: post.content,
+        // imgFile: post.imgurl || '',
+      });
+      //imgRef.current.src = post.imgurl || '';
+    }
+  }, []);
 
   const onSubmitHandler = e => {
     e.preventDefault();
-    
     const payload = {
       // AS-IS : file(base64), url 통신테스트후 수정필요
-      // imgurl,   
+      // imgurl,
       imgFile,
       title,
       area,
       content,
     };
+
+    if (post && post.id) {
+      payload.id = post.id;
+    }
+
     // console.log(title, area,content);
-    dispatch(__createPost(payload));
+    if (isEdit) {
+      // console.log(post.id);
+      dispatch(__updatePost(payload));
+    } else {
+      dispatch(__createPost(payload));
+    }
     navigate(PATH_URL.BOARD);
   };
 
@@ -47,7 +69,7 @@ const CreateForm = () => {
     const { name, value } = e.target;
     setFormValue({ ...formValue, [name]: value });
   };
-  
+
   // 이미지 업로드 input의 onChange
   const saveImgFile = () => {
     const file = imgRef.current.files[0];
@@ -82,6 +104,7 @@ const CreateForm = () => {
         {/*업로드된 이미지 미리보기 */}
         <ImageWrapper>
           {/* url방식 */}
+          {/* 이미지는 파일형식 정해지면 처리 */}
           <PreviewImage src={imgFile ? imgFile : '/assets/images/board/noImg.jpg'} alt="noImg" />
           {/* // 이미지 업로드 input */}
           {/* url방식으로 저장되는 것 확인 */}
@@ -91,17 +114,19 @@ const CreateForm = () => {
             placeholder="이미지 url을 입력하세요"
             onChange={handleInputChange}
             /> */}
-            {/* base64저장 */}
-        <input type="file" accept="image/*" id="imgFile" onChange={saveImgFile} ref={imgRef} />
+          {/* base64저장 */}
+          <input type="file" accept="image/*" id="imgFile" onChange={saveImgFile} ref={imgRef} />
         </ImageWrapper>
         <Label htmlFor="content">내용</Label>
         <Textarea value={content} name="content" onChange={handleInputChange} />
         <ButtonWrapper>
-          <Button onClick={goHome} background="#fff" color="#fbae03">
-            취소하기
-          </Button>
+          <Link to={PATH_URL.BOARD}>
+            <Button background="#fff" color="#fbae03">
+              취소하기
+            </Button>
+          </Link>
           <Button type="submit" background="#fbae03" color="#fff">
-            등록하기
+            {isEdit ? '수정하기' : '등록하기'}
           </Button>
         </ButtonWrapper>
       </FormWrapper>
