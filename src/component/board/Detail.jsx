@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Cookies from 'js-cookie';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PATH_URL } from '../../shared/constants';
-import {  __getPostById } from '../../redux/modules/boardsSlice';
+import {  __deletePost, __getPostById } from '../../redux/modules/boardsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 const Detail = () => {
@@ -31,10 +31,12 @@ const Detail = () => {
     alert('수정되었습니다');
     navigate(PATH_URL.BOARD);
   };
-
+  
   const handleDelete = () => {
-    alert('삭제되었습니다');
-    navigate(PATH_URL.BOARD);
+    if (window.confirm('정말 삭제하시겠습니까?')) {
+      dispatch(__deletePost(boardId));
+      navigate(PATH_URL.BOARD);
+    }
   };
 
   return (
