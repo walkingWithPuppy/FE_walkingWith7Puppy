@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 import { EditLocationAlt, DeleteForever } from '@mui/icons-material';
 import { useState } from 'react';
+import { formatDate } from '../../utils/formatDate';
 
 const CommentItem = ({ comment }) => {
   const [isEdit, setIsEdit] = useState(false);
+  // console.log(comment);
   // const [value, setValue] = useState(comment.content);
   const [value, setValue] = useState('');
   const initialValue = {
@@ -29,8 +31,17 @@ const CommentItem = ({ comment }) => {
     <CommentItemWrapper>
       <ItemInfo>
         <CommentInfo>
-          <NickName>김집사(jipsa@gmail.com)</NickName>
-          <CreatedDate>2023-05-05 13:23</CreatedDate>
+          <NickName>{comment.nickname}</NickName>
+          <CreatedDate>
+            {/* modifiedAt값 체크해야함 추후 수정필요 */}
+            {comment.modifiedAt ? (
+              <>{formatDate(comment.modifiedAt)}</>
+            ) : comment.createdAt ? (
+              <>{formatDate(comment.createdAt)}</>
+            ) : (
+              <>''</>
+            )}
+          </CreatedDate>
         </CommentInfo>
         <IconsWrapper>
           <Icon onClick={handleEdit}>
@@ -46,8 +57,7 @@ const CommentItem = ({ comment }) => {
       {isEdit ? (
         <Input type="text" value={content} onChange={handleInputChange} />
       ) : (
-        // <Content>{comment.content}</Content>
-        <Content>저도 하고싶어요</Content>
+        <Content>{comment.content}</Content>
       )}
     </CommentItemWrapper>
   );

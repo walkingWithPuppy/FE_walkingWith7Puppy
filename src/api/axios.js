@@ -19,3 +19,9 @@ export const boards = axios.create({
   baseURL: API_URL,
   headers: { Authorization: `Bearer ${Cookies.get('token')}` },
 });
+
+export const comments = axios.create({
+  // baseURL: `http://localhost:4000`
+  baseURL: API_URL,
+  headers: { Authorization: `Bearer ${Cookies.get('token')}` },
+});

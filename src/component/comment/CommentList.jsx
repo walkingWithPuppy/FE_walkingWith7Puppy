@@ -1,11 +1,21 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { PATH_URL } from '../../shared/constants';
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CommentItem from './CommentItem';
+import { __getPostById } from '../../redux/modules/boardsSlice';
+import Cookies from 'js-cookie';
+import { useDispatch, useSelector } from 'react-redux';
 
 const CommentList = () => {
+  const [isLogin, setIsLogin] = useState(false);
+  const token = Cookies.get('token');
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const comments = useSelector(state => state.boards.post.comments);
+  // console.log('comments다', comments);
+  const { boardId } = useParams();
+
   const initialValue = {
     content: '',
   };
@@ -17,6 +27,10 @@ const CommentList = () => {
     setFormValue({ ...formValue, [name]: value });
     // console.log(content);
   };
+
+  useEffect(() => {
+    dispatch(__getPostById(boardId));
+  }, [dispatch]);
 
   const handleClick = () => {
     alert(`입력한 댓글내용: ${content}`);
@@ -50,8 +64,12 @@ const CommentList = () => {
             onDelete={handleDelete}
             />
           ))} */}
-          <CommentItem />
-          <CommentItem />
+          {comments?.map(comment => (
+            // console.log(comment.id);
+            <CommentItem key={comment.id} comment={comment} />
+          ))}
+          {/* <CommentItem  />
+          <CommentItem /> */}
         </ItemWrap>
       </Container>
     </CommentWrapper>
