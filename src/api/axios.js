@@ -1,27 +1,39 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { PATH_URL } from '../shared/constants';
 
 const API_URL = process.env.REACT_APP_SERVER_URL;
 
+// export const api = axios.create({
+//   baseURL: API_URL, //백엔드 서버 들어올 예정
+//   headers: { Authorization: `Bearer ${Cookies.get('token')}` },
+// });
 export const api = axios.create({
   baseURL: API_URL, //백엔드 서버 들어올 예정
-  headers: { Authorization: `Bearer ${Cookies.get('token')}` },
 });
 
-export const user = axios.create({
-  baseURL: API_URL, //백엔드 서버 들어올 예정
-});
+api.interceptors.request.use(
+  config => {
+    const token = Cookies.get('token');
 
-// 임시 로컬테스트용
-
-export const boards = axios.create({
-  // baseURL: `http://localhost:4000`
-  baseURL: API_URL,
-  headers: { Authorization: `Bearer ${Cookies.get('token')}` },
-});
-
-export const comments = axios.create({
-  // baseURL: `http://localhost:4000`
-  baseURL: API_URL,
-  headers: { Authorization: `Bearer ${Cookies.get('token')}` },
-});
+    if (token) {
+      config.headers.common['Authorization'] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  error => {
+    console.log(error);
+    return Promise.reject(error);
+  }
+);
+api.interceptors.response.use(
+  response => {
+    return response;
+  },
+  error => {
+    if (error.status === 401) {
+      alert('재로그인이 필요합니다');
+      window.location.href(PATH_URL.LOGIN);
+    }
+  }
+);
