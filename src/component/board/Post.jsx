@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { PATH_URL } from '../../shared/constants';
 
-const Post = ({post }) => {
+const Post = ({ post }) => {
+  const noImg = '/images/board/noImg.jpg';
+
   return (
     <PostWrapper>
       <Link to={`${PATH_URL.BOARD}/${post.id}`}>
@@ -12,7 +14,7 @@ const Post = ({post }) => {
           src="/assets/images/board/puppy1.jpg"
           alt="강아지이미지"
         /> */}
-        <Image src={post.imgurl || '../../assets/images/board/noImg.jpg'} alt="puppy" />
+        <Image src={post.imgurl || noImg} alt="puppy" />
         <Info>
           <Title>{post.title}</Title>
           <Content>{post.content}</Content>
