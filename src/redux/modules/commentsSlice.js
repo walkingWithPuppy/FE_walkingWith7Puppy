@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { PATH_URL } from '../../shared/constants';
-import { comments } from '../../api/axios';
+import { api } from '../../api/axios';
 
 const initialState = {
   comments: [],
@@ -12,7 +12,7 @@ const initialState = {
 export const __getList = createAsyncThunk('comments/getList', async (boardId, thunkAPI) => {
   // console.log(boardId);
   try {
-    const response = await comments.get(`${PATH_URL.BOARD}/${boardId}/comments`);
+    const response = await api.get(`${PATH_URL.BOARD}/${boardId}/comments`);
     // console.log(response.data);
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
@@ -38,7 +38,7 @@ export const __createComment = createAsyncThunk(
     // console.log('boardId', boardId);
     // console.log('content', content);
     try {
-      const response = await comments.post(`${PATH_URL.BOARD}/${boardId}/comments`, { content });
+      const response = await api.post(`${PATH_URL.BOARD}/${boardId}/comments`, { content });
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -51,7 +51,7 @@ export const __updateComment = createAsyncThunk(
   'comments/updateComment',
   async ({ boardId, commentId, content }, thunkAPI) => {
     try {
-      const response = await comments.put(
+      const response = await api.put(
         `${PATH_URL.BOARD}/${boardId}/comments/${commentId}`,
         { content },
         {
@@ -72,7 +72,7 @@ export const __deleteComment = createAsyncThunk(
     // console.log('boardId', boardId);
     // console.log('commentId', commentId);
     try {
-      await comments.delete(`${PATH_URL.BOARD}/${boardId}/comments/${commentId}`);
+      await api.delete(`${PATH_URL.BOARD}/${boardId}/comments/${commentId}`);
       return { boardId, commentId };
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
