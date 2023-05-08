@@ -34,11 +34,14 @@ const Detail = () => {
       navigate(PATH_URL.BOARD);
     }
   };
+
+  const noImg = '/images/board/noImg.jpg';
+
   return (
     <DetailWrapper>
       <Container>
         <ContentWrapper>
-          <Image src={post.imgurl || '../../assets/images/board/noImg.jpg'} alt="puppy" />
+          <Image src={post.imgurl || noImg} alt="puppy" />
           <Info>
             <Title>{post.title}</Title>
             <NickName>{post.nickname}</NickName>

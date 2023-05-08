@@ -1,13 +1,14 @@
 import styled from 'styled-components';
-// import exampleImage from '../../assets/Section3ExampleImage.png';
 
-const Section03Post = ({ title, area, img }) => {
+const Section03Post = ({ title, address, imgurl }) => {
+  const noImgURL = '../../assets/images/board/noImg.jpg';
+
   return (
     <PostContainer>
-      <img src={img} alt="dog Image" />
+      <img src={imgurl || noImgURL} alt="dog Image" />
       <TextLabelContainer>
         <h1>{title}</h1>
-        <h5>{area}</h5>
+        <h5>{address}</h5>
       </TextLabelContainer>
     </PostContainer>
   );
