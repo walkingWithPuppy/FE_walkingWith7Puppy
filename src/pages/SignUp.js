@@ -48,6 +48,7 @@ const SignUp = () => {
       delete inputData.password2;
       // await user.post(`${PATH_URL.SIGNUP}`, inputData);
       await user.post(`/register`, inputData); //테스트용
+      inputData.password2 = '';
       setInputData({
         id: '',
         password: '',
