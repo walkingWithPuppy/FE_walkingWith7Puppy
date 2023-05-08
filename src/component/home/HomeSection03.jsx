@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import Section03Post from './Section03Post';
 import useScrollFadeIn from '../../hooks/useScrollFadeIn';
-import exampleImage from '../../assets/Section3ExampleImage.png';
-import exampleImage2 from '../../assets/Section3ExampleImage2.png';
-import exampleImage3 from '../../assets/Section3ExampleImage3.png';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { __getList } from '../../redux/modules/boardsSlice';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -18,27 +18,13 @@ const HomeSection03 = () => {
     1: useScrollFadeIn('down', 1, 0.8),
   };
 
-  // TEST CODE: 임시 게시글 데이터 - 서버 게시글 데이터 받아올 경우 수정 (API 문서에 img key는 없음)
-  const postList = [
-    {
-      id: 1,
-      title: '공원에서 산책하실 분!',
-      area: '강서구',
-      img: exampleImage,
-    },
-    {
-      id: 2,
-      title: '중형견 메이트 구해요~',
-      area: '강남구',
-      img: exampleImage2,
-    },
-    {
-      id: 3,
-      title: '우리집 초코랑 친구해요 🐶',
-      area: '강북구',
-      img: exampleImage3,
-    },
-  ];
+  // TEST CODE: 임시 게시글 데이터 - 서버 게시글 데이터 받아올 경우 수정 (API 문서에 imgurl key는 없음)
+  const postList = useSelector(state => state.boards.boards).slice(0, 7);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(__getList());
+  }, [dispatch]);
 
   const swiperBreakpoints = {
     325: { slidePrevView: 1, spaceBetween: 80 },
@@ -74,13 +60,13 @@ const HomeSection03 = () => {
             '--swiper-pagination-color': '#fbae03',
           }}
         >
-          {postList.map(post => (
-            <SwiperSlide>
+          {postList?.map(post => (
+            <SwiperSlide key={post.id}>
               <Section03Post
                 key={post.id}
                 title={post.title}
-                area={post.area}
-                img={post.img}
+                address={post.address}
+                imgurl={post.imgurl}
                 class="swiper-slide"
               />
             </SwiperSlide>
