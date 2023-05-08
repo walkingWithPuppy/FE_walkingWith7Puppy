@@ -5,7 +5,7 @@
       "title": "같이산책하실분",
       "content": "근처 공원에서 같이 산책할 친구를 구해요. 8시에 만나요",
       "nickname": "테스트 닉네임 1",
-      "address": "gangseo",
+      "address": "강서구",
       "imgurl": "https://images.unsplash.com/photo-1587463272361-565200f82b33?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDR8fHB1cHB5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "comments": [
         {
@@ -31,7 +31,7 @@
       "title": "테스트 제목 2",
       "content": "테스트 내용 2",
       "nickname": "테스트 닉네임 2",
-      "address": "gangseo",
+      "address": "강서구",
       "imgurl": "https://images.unsplash.com/photo-1597633425046-08f5110420b5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
       "comments": [],
       "createdAt": "2023-05-04T14:48:43.7499586",
@@ -90,13 +90,7 @@
       "imgurl": "https://images.unsplash.com/photo-1532397476918-0b485c271c7f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MTkzfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60",
       "comments": [],
       "createdAt": "2023-05-04T14:48:43.7499586",
-      "modifiedAt": "2023-05-04T14:48:43.7499586"
-    },
-    {
-      "title": "12",
-      "address": "125333",
-      "content": "125",
-      "id": 8
+      "modifiedAt": "2023-05-04T14:48:43.7499586" 
     }
   ]
 }

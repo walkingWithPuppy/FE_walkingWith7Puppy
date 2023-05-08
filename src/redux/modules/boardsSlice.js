@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { PATH_URL } from '../../shared/constants';
-import { boards } from '../../api/axios';
+import { api } from '../../api/axios';
 
 const initialState = {
   boards: [],
@@ -18,7 +18,7 @@ const header = {
 //전체 조회
 export const __getList = createAsyncThunk('boards/getList', async (payload, thunkAPI) => {
   try {
-    const response = await boards.get(PATH_URL.BOARD);
+    const response = await api.get(PATH_URL.BOARD);
     // console.log(response.data);
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
@@ -28,7 +28,7 @@ export const __getList = createAsyncThunk('boards/getList', async (payload, thun
 // 개별 상세조회
 export const __getPostById = createAsyncThunk('boards/getPostById', async (id, thunkAPI) => {
   try {
-    const response = await boards.get(`${PATH_URL.BOARD}/${id}`);
+    const response = await api.get(`${PATH_URL.BOARD}/${id}`);
     // console.log('response.data', response.data);
     return response.data;
   } catch (error) {
@@ -37,10 +37,10 @@ export const __getPostById = createAsyncThunk('boards/getPostById', async (id, t
 });
 // 개별조회(지역으로) -임시
 export const __getByAddress = createAsyncThunk('boards/getByAddress', async (payload, thunkAPI) => {
-  console.log('payload', payload);
+  console.log('지역은 이거다', payload);
   try {
-    const response = await boards.get(`${PATH_URL.BOARD}?address=${payload}`);
-    console.log('들어옴');
+    const response = await api.get(`${PATH_URL.BOARD}?address=${payload}`);
+    // console.log('들어옴');
     console.log('response.data', response.data);
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
@@ -50,9 +50,9 @@ export const __getByAddress = createAsyncThunk('boards/getByAddress', async (pay
 
 // 등록
 export const __createPost = createAsyncThunk('boards/createPost', async (payload, thunkAPI) => {
-  console.log('payload', payload);
+  // console.log('payload', payload);
   try {
-    const response = await boards.post(PATH_URL.BOARD, payload, {
+    const response = await api.post(PATH_URL.BOARD, payload, {
       // headers: {
       //   'Content-Type' : "multipart/form-data",
       // },
@@ -69,7 +69,7 @@ export const __updatePost = createAsyncThunk(
   'boards/updatePost',
   async ({ id, title, nickname, address, content }, thunkAPI) => {
     try {
-      const response = await boards.put(`${PATH_URL.BOARD}/${id}`, {
+      const response = await api.put(`${PATH_URL.BOARD}/${id}`, {
         title,
         nickname,
         address,
@@ -85,7 +85,7 @@ export const __updatePost = createAsyncThunk(
 // 삭제
 export const __deletePost = createAsyncThunk('boards/deletePost', async (id, thunkAPI) => {
   try {
-    await boards.delete(`${PATH_URL.BOARD}/${id}`);
+    await api.delete(`${PATH_URL.BOARD}/${id}`);
     return id;
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -129,8 +129,10 @@ export const boardsSlice = createSlice({
     },
     [__getByAddress.fulfilled]: (state, action) => {
       state.isLoading = false;
-      const filtered = action.payload;
-      state.filteredList = action.payload.filter(item => item.address === filtered.address);
+      // console.log('filtered',action.payload);
+      state.filteredList = action.payload;
+      // state.filteredList = action.payload.filter(item => item.address === action.payload.address);
+      // console.log(state.filteredList,'그렇다면너는');
     },
     [__getByAddress.rejected]: (state, action) => {
       state.loading = false;
