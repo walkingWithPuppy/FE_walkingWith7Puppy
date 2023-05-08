@@ -1,22 +1,49 @@
 import Post from './Post';
 import styled from 'styled-components';
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CreateIcon from '@mui/icons-material/Create';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { PATH_URL } from '../../shared/constants';
+import { useDispatch, useSelector } from 'react-redux';
+import { __getByAddress, __getList } from '../../redux/modules/boardsSlice';
+import Cookies from 'js-cookie';
 
 const List = () => {
-  const AREAS_SELECT = [
+  const [isLogin, setIsLogin] = useState(false);
+  const token = Cookies.get('token');
+  const dispatch = useDispatch();
+  const posts = useSelector(state => state.boards.boards);
+  const filteredList = useSelector(state => state.boards.filteredList);
+  const navigate = useNavigate();
+
+  // api받을지 결정필요(임시데이터)
+  const ADDRESS_SELECT = [
     { value: 'gangnam', label: '강남구' },
     { value: 'gangseo', label: '강서구' },
     { value: 'mapo', label: '마포구' },
     { value: 'jongro', label: '종로구' },
   ];
-  const [area, setArea] = useState(AREAS_SELECT[0].value);
+  const [address, setAddress] = useState(ADDRESS_SELECT[0].value);
+
+  useEffect(() => {
+    if (token) {
+      setIsLogin(true);
+    }
+    dispatch(__getList());
+  }, [token, dispatch]);
+
+  useEffect(() => {
+    dispatch(__getByAddress(address));
+  }, [address, dispatch]);
+
   const handleChange = event => {
-    setArea(event.target.value);
+    const address = event.target.value;
+    setAddress(address);
+    // navigate(`${PATH_URL.BOARD}?area=${area}`);
+    // dispatch(__getByArea(area));
   };
+
   return (
     <ListWrapper>
       <SelectWrapper>
@@ -27,30 +54,29 @@ const List = () => {
           <StSelect
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={area}
-            label="Area"
+            value={address}
+            label="Address"
             onChange={handleChange}
           >
-            {AREAS_SELECT.map(area => (
-              <MenuItem key={area.value} value={area.value}>
-                {area.label}
+            {ADDRESS_SELECT.map(address => (
+              <MenuItem key={address.value} value={address.value}>
+                {address.label}
               </MenuItem>
             ))}
           </StSelect>
         </StFormControl>
       </SelectWrapper>
       <PostWrapper>
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
+        {posts?.map(post => {
+          return <Post key={post.id} post={post} />;
+        })}
       </PostWrapper>
       <Link to={PATH_URL.CREATE}>
-        <CreateButton>
-          <CreateIcon />
-        </CreateButton>
+        {isLogin && (
+          <CreateButton>
+            <CreateIcon />
+          </CreateButton>
+        )}
       </Link>
     </ListWrapper>
   );

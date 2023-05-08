@@ -1,22 +1,21 @@
-import React from 'react';
+import react from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { PATH_URL } from '../../shared/constants';
 
-const Post = () => {
+const Post = ({post }) => {
   return (
     <PostWrapper>
-      <Link to={PATH_URL.POST}>
-        <Area>강서구</Area>
-        <Image
-          src="https://images.unsplash.com/photo-1587463272361-565200f82b33?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDR8fHB1cHB5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60"
+      <Link to={`${PATH_URL.BOARD}/${post.id}`}>
+        <Area>{post.address}</Area>
+        {/* <Image
+          src="/assets/images/board/puppy1.jpg"
           alt="강아지이미지"
-        />
+        /> */}
+        <Image src={post.imgurl || '../../assets/images/board/noImg.jpg'} alt="puppy" />
         <Info>
-          <Title>같이 산책할 친구 구합니다</Title>
-          <Content>
-            오늘 저녁 8시에 한강에서 같이 산책할 친구 구해요. 사교성이 좋고 친구들을 좋아합니다...
-          </Content>
+          <Title>{post.title}</Title>
+          <Content>{post.content}</Content>
         </Info>
       </Link>
     </PostWrapper>

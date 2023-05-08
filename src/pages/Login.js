@@ -12,7 +12,7 @@ const MotionContainer = motion('div');
 
 const Login = () => {
   const [userInput, setUserInput] = useState({
-    id: '',
+    username: '',
     password: '',
   });
   const navigate = useNavigate();
@@ -23,24 +23,28 @@ const Login = () => {
       [name]: value,
     });
   };
-  const { id, password } = userInput;
+  const { username, password } = userInput;
 
   const userLogin = async () => {
     try {
-      // const response = await user.post(`${PATH_URL.LOGIN}`, userInput);
-      const response = await user.post('/login', userInput); //테스트용
-      // const accessHeader = response.headers.get('Authorization');
-      // const token = accessHeader.split(' ')[1];
-      // const userToken = jwtDecode(token);
-      // const expirationTime = new Date(userToken.exp * 1000);
-      // Cookies.set('token', token, { expires: expirationTime });
-      Cookies.set('token', response.data.token); //테스트용
+      const response = await user.post(`${PATH_URL.LOGIN}`, userInput);
+      // const response = await user.post('http://3.38.191.164/login', userInput); //테스트용
+      const accessHeader = response.headers.get('Authorization');
+      const token = accessHeader.split(' ')[1];
+      const userToken = jwtDecode(token);
+      const expirationTime = new Date(userToken.exp * 1000);
+      Cookies.set('token', token, { expires: expirationTime });
+      // Cookies.set('token', response.data.token); //테스트용
       // console.log(Cookies.get('token'));
+      // setUserInput({
+      //   //테스트용
+      //   id: '',
+      //   password: '',
+      // });
       setUserInput({
-        id: '',
+        username: '',
         password: '',
       });
-      // navigate(PATH_URL.HOME);
       window.location.replace(PATH_URL.HOME);
     } catch (error) {
       console.log(error); //통신시 키값 맞출 예정
@@ -66,8 +70,8 @@ const Login = () => {
             variant="outlined"
             margin="dense"
             fullWidth
-            name="id"
-            value={id}
+            name="username"
+            value={username}
             onChange={inputChange}
           />
           <TextField
