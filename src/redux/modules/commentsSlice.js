@@ -10,7 +10,7 @@ const initialState = {
 
 //전체 조회
 export const __getList = createAsyncThunk('comments/getList', async (boardId, thunkAPI) => {
-  console.log(boardId);
+  // console.log(boardId);
   try {
     const response = await comments.get(`${PATH_URL.BOARD}/${boardId}/comments`);
     // console.log(response.data);
@@ -32,48 +32,53 @@ export const __getList = createAsyncThunk('comments/getList', async (boardId, th
 // });
 
 // 등록
-// export const __createPost = createAsyncThunk('boards/createPost', async (payload, thunkAPI) => {
-//   console.log('payload', payload);
-//   try {
-//     const response = await boards.post(PATH_URL.BOARD, payload, {
-//       // headers: {
-//       //   'Content-Type' : "multipart/form-data",
-//       // },
-//     });
-//     console.log('response.data', response.data);
-//     return response.data;
-//   } catch (error) {
-//     return thunkAPI.rejectWithValue(error);
-//   }
-// });
+export const __createComment = createAsyncThunk(
+  'comments/createComment',
+  async ({ boardId, content }, thunkAPI) => {
+    // console.log('boardId', boardId);
+    // console.log('content', content);
+    try {
+      const response = await comments.post(`${PATH_URL.BOARD}/${boardId}/comments`, { content });
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
 
 // 수정
-// export const __updatePost = createAsyncThunk(
-//   'boards/updatePost',
-//   async ({ id, title, nickname, area, content }, thunkAPI) => {
-//     try {
-//       const response = await boards.put(`${PATH_URL.BOARD}/${id}`, {
-//         title,
-//         nickname,
-//         area,
-//         content,
-//       });
-//       return response.data;
-//     } catch (error) {
-//       return thunkAPI.rejectWithValue(error);
-//     }
-//   }
-// );
+export const __updateComment = createAsyncThunk(
+  'comments/updateComment',
+  async ({ boardId, commentId, content }, thunkAPI) => {
+    try {
+      const response = await comments.put(
+        `${PATH_URL.BOARD}/${boardId}/comments/${commentId}`,
+        { content },
+        {
+          content,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
 
 // 삭제
-// export const __deletePost = createAsyncThunk('boards/deletePost', async (id, thunkAPI) => {
-//   try {
-//     await boards.delete(`${PATH_URL.BOARD}/${id}`);
-//     return id;
-//   } catch (error) {
-//     return thunkAPI.rejectWithValue(error);
-//   }
-// });
+export const __deleteComment = createAsyncThunk(
+  'comments/deleteComment',
+  async ({ boardId, commentId }, thunkAPI) => {
+    // console.log('boardId', boardId);
+    // console.log('commentId', commentId);
+    try {
+      await comments.delete(`${PATH_URL.BOARD}/${boardId}/comments/${commentId}`);
+      return { boardId, commentId };
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
 
 export const commentsSlice = createSlice({
   name: 'comments',
@@ -93,68 +98,65 @@ export const commentsSlice = createSlice({
       state.error = action.payload;
     },
     //__getPostById
-  //   [__getPostById.pending]: state => {
-  //     state.loading = true;
-  //     state.error = null;
-  //   },
-  //   [__getPostById.fulfilled]: (state, action) => {
-  //     state.loading = false;
-  //     state.post = action.payload;
-  //   },
-  //   [__getPostById.rejected]: (state, action) => {
-  //     state.loading = false;
-  //     state.error = action.payload;
-  //   },
-  //   //__createPost
-  //   [__createPost.pending]: state => {
-  //     state.loading = true;
-  //     state.error = null;
-  //   },
-  //   [__createPost.fulfilled]: (state, action) => {
-  //     state.loading = false;
-  //     console.log(...state.post);
-  //     console.log(...action.payload);
-  //     state.post = [...state.post, { ...action.payload }];
-  //   },
-  //   [__createPost.rejected]: (state, action) => {
-  //     state.loading = false;
-  //     state.error = action.payload;
-  //   },
-
-  //   //__updatePost
-  //   [__updatePost.pending]: state => {
-  //     state.isLoading = true;
-  //     state.error = null;
-  //   },
-  //   [__updatePost.fulfilled]: (state, action) => {
-  //     state.isLoading = false;
-  //     const updatedPost = action.payload;
-  //     state.boards = state.boards.map(post => {
-  //       if (post.id === updatedPost.id) {
-  //         return updatedPost;
-  //       }
-  //       return post;
-  //     });
-  //   },
-  //   [__updatePost.rejected]: (state, action) => {
-  //     state.isLoading = false;
-  //     state.error = action.payload;
-  //   },
-  //   //__deletePost
-  //   [__deletePost.pending]: state => {
-  //     state.isLoading = true;
-  //     state.error = null;
-  //   },
-  //   [__deletePost.fulfilled]: (state, action) => {
-  //     state.isLoading = false;
-  //     const deletedPost = action.payload;
-  //     state.boards = state.boards.filter(post => post.id !== deletedPost.id);
-  //   },
-  //   [__deletePost.rejected]: (state, action) => {
-  //     state.isLoading = false;
-  //     state.error = action.payload;
-  //   },
-  }, 
+    //   [__getPostById.pending]: state => {
+    //     state.loading = true;
+    //     state.error = null;
+    //   },
+    //   [__getPostById.fulfilled]: (state, action) => {
+    //     state.loading = false;
+    //     state.post = action.payload;
+    //   },
+    //   [__getPostById.rejected]: (state, action) => {
+    //     state.loading = false;
+    //     state.error = action.payload;
+    //   },
+    //__createComment
+    [__createComment.pending]: state => {
+      state.loading = true;
+      state.error = null;
+    },
+    [__createComment.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.comments = [...state.commments, { ...action.payload }];
+    },
+    [__createComment.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    //__updateComment
+    [__updateComment.pending]: state => {
+      state.isLoading = true;
+      state.error = null;
+    },
+    [__updateComment.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      const updatedComment = action.payload;
+      state.comments = state.boards.map(comment => {
+        if (comment.id === updatedComment.id) {
+          return updatedComment;
+        }
+        return comment;
+      });
+    },
+    [__updateComment.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
+    //   //__deleteComment
+    [__deleteComment.pending]: state => {
+      state.isLoading = true;
+      state.error = null;
+    },
+    [__deleteComment.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      const deletedComment = action.payload;
+      state.comments = state.comments.filter(comment => comment.id !== deletedComment.id);
+    },
+    [__deleteComment.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
+  },
 });
 
 export const {} = commentsSlice.actions;

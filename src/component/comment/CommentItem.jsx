@@ -2,58 +2,68 @@ import styled from 'styled-components';
 import { EditLocationAlt, DeleteForever } from '@mui/icons-material';
 import { useState } from 'react';
 import { formatDate } from '../../utils/formatDate';
+import { __deleteComment, __updateComment } from '../../redux/modules/commentsSlice';
+import { useDispatch } from 'react-redux';
 
-const CommentItem = ({ comment }) => {
+const CommentItem = ({ comment, boardId }) => {
   const [isEdit, setIsEdit] = useState(false);
-  // console.log(comment);
-  // const [value, setValue] = useState(comment.content);
-  const [value, setValue] = useState('');
-  const initialValue = {
-    content: '',
-  };
-  const [formValue, setFormValue] = useState(initialValue);
+  const dispatch = useDispatch();
+  const [content, setContent] = useState('');
 
-  const handleEdit = () => {
+  const handleEdit = (boardId, commentId) => {
     setIsEdit(true);
+    setContent(comment.content);
   };
 
-  const handleDelete = () => {
+  const handleDelete = (boardId, commentId) => {
+    dispatch(__deleteComment({ boardId, commentId }));
     setIsEdit(false);
   };
 
   const handleInputChange = e => {
-    const { name, value } = e.target;
-    setFormValue({ ...formValue, [name]: value });
+    setContent(e.target.value);
+    console.log(e.target.value);
   };
 
-  const { content } = formValue;
+  // 수정완료
+  const handleUpdate = (boardId, commentId, content) => {
+    dispatch(__updateComment({ boardId, commentId, content }));
+    setIsEdit(false);
+  };
+
   return (
     <CommentItemWrapper>
       <ItemInfo>
         <CommentInfo>
           <NickName>{comment.nickname}</NickName>
           <CreatedDate>
-            {/* modifiedAt값 체크해야함 추후 수정필요 */}
             {comment.modifiedAt ? (
               <>{formatDate(comment.modifiedAt)}</>
             ) : comment.createdAt ? (
               <>{formatDate(comment.createdAt)}</>
             ) : (
-              <>''</>
+              <></>
             )}
           </CreatedDate>
         </CommentInfo>
         <IconsWrapper>
-          <Icon onClick={handleEdit}>
-            <EditLocationAlt />
-          </Icon>
-          <Icon onClick={handleDelete}>
-            <DeleteForever />
-          </Icon>
+          {isEdit ? (
+            <>
+            <Button onClick={() => handleUpdate(boardId, comment.id, content)}>수정</Button>
+            <Button onClick={() => setIsEdit(false)}>취소</Button>
+          </>         ) : (
+            <>
+              <Icon onClick={() => handleEdit(boardId, comment.id)}>
+                <EditLocationAlt />
+              </Icon>
+              <Icon onClick={() => handleDelete(boardId, comment.id)}>
+                <DeleteForever />
+              </Icon>
+            </>
+          )}
         </IconsWrapper>
       </ItemInfo>
 
-      {/* 수정여부에 따라 input활성화 */}
       {isEdit ? (
         <Input type="text" value={content} onChange={handleInputChange} />
       ) : (
@@ -113,11 +123,21 @@ const Icon = styled.div`
 const Input = styled.input`
   font-size: 16px;
   margin-top: 10px;
-  border: none;
-  background-color: transparent;
+  height: 50px;
+  width: 100%;
+  border: 1px solid #9d9d9d;
   &:focus {
     outline: none;
   }
 `;
+const Button = styled.button`
+  width: 5rem;
+  border: 2px solid #fbae03;
+  border-radius: 1rem;
+  padding: 0.2rem 0.8rem;
+  background-color: ${props => props.background};
+  color: ${props => props.color};
+  font-weight: 550; 
 
+`;
 export default CommentItem;
