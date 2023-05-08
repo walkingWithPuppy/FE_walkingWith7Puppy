@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import headerImg from '../../assets/HeaderImage.png';
 import { Link } from 'react-router-dom';
 import { PATH_URL } from '../../shared/constants';
 
@@ -27,7 +26,7 @@ const Section01 = styled.div`
   background-color: #fbae03;
   height: 25rem;
   border-radius: 5rem;
-  background-image: url(${headerImg});
+  background-image: url('/images/home/Section01Img.png');
   background-repeat: no-repeat;
   background-position: 90% 80%;
   background-size: 35rem;

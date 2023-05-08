@@ -19,7 +19,7 @@ const header = {
 export const __getList = createAsyncThunk('boards/getList', async (payload, thunkAPI) => {
   try {
     const response = await api.get(PATH_URL.BOARD);
-    console.log(response.data);
+    // console.log(response.data);
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -37,10 +37,10 @@ export const __getPostById = createAsyncThunk('boards/getPostById', async (id, t
 });
 // 개별조회(지역으로) -임시
 export const __getByAddress = createAsyncThunk('boards/getByAddress', async (payload, thunkAPI) => {
-  console.log('payload', payload);
+  console.log('지역은 이거다', payload);
   try {
     const response = await api.get(`${PATH_URL.BOARD}?address=${payload}`);
-    console.log('들어옴');
+    // console.log('들어옴');
     console.log('response.data', response.data);
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
@@ -50,7 +50,7 @@ export const __getByAddress = createAsyncThunk('boards/getByAddress', async (pay
 
 // 등록
 export const __createPost = createAsyncThunk('boards/createPost', async (payload, thunkAPI) => {
-  console.log('payload', payload);
+  // console.log('payload', payload);
   try {
     const response = await api.post(PATH_URL.BOARD, payload, {
       // headers: {
@@ -129,8 +129,10 @@ export const boardsSlice = createSlice({
     },
     [__getByAddress.fulfilled]: (state, action) => {
       state.isLoading = false;
-      const filtered = action.payload;
-      state.filteredList = action.payload.filter(item => item.address === filtered.address);
+      // console.log('filtered',action.payload);
+      state.filteredList = action.payload;
+      // state.filteredList = action.payload.filter(item => item.address === action.payload.address);
+      // console.log(state.filteredList,'그렇다면너는');
     },
     [__getByAddress.rejected]: (state, action) => {
       state.loading = false;

@@ -69,6 +69,13 @@ const HeaderWrapper = styled.header`
   justify-content: space-between;
   padding: 0 1.7rem;
 
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  z-index: 100;
+
   .elements-wrapper {
     display: flex;
     gap: 1rem;

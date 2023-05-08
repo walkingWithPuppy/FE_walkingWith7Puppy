@@ -14,6 +14,7 @@ const Layout = ({ children }) => {
 
 const Content = styled.div`
   min-height: 100vh;
+  margin-top: 5rem;
   padding: 0 2rem;
 `;
 
