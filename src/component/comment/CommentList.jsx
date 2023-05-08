@@ -6,6 +6,7 @@ import CommentItem from './CommentItem';
 import { __getPostById } from '../../redux/modules/boardsSlice';
 import Cookies from 'js-cookie';
 import { useDispatch, useSelector } from 'react-redux';
+import { __createComment } from '../../redux/modules/commentsSlice';
 
 const CommentList = () => {
   const [isLogin, setIsLogin] = useState(false);
@@ -33,11 +34,11 @@ const CommentList = () => {
   }, [dispatch]);
 
   const handleClick = () => {
-    alert(`입력한 댓글내용: ${content}`);
     setFormValue(initialValue);
-    // 임시
-    navigate(PATH_URL.BOARD);
+    dispatch(__createComment({ boardId, content }));
+    alert(`입력한 댓글내용: ${content}`);
   };
+
   return (
     <CommentWrapper>
       <Container>
@@ -68,7 +69,7 @@ const CommentList = () => {
           ))} */}
           {comments?.map(comment => (
             // console.log(comment.id);
-            <CommentItem key={comment.id} comment={comment} />
+            <CommentItem key={comment.id} comment={comment} boardId={boardId} />
           ))}
           {/* <CommentItem  />
           <CommentItem /> */}
