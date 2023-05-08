@@ -5,7 +5,9 @@ import { boards } from '../../api/axios';
 const initialState = {
   boards: [],
   post: [],
+  filteredList: [],
   isLoading: false,
+  // selectedArea: null,
   error: null,
 };
 
@@ -33,17 +35,29 @@ export const __getPostById = createAsyncThunk('boards/getPostById', async (id, t
     return thunkAPI.rejectWithValue(error);
   }
 });
+// 개별조회(지역으로) -임시
+export const __getByAddress = createAsyncThunk('boards/getByAddress', async (payload, thunkAPI) => {
+  console.log('payload', payload);
+  try {
+    const response = await boards.get(`${PATH_URL.BOARD}?address=${payload}`);
+    console.log('들어옴');
+    console.log('response.data', response.data);
+    return thunkAPI.fulfillWithValue(response.data);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
 
 // 등록
 export const __createPost = createAsyncThunk('boards/createPost', async (payload, thunkAPI) => {
-  // console.log('payload', payload);
+  console.log('payload', payload);
   try {
     const response = await boards.post(PATH_URL.BOARD, payload, {
       // headers: {
       //   'Content-Type' : "multipart/form-data",
       // },
     });
-    // console.log('response.data', response.data);
+    console.log('response.data', response.data);
     return response.data;
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -51,21 +65,22 @@ export const __createPost = createAsyncThunk('boards/createPost', async (payload
 });
 
 // 수정
-export const __updatePost = createAsyncThunk('boards/updatePost', async (payload, thunkAPI) => {
-  console.log(payload);
-  const { title, content, nickname, area } = payload;
-  try {
-    const response = await boards.put(`${PATH_URL.BOARD}/${payload.id}`, {
-      title,
-      nickname,
-      area,
-      content,
-    });
-    return response.data;
-  } catch (error) {
-    return thunkAPI.rejectWithValue(error);
+export const __updatePost = createAsyncThunk(
+  'boards/updatePost',
+  async ({ id, title, nickname, address, content }, thunkAPI) => {
+    try {
+      const response = await boards.put(`${PATH_URL.BOARD}/${id}`, {
+        title,
+        nickname,
+        address,
+        content,
+      });
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
   }
-});
+);
 
 // 삭제
 export const __deletePost = createAsyncThunk('boards/deletePost', async (id, thunkAPI) => {
@@ -107,6 +122,20 @@ export const boardsSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    //__getByAddress
+    [__getByAddress.pending]: state => {
+      state.loading = true;
+      state.error = null;
+    },
+    [__getByAddress.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      const filtered = action.payload;
+      state.filteredList = action.payload.filter(item => item.address === filtered.address);
+    },
+    [__getByAddress.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
     //__createPost
     [__createPost.pending]: state => {
       state.loading = true;
@@ -114,8 +143,9 @@ export const boardsSlice = createSlice({
     },
     [__createPost.fulfilled]: (state, action) => {
       state.loading = false;
-      state.post = [action.payload];
-      state.post.push(action.payload);
+      console.log(...state.post);
+      console.log(...action.payload);
+      state.post = [...state.post, { ...action.payload }];
     },
     [__createPost.rejected]: (state, action) => {
       state.loading = false;

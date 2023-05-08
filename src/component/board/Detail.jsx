@@ -25,9 +25,7 @@ const Detail = () => {
   }, [token]);
 
   const handleUpdate = boardId => {
-    // 쿼리파라미터
     navigate(`${PATH_URL.CREATE}?id=${boardId}`, { state: { post } });
-    // navigate(`${PATH_URL.CREATE}`, { state: { post: post, isEdit: true } });
   };
 
   const handleDelete = () => {
@@ -44,7 +42,7 @@ const Detail = () => {
           <Info>
             <Title>{post.title}</Title>
             <NickName>{post.nickname}</NickName>
-            <Area>{post.area}</Area>
+            <Area>{post.address}</Area>
             <Description>{post.content}</Description>
           </Info>
         </ContentWrapper>

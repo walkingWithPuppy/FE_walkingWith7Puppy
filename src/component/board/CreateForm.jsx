@@ -16,7 +16,7 @@ const CreateForm = () => {
 
   const initialValue = {
     title: '',
-    area: '',
+    address: '',
     imgFile: '',
     // imgurl: '',
     content: '',
@@ -26,13 +26,13 @@ const CreateForm = () => {
   const [formValue, setFormValue] = useState(initialValue);
   const [imgFile, setImgFile] = useState('');
   // const { title, area, content,imgurl } = formValue;
-  const { title, area, content } = formValue;
+  const { title, address, content } = formValue;
   useEffect(() => {
     if (post) {
       setFormValue({
         ...formValue,
         title: post.title,
-        area: post.area,
+        address: post.address,
         content: post.content,
         // imgFile: post.imgurl || '',
       });
@@ -47,7 +47,7 @@ const CreateForm = () => {
       // imgurl,
       imgFile,
       title,
-      area,
+      address,
       content,
     };
 
@@ -93,10 +93,10 @@ const CreateForm = () => {
           placeholder="제목을 입력하세요"
           onChange={handleInputChange}
         />
-        <Label htmlFor="area">지역구</Label>
+        <Label htmlFor="address">지역구</Label>
         <Input
-          name="area"
-          value={area}
+          name="address"
+          value={address}
           type="text"
           placeholder="거주하시는 지역구를 입력하세요"
           onChange={handleInputChange}

@@ -7,7 +7,7 @@ const Post = ({post }) => {
   return (
     <PostWrapper>
       <Link to={`${PATH_URL.BOARD}/${post.id}`}>
-        <Area>{post.area}</Area>
+        <Area>{post.address}</Area>
         {/* <Image
           src="/assets/images/board/puppy1.jpg"
           alt="강아지이미지"
