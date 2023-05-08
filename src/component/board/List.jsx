@@ -19,10 +19,11 @@ const List = () => {
 
   // api받을지 결정필요(임시데이터)
   const ADDRESS_SELECT = [
-    { value: 'gangnam', label: '강남구' },
-    { value: 'gangseo', label: '강서구' },
-    { value: 'mapo', label: '마포구' },
-    { value: 'jongro', label: '종로구' },
+    { value: 'all', label: '전체' },
+    { value: '강서구', label: '강서구' }, // 이렇게할지?
+    { value: '강남구', label: '강남구' }, // 영어로 전달할지?
+    { value: '마포구', label: '마포구' },
+    // { value: 'jongro', label: '종로구' },
   ];
   const [address, setAddress] = useState(ADDRESS_SELECT[0].value);
 
@@ -40,8 +41,8 @@ const List = () => {
   const handleChange = event => {
     const address = event.target.value;
     setAddress(address);
-    // navigate(`${PATH_URL.BOARD}?area=${area}`);
-    // dispatch(__getByArea(area));
+    // navigate(`${PATH_URL.BOARD}?area=${address}`);
+    dispatch(__getByAddress(address));
   };
 
   return (
@@ -67,9 +68,10 @@ const List = () => {
         </StFormControl>
       </SelectWrapper>
       <PostWrapper>
-        {posts?.map(post => {
-          return <Post key={post.id} post={post} />;
-        })}
+        {/* 전체값 : 전체로 조회시 어떻게 전달할지 모름*/}
+        {address === ADDRESS_SELECT[0].value
+          ? posts?.map(post => <Post key={post.id} post={post} />)
+          : filteredList?.map(post => <Post key={post.id} post={post} />)}
       </PostWrapper>
       <Link to={PATH_URL.CREATE}>
         {isLogin && (
