@@ -26,7 +26,7 @@ const Section01 = styled.div`
   background-color: #fbae03;
   height: 25rem;
   border-radius: 5rem;
-  background-image: url('/images/home/Section01Img.png');
+  background-image: url('/images/home/section01-img.png');
   background-repeat: no-repeat;
   background-position: 90% 80%;
   background-size: 35rem;

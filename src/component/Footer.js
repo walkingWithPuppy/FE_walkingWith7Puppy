@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ReactComponent as LogoIcon } from '../assets/LogoIcon.svg';
+import { ReactComponent as LogoIcon } from '../assets/header-logo-icon.svg';
 
 const Footer = () => {
   const frontendMember = (

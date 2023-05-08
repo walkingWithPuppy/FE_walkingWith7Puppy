@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import { ReactComponent as SmileIcon } from '../../assets/Section02SmileIcon.svg';
-import { ReactComponent as DogIcon } from '../../assets/Section02DogIcon.svg';
-import { ReactComponent as BoneIcon } from '../../assets/Section02BoneIcon.svg';
-import { ReactComponent as FootIcon } from '../../assets/Section02FootIcon.svg';
+import { ReactComponent as SmileIcon } from '../../assets/section02-smile-icon.svg';
+import { ReactComponent as DogIcon } from '../../assets/section02-dog-icon.svg';
+import { ReactComponent as BoneIcon } from '../../assets/section02-bone-icon.svg';
+import { ReactComponent as FootIcon } from '../../assets/section02-foot-icon.svg';
 
 const Section02Card = () => {
   const cardList = [

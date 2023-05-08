@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { ReactComponent as LogoIcon } from '../assets/LogoIcon.svg';
+import { ReactComponent as LogoIcon } from '../assets/header-logo-icon.svg';
 import { Link } from 'react-router-dom';
 import { PATH_URL } from '../shared/constants';
 import Cookies from 'js-cookie';
