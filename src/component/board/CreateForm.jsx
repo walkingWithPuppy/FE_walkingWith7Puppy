@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { useState, useRef, useEffect } from 'react';
 import { PATH_URL } from '../../shared/constants';
@@ -11,22 +11,21 @@ const CreateForm = () => {
   const location = useLocation();
   const imgRef = useRef();
   const { post } = location.state || {};
-  const boardId = new URLSearchParams(location.search).get('id');
+  const boardId = parseInt(new URLSearchParams(location.search).get('id'));
   const isEdit = !!boardId;
 
+  const noImg = '/images/board/noImg.jpg';
   const initialValue = {
     title: '',
     address: '',
-    imgFile: '',
-    // imgurl: '',
+    imgUrl: '',
     content: '',
   };
-  // console.log(post);
 
   const [formValue, setFormValue] = useState(initialValue);
-  const [imgFile, setImgFile] = useState('');
-  // const { title, area, content,imgurl } = formValue;
+  const [imgUrl, setImgUrl] = useState('');
   const { title, address, content } = formValue;
+
   useEffect(() => {
     if (post) {
       setFormValue({
@@ -34,35 +33,54 @@ const CreateForm = () => {
         title: post.title,
         address: post.address,
         content: post.content,
-        // imgFile: post.imgurl || '',
+        imgUrl: post.img || noImg,
       });
-      //imgRef.current.src = post.imgurl || '';
+      // setImgUrl(post.img || '');
+      imgRef.current.src = post.img || '';
     }
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   }, []);
 
   const onSubmitHandler = e => {
     e.preventDefault();
-    const payload = {
-      // AS-IS : file(base64), url 통신테스트후 수정필요
-      // imgurl,
-      imgFile,
-      title,
-      address,
-      content,
-    };
 
-    if (post && post.id) {
-      payload.id = post.id;
-    }
+    // 필수체크
+    if (isFormValid()) {
+      const formData = new FormData();
+      const data = {
+        title,
+        content,
+        address,
+      };
+      const img = imgRef.current.files[0];
+      formData.append('data', new Blob([JSON.stringify(data)], { type: 'application/json' }));
+      formData.append('ImgUrl', img);
 
-    // console.log(title, area,content);
-    if (isEdit) {
-      // console.log(post.id);
-      dispatch(__updatePost(payload));
-    } else {
-      dispatch(__createPost(payload));
+      if (isEdit) {
+        const id = post.id;
+        dispatch(__updatePost({ id, formData }));
+      } else {
+        dispatch(__createPost(formData));
+      }
+      navigate(PATH_URL.BOARD);
     }
-    navigate(PATH_URL.BOARD);
+  };
+
+  const isFormValid = () => {
+    if (!formValue.title || formValue.title.trim() === '') {
+      alert('제목을 입력해주세요.');
+      return false;
+    }
+    if (!formValue.address || formValue.address.trim() === '') {
+      alert('지역구를 입력해주세요.');
+      return false;
+    }
+    if (!formValue.content || formValue.content.trim() === '') {
+      alert('내용을 입력해주세요.');
+      return false;
+    }
+    // 모든 필드가 유효하면 true 반환
+    return true;
   };
 
   const handleInputChange = e => {
@@ -70,17 +88,16 @@ const CreateForm = () => {
     setFormValue({ ...formValue, [name]: value });
   };
 
-  // 이미지 업로드 input의 onChange
-  const saveImgFile = () => {
-    const file = imgRef.current.files[0];
+  // 이미지 미리보기
+  const saveImgFile = e => {
+    const file = e.target.files[0];
+    // const file = imgRef.current.files[0];
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onloadend = () => {
-      setImgFile(reader.result);
+      setImgUrl(reader.result);
     };
   };
-
-  const noImg = '/images/board/no-img.jpg';
 
   return (
     <CreateFormWrapper>
@@ -103,21 +120,17 @@ const CreateForm = () => {
           placeholder="거주하시는 지역구를 입력하세요"
           onChange={handleInputChange}
         />
-        {/*업로드된 이미지 미리보기 */}
         <ImageWrapper>
-          {/* url방식 */}
-          {/* 이미지는 파일형식 정해지면 처리 */}
-          <PreviewImage src={imgFile ? imgFile : noImg} alt="noImg" />
-          {/* // 이미지 업로드 input */}
-          {/* url방식으로 저장되는 것 확인 */}
-          {/* <Input
-            name="imgurl"
-            type="text"
-            placeholder="이미지 url을 입력하세요"
-            onChange={handleInputChange}
-            /> */}
-          {/* base64저장 */}
-          <input type="file" accept="image/*" id="imgFile" onChange={saveImgFile} ref={imgRef} />
+          {/* 이미지가 있으면 post.img없으면 noImg */}
+          <PreviewImage src={imgUrl ? imgUrl : ''} alt="noImg" />
+          <input
+            type="file"
+            accept="image/*"
+            id="imgUrl"
+            onChange={saveImgFile}
+            ref={imgRef}
+            required
+          />
         </ImageWrapper>
         <Label htmlFor="content">내용</Label>
         <Textarea value={content} name="content" onChange={handleInputChange} />

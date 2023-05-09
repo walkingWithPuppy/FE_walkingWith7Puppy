@@ -1,9 +1,9 @@
 import Post from './Post';
 import styled from 'styled-components';
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import CreateIcon from '@mui/icons-material/Create';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { PATH_URL } from '../../shared/constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { __getByAddress, __getList } from '../../redux/modules/boardsSlice';
@@ -15,16 +15,37 @@ const List = () => {
   const dispatch = useDispatch();
   const posts = useSelector(state => state.boards.boards);
   const filteredList = useSelector(state => state.boards.filteredList);
-  const navigate = useNavigate();
+  const [prevPosts, setPrevPosts] = useState(posts);
 
-  // api받을지 결정필요(임시데이터)
   const ADDRESS_SELECT = [
     { value: 'all', label: '전체' },
-    { value: '강서구', label: '강서구' }, // 이렇게할지?
-    { value: '강남구', label: '강남구' }, // 영어로 전달할지?
+    { value: '강서구', label: '강서구' },
+    { value: '강동구', label: '강동구' },
+    { value: '강북구', label: '강북구' },
+    { value: '강남구', label: '강남구' },
+    { value: '관악구', label: '관악구' },
+    { value: '광진구', label: '광진구' },
+    { value: '구로구', label: '구로구' },
+    { value: '금천구', label: '금천구' },
+    { value: '노원구', label: '노원구' },
+    { value: '도봉구', label: '도봉구' },
+    { value: '동대문구', label: '동대문구' },
+    { value: '동작구', label: '동작구' },
     { value: '마포구', label: '마포구' },
-    // { value: 'jongro', label: '종로구' },
+    { value: '서대문구', label: '서대문구' },
+    { value: '서초구', label: '서초구' },
+    { value: '성동구', label: '성동구' },
+    { value: '성북구', label: '성북구' },
+    { value: '송파구', label: '송파구' },
+    { value: '양천구', label: '양천구' },
+    { value: '영등포구', label: '영등포구' },
+    { value: '용산구', label: '용산구' },
+    { value: '은평구', label: '은평구' },
+    { value: '종로구', label: '종로구' },
+    { value: '중구', label: '중구' },
+    { value: '중랑구', label: '중랑구' },
   ];
+
   const [address, setAddress] = useState(ADDRESS_SELECT[0].value);
 
   useEffect(() => {
@@ -32,46 +53,56 @@ const List = () => {
       setIsLogin(true);
     }
     dispatch(__getList());
-  }, [token, dispatch]);
+  }, [token, dispatch,posts]);
+  // 렌더링 체크필요
 
-  useEffect(() => {
-    dispatch(__getByAddress(address));
-  }, [address, dispatch]);
-
-  const handleChange = event => {
+  // useEffect(() => {
+  //   if (JSON.stringify(posts) !== JSON.stringify(prevPosts)) {
+  //     setPrevPosts(posts);
+  //   }
+  // }, [posts, prevPosts]);
+  
+  // 주소검색 이벤트핸들러 렌더링
+  const handleChange = useCallback((event) => {
     const address = event.target.value;
     setAddress(address);
-    // navigate(`${PATH_URL.BOARD}?area=${address}`);
-    dispatch(__getByAddress(address));
-  };
+    // dispatch(__getByAddress(address));
+  }, [dispatch]);
 
   return (
     <ListWrapper>
       <SelectWrapper>
-        <StFormControl>
-          <InputLabel id="demo-simple-select-label">
-            <StLabel>만나요</StLabel>
-          </InputLabel>
-          <StSelect
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={address}
-            label="Address"
-            onChange={handleChange}
-          >
-            {ADDRESS_SELECT.map(address => (
-              <MenuItem key={address.value} value={address.value}>
-                {address.label}
-              </MenuItem>
-            ))}
-          </StSelect>
-        </StFormControl>
+        <Container>
+          <StTitle>메이트를 찾고 있어요</StTitle>
+          <StFormControl>
+            <InputLabel id="demo-simple-select-label">
+              <StLabel>만나요</StLabel>
+            </InputLabel>
+            <StSelect
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={address}
+              label="Address"
+              onChange={handleChange}
+            >
+              {ADDRESS_SELECT.map(address => (
+                <MenuItem key={address.value} value={address.value}>
+                  {address.label}
+                </MenuItem>
+              ))}
+            </StSelect>
+          </StFormControl>
+        </Container>
       </SelectWrapper>
       <PostWrapper>
+        
         {/* 전체값 : 전체로 조회시 어떻게 전달할지 모름*/}
-        {address === ADDRESS_SELECT[0].value
+        {/* {address === ADDRESS_SELECT[0].value
           ? posts?.map(post => <Post key={post.id} post={post} />)
-          : filteredList?.map(post => <Post key={post.id} post={post} />)}
+          : filteredList?.map(post => <Post key={post.id} post={post} />)} */}
+        {posts?.map(post => (
+          <Post key={post.id} post={post} />
+        ))};
       </PostWrapper>
       <Link to={PATH_URL.CREATE}>
         {isLogin && (
@@ -99,19 +130,34 @@ const PostWrapper = styled.div`
   margin-top: 20px;
 `;
 
+const Container = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+`;
+
 const SelectWrapper = styled.div`
   display: flex;
-  align-items: center;
-  margin-left: auto;
-  margin-right: 100px;
+  justify-content: flex-end;
+  padding-right: 50px;
 `;
 
 const StFormControl = styled(FormControl)`
   width: 120px;
 `;
 
+const StTitle = styled.span`
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: semi-bold;
+  color: #fbae03;
+`;
+
 const StLabel = styled.p`
-  font-size: 18px;
+  font-size: px;
+  font-weight: bold;
 `;
 
 const StSelect = styled(Select)`
