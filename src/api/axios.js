@@ -25,18 +25,15 @@ user.interceptors.request.use(
     if (token) {
       config.headers.common['Authorization'] = `Bearer ${token}`;
     }
-    console.log('인터셉터 config => ', config);
     return config;
   },
   error => {
-    console.log('인터셉터 request 에러 => ', error);
     return Promise.reject(error);
   }
 );
 
 user.interceptors.response.use(
   response => {
-    console.log('인터셉터 => ', response);
     return response;
   },
   error => {
