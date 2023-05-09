@@ -14,8 +14,8 @@ const List = () => {
   const token = Cookies.get('token');
   const dispatch = useDispatch();
   const posts = useSelector(state => state.boards.boards);
-  const filteredList = useSelector(state => state.boards.filteredList);
-  const [prevPosts, setPrevPosts] = useState(posts);
+  // const filteredList = useSelector(state => state.boards.filteredList);
+  // const [prevPosts, setPrevPosts] = useState(posts);
 
   const ADDRESS_SELECT = [
     { value: 'all', label: '전체' },
@@ -53,8 +53,7 @@ const List = () => {
       setIsLogin(true);
     }
     dispatch(__getList());
-  }, [token, dispatch, posts]);
-  // 렌더링 체크필요
+  }, [token, dispatch]);
 
   // useEffect(() => {
   //   if (JSON.stringify(posts) !== JSON.stringify(prevPosts)) {
