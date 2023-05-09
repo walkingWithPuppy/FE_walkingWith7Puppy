@@ -14,7 +14,7 @@ const Post = ({ post }) => {
           src="/assets/images/board/puppy1.jpg"
           alt="강아지이미지"
         /> */}
-        <Image src={post.imgurl || noImg} alt="puppy" />
+        <Image src={post.img || noImg} alt="puppy" />
         <Info>
           <Title>{post.title}</Title>
           <Content>{post.content}</Content>

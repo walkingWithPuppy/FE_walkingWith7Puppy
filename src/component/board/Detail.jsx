@@ -41,10 +41,10 @@ const Detail = () => {
     <DetailWrapper>
       <Container>
         <ContentWrapper>
-          <Image src={post.imgurl || noImg} alt="puppy" />
+          <Image src={post.img || noImg} alt="puppy" />
           <Info>
             <Title>{post.title}</Title>
-            <NickName>{post.nickname}</NickName>
+            <NickName>{post.username}</NickName>
             <Area>{post.address}</Area>
             <Description>{post.content}</Description>
           </Info>
