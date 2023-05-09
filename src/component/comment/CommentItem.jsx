@@ -5,7 +5,7 @@ import { formatDate } from '../../utils/formatDate';
 import { __deleteComment, __updateComment } from '../../redux/modules/commentsSlice';
 import { useDispatch } from 'react-redux';
 
-const CommentItem = ({ username, comment, boardId }) => {
+const CommentItem = ({ comment, boardId }) => {
   const [isEdit, setIsEdit] = useState(false);
   const dispatch = useDispatch();
   const [content, setContent] = useState('');
@@ -33,7 +33,7 @@ const CommentItem = ({ username, comment, boardId }) => {
     <CommentItemWrapper>
       <ItemInfo>
         <CommentInfo>
-          <NickName>{username}</NickName>
+          <NickName>{comment.username}</NickName>
           <CreatedDate>
             {comment.modifiedAt ? (
               <>{formatDate(comment.modifiedAt)}</>
