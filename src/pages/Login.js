@@ -7,9 +7,7 @@ import { useState } from 'react';
 import { api } from '../api/axios';
 import Cookies from 'js-cookie';
 import jwtDecode from 'jwt-decode';
-
 const MotionContainer = motion('div');
-
 const Login = () => {
   const [userInput, setUserInput] = useState({
     username: '',
@@ -24,7 +22,6 @@ const Login = () => {
     });
   };
   const { username, password } = userInput;
-
   const userLogin = async () => {
     try {
       const response = await api.post(`${PATH_URL.LOGIN}`, userInput);
@@ -32,20 +29,10 @@ const Login = () => {
       const accessHeader = response.headers.get('Authorization');
       const token = accessHeader.split(' ')[1];
       const userToken = jwtDecode(token);
+      console.log('tokendecode:::::::', userToken);
       const expirationTime = new Date(userToken.exp * 1000);
+      console.log('expirationTime::::::::', expirationTime);
       Cookies.set('token', token, { expires: expirationTime });
-
-      // console.log(Cookies.get('token'));
-      // const token = response.data.token;
-      // const userToken = jwtDecode(token);
-      // const expirationTime = new Date(userToken.exp * 1000);
-      // Cookies.set('token', token, { expires: expirationTime }); //테스트용
-      // console.log(Cookies.get());
-      // setUserInput({
-      //   //테스트용
-      //   id: '',
-      //   password: '',
-      // });
       setUserInput({
         username: '',
         password: '',
@@ -53,13 +40,12 @@ const Login = () => {
       navigate(PATH_URL.HOME);
     } catch (error) {
       console.log(error); //통신시 키값 맞출 예정
-      // alert('존재하지않는 id입니다');
+      alert('존재하지않는 ID입니다');
     }
   };
   const goSinup = () => {
     navigate(PATH_URL.SIGNUP);
   };
-
   return (
     <MotionContainer
       initial={{ y: -50, opacity: 0 }}
@@ -115,7 +101,6 @@ const LoginContainer = styled.div`
   flex-direction: column;
   border: 2px solid #fbae03;
   border-radius: 10px;
-
   > div:first-child {
     width: 60%;
     margin: 0 auto;
@@ -129,10 +114,8 @@ const LoginBtnWrap = styled.div`
   margin-top: 55px;
   width: 100%;
   gap: 10px;
-
   > div {
     width: 50%;
   }
 `;
-
 export default Login;
