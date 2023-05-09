@@ -5,13 +5,17 @@ import { useNavigate } from 'react-router-dom';
 
 const API_URL = process.env.REACT_APP_SERVER_URL;
 
-export const api = axios.create({
+export const fetchBoard = axios.create({
+  baseURL: API_URL,
+});
+
+export const authBoard = axios.create({
   baseURL: API_URL,
   headers: { Authorization: `Bearer ${Cookies.get('token')}` },
 });
 
 export const user = axios.create({
-  baseURL: API_URL, //백엔드 서버 들어올 예정
+  baseURL: API_URL,
 });
 
 user.interceptors.request.use(
@@ -21,18 +25,15 @@ user.interceptors.request.use(
     if (token) {
       config.headers.common['Authorization'] = `Bearer ${token}`;
     }
-    console.log('인터셉터 config => ', config);
     return config;
   },
   error => {
-    console.log('인터셉터 request 에러 => ', error);
     return Promise.reject(error);
   }
 );
 
 user.interceptors.response.use(
   response => {
-    console.log('인터셉터 => ', response);
     return response;
   },
   error => {
