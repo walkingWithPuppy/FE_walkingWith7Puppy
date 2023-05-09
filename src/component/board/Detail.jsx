@@ -16,15 +16,16 @@ const Detail = () => {
 
   useEffect(() => {
     dispatch(__getPostById(boardId));
-  }, []);
+  }, [boardId, dispatch]);
 
   useEffect(() => {
     if (token) {
       setIsLogin(() => true);
     }
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   }, [token]);
 
-  const handleUpdate = boardId => {
+  const handleUpdate = () => {
     navigate(`${PATH_URL.CREATE}?id=${boardId}`, { state: { post } });
   };
 
@@ -38,26 +39,26 @@ const Detail = () => {
   const noImg = '/images/board/no-img.jpg';
 
   return (
-    <DetailWrapper>
-      <Container>
-        <ContentWrapper>
+      <DetailWrapper>
+        <Container>
+          <ContentWrapper>
           <Image src={post.img || noImg} alt="puppy" />
-          <Info>
-            <Title>{post.title}</Title>
-            <NickName>{post.username}</NickName>
-            <Area>{post.address}</Area>
-            <Description>{post.content}</Description>
-          </Info>
-        </ContentWrapper>
-        {/* 로그인한경우 id 같은 경우만 (+작성자id비교로직 추가필요) 수정,삭제 버튼 보이도록 */}
-        {isLogin && (
-          <ButtonWrapper>
-            <Button onClick={() => handleUpdate(post.id)}>수정하기</Button>
-            <Button onClick={() => handleDelete()}>삭제하기</Button>
-          </ButtonWrapper>
-        )}
-      </Container>
-    </DetailWrapper>
+            <Info>
+              <Title>{post.title}</Title>
+              <NickName>작성자 : {post.username}</NickName>
+              <Area>지역구 : {post.address}</Area>
+              <Description>{post.content}</Description>
+            </Info>
+          </ContentWrapper>
+          {/* 로그인한경우 id 같은 경우만 (+작성자id비교로직 추가필요) 수정,삭제 버튼 보이도록 */}
+          {isLogin && (
+            <ButtonWrapper>
+              <Button onClick={() => handleUpdate()}>수정하기</Button>
+              <Button onClick={() => handleDelete()}>삭제하기</Button>
+            </ButtonWrapper>
+          )}
+        </Container>
+      </DetailWrapper>
   );
 };
 
@@ -81,11 +82,14 @@ const Container = styled.div`
 
 const ContentWrapper = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: 10px;
 `;
 
 const Image = styled.img`
+  min-width: 300px;
+  display: flex;
+  align-items: center;
   width: 300px;
   height: 300px;
   margin-right: 30px;
@@ -96,13 +100,14 @@ const Image = styled.img`
 
 const Info = styled.div`
   display: flex;
+  margin-top: 30px;
   flex-direction: column;
 `;
 
 const Title = styled.h2`
-  font-size: 28px;
+  font-size: 24px;
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 `;
 
 const NickName = styled.p`

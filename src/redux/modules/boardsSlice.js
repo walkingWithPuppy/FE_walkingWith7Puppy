@@ -7,12 +7,7 @@ const initialState = {
   post: [],
   filteredList: [],
   isLoading: false,
-  // selectedArea: null,
   error: null,
-};
-
-const header = {
-  'Content-Type': 'application/json',
 };
 
 //전체 조회
@@ -24,6 +19,7 @@ export const __getList = createAsyncThunk('boards/getList', async (payload, thun
     return thunkAPI.rejectWithValue(error);
   }
 });
+
 // 개별 상세조회
 export const __getPostById = createAsyncThunk('boards/getPostById', async (id, thunkAPI) => {
   try {
@@ -33,9 +29,12 @@ export const __getPostById = createAsyncThunk('boards/getPostById', async (id, t
     return thunkAPI.rejectWithValue(error);
   }
 });
+
 // 개별조회(지역으로) -임시
 export const __getByAddress = createAsyncThunk('boards/getByAddress', async (payload, thunkAPI) => {
+  // const url = `http://example.com/?search=${encodeURI('한글')}`;
   try {
+    // const response = await api.get(`${PATH_URL.BOARD}?address=${encodeURI(payload)}`);
     const response = await api.get(`${PATH_URL.BOARD}?address=${payload}`);
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
@@ -44,15 +43,14 @@ export const __getByAddress = createAsyncThunk('boards/getByAddress', async (pay
 });
 
 // 등록
-export const __createPost = createAsyncThunk('boards/createPost', async (payload, thunkAPI) => {
-  // console.log('payload', payload);
+export const __createPost = createAsyncThunk('boards/createPost', async (formData, thunkAPI) => {
   try {
-    const response = await api.post(PATH_URL.BOARD, payload, {
-      // headers: {
-      //   'Content-Type' : "multipart/form-data",
-      // },
+    const response = await api.post(PATH_URL.BOARD, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
     });
-    // return response.data;
+    return response.data;
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
   }
@@ -61,13 +59,12 @@ export const __createPost = createAsyncThunk('boards/createPost', async (payload
 // 수정
 export const __updatePost = createAsyncThunk(
   'boards/updatePost',
-  async ({ id, title, nickname, address, content }, thunkAPI) => {
+  async ({ id, formData }, thunkAPI) => {
     try {
-      const response = await api.put(`${PATH_URL.BOARD}/${id}`, {
-        title,
-        nickname,
-        address,
-        content,
+      const response = await api.put(`${PATH_URL.BOARD}/${id}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       });
       return response.data;
     } catch (error) {
@@ -123,10 +120,7 @@ export const boardsSlice = createSlice({
     },
     [__getByAddress.fulfilled]: (state, action) => {
       state.isLoading = false;
-      // console.log('filtered',action.payload);
       state.filteredList = action.payload;
-      // state.filteredList = action.payload.filter(item => item.address === action.payload.address);
-      // console.log(state.filteredList,'그렇다면너는');
     },
     [__getByAddress.rejected]: (state, action) => {
       state.loading = false;
@@ -139,9 +133,7 @@ export const boardsSlice = createSlice({
     },
     [__createPost.fulfilled]: (state, action) => {
       state.loading = false;
-      console.log(...state.post);
-      console.log(...action.payload);
-      state.post = [...state.post, { ...action.payload }];
+      state.post = { ...state.post, newPostData: { ...action.payload } };
     },
     [__createPost.rejected]: (state, action) => {
       state.loading = false;

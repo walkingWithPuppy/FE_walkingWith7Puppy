@@ -5,18 +5,9 @@ import { useNavigate } from 'react-router-dom';
 
 const API_URL = process.env.REACT_APP_SERVER_URL;
 
-// export const fetchBoard = axios.create({
-//   baseURL: API_URL,
-// });
-
 export const api = axios.create({
   baseURL: API_URL,
-  // headers: { Authorization: `Bearer ${Cookies.get('token')}` },
 });
-
-// export const user = axios.create({
-//   baseURL: API_URL,
-// });
 
 api.interceptors.request.use(
   config => {
