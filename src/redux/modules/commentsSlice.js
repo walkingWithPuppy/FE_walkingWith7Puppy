@@ -10,33 +10,18 @@ const initialState = {
 
 //전체 조회
 export const __getList = createAsyncThunk('comments/getList', async (boardId, thunkAPI) => {
-  // console.log(boardId);
   try {
     const response = await fetchBoard.get(`${PATH_URL.BOARD}/${boardId}/comments`);
-    // console.log(response.data);
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
   }
 });
 
-// // 개별 상세조회
-// export const __getPostById = createAsyncThunk('boards/getPostById', async (id, thunkAPI) => {
-//   try {
-//     const response = await boards.get(`${PATH_URL.BOARD}/${id}`);
-//     // console.log('response.data', response.data);
-//     return response.data;
-//   } catch (error) {
-//     return thunkAPI.rejectWithValue(error);
-//   }
-// });
-
 // 등록
 export const __createComment = createAsyncThunk(
   'comments/createComment',
   async ({ boardId, content }, thunkAPI) => {
-    // console.log('boardId', boardId);
-    // console.log('content', content);
     try {
       const response = await authBoard.post(`${PATH_URL.BOARD}/${boardId}/comments`, { content });
       return response.data;
@@ -54,9 +39,6 @@ export const __updateComment = createAsyncThunk(
       const response = await authBoard.put(
         `${PATH_URL.BOARD}/${boardId}/comments/${commentId}`,
         { content },
-        {
-          content,
-        }
       );
       return response.data;
     } catch (error) {
@@ -69,8 +51,6 @@ export const __updateComment = createAsyncThunk(
 export const __deleteComment = createAsyncThunk(
   'comments/deleteComment',
   async ({ boardId, commentId }, thunkAPI) => {
-    // console.log('boardId', boardId);
-    // console.log('commentId', commentId);
     try {
       await authBoard.delete(`${PATH_URL.BOARD}/${boardId}/comments/${commentId}`);
       return { boardId, commentId };
@@ -97,19 +77,6 @@ export const commentsSlice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
-    //__getPostById
-    //   [__getPostById.pending]: state => {
-    //     state.loading = true;
-    //     state.error = null;
-    //   },
-    //   [__getPostById.fulfilled]: (state, action) => {
-    //     state.loading = false;
-    //     state.post = action.payload;
-    //   },
-    //   [__getPostById.rejected]: (state, action) => {
-    //     state.loading = false;
-    //     state.error = action.payload;
-    //   },
     //__createComment
     [__createComment.pending]: state => {
       state.loading = true;
@@ -117,7 +84,7 @@ export const commentsSlice = createSlice({
     },
     [__createComment.fulfilled]: (state, action) => {
       state.loading = false;
-      state.comments = [...state.commments, { ...action.payload }];
+      state.comments = [...state.comments, { ...action.payload }];
     },
     [__createComment.rejected]: (state, action) => {
       state.loading = false;
@@ -131,7 +98,7 @@ export const commentsSlice = createSlice({
     [__updateComment.fulfilled]: (state, action) => {
       state.isLoading = false;
       const updatedComment = action.payload;
-      state.comments = state.boards.map(comment => {
+      state.comments = state.comments.map(comment => {
         if (comment.id === updatedComment.id) {
           return updatedComment;
         }
