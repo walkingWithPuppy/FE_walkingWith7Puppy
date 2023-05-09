@@ -49,9 +49,10 @@ const CommentItem = ({ comment, boardId }) => {
         <IconsWrapper>
           {isEdit ? (
             <>
-            <Button onClick={() => handleUpdate(boardId, comment.id, content)}>수정</Button>
-            <Button onClick={() => setIsEdit(false)}>취소</Button>
-          </>         ) : (
+              <Button onClick={() => handleUpdate(boardId, comment.id, content)}>수정</Button>
+              <Button onClick={() => setIsEdit(false)}>취소</Button>
+            </>
+          ) : (
             <>
               <Icon onClick={() => handleEdit(boardId, comment.id)}>
                 <EditLocationAlt />
@@ -137,7 +138,6 @@ const Button = styled.button`
   padding: 0.2rem 0.8rem;
   background-color: ${props => props.background};
   color: ${props => props.color};
-  font-weight: 550; 
-
+  font-weight: 550;
 `;
 export default CommentItem;

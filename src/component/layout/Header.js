@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { ReactComponent as LogoIcon } from '../../assets/header-logo-icon.svg';
-import { Link } from 'react-router-dom';
-import { PATH_URL } from '../../shared/constants';
+import { ReactComponent as LogoIcon } from '../assets/LogoIcon.svg';
+import { Link, useNavigate } from 'react-router-dom';
+import { PATH_URL } from '../shared/constants';
 import Cookies from 'js-cookie';
 
 const Header = () => {
   // TEST CODE: login token 검증
   const [isLogin, setIsLogin] = useState(false);
   const token = Cookies.get('token');
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (token) {
@@ -19,7 +20,7 @@ const Header = () => {
   const logoutHandle = () => {
     Cookies.remove('token');
     setIsLogin(prev => !prev);
-    window.location.replace(PATH_URL.HOME);
+    navigate(PATH_URL.HOME);
   };
 
   const logoutElements = (
