@@ -80,6 +80,8 @@ const CreateForm = () => {
     };
   };
 
+  const noImg = '/images/board/no-img.jpg';
+
   return (
     <CreateFormWrapper>
       <FormWrapper onSubmit={onSubmitHandler}>
@@ -105,7 +107,7 @@ const CreateForm = () => {
         <ImageWrapper>
           {/* url방식 */}
           {/* 이미지는 파일형식 정해지면 처리 */}
-          <PreviewImage src={imgFile ? imgFile : '/assets/images/board/noImg.jpg'} alt="noImg" />
+          <PreviewImage src={imgFile ? imgFile : noImg} alt="noImg" />
           {/* // 이미지 업로드 input */}
           {/* url방식으로 저장되는 것 확인 */}
           {/* <Input

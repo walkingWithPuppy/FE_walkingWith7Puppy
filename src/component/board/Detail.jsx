@@ -35,7 +35,7 @@ const Detail = () => {
     }
   };
 
-  const noImg = '/images/board/noImg.jpg';
+  const noImg = '/images/board/no-img.jpg';
 
   return (
     <DetailWrapper>

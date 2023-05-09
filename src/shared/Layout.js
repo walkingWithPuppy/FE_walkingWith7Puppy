@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import Header from '../component/Header';
-import Footer from '../component/Footer';
+import Header from '../component/layout/Header';
+import Footer from '../component/layout/Footer';
 
 const Layout = ({ children }) => {
   return (
