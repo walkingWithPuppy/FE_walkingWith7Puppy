@@ -19,7 +19,6 @@ const header = {
 export const __getList = createAsyncThunk('boards/getList', async (payload, thunkAPI) => {
   try {
     const response = await api.get(PATH_URL.BOARD);
-    console.log(response.data);
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -29,7 +28,6 @@ export const __getList = createAsyncThunk('boards/getList', async (payload, thun
 export const __getPostById = createAsyncThunk('boards/getPostById', async (id, thunkAPI) => {
   try {
     const response = await api.get(`${PATH_URL.BOARD}/${id}`);
-    // console.log('response.data', response.data);
     return response.data;
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -37,11 +35,8 @@ export const __getPostById = createAsyncThunk('boards/getPostById', async (id, t
 });
 // 개별조회(지역으로) -임시
 export const __getByAddress = createAsyncThunk('boards/getByAddress', async (payload, thunkAPI) => {
-  console.log('지역은 이거다', payload);
   try {
     const response = await api.get(`${PATH_URL.BOARD}?address=${payload}`);
-    // console.log('들어옴');
-    console.log('response.data', response.data);
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -53,11 +48,10 @@ export const __createPost = createAsyncThunk('boards/createPost', async (payload
   // console.log('payload', payload);
   try {
     const response = await api.post(PATH_URL.BOARD, payload, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
+      // headers: {
+      //   'Content-Type' : "multipart/form-data",
+      // },
     });
-    console.log('response.data', response.data);
     // return response.data;
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
