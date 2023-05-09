@@ -14,8 +14,6 @@ const CommentList = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const comments = useSelector(state => state.boards.post.comments);
-  const post = useSelector(state => state.boards.post);
-  // console.log('comments다', comments);
   const { boardId } = useParams();
 
   const initialValue = {
@@ -27,7 +25,6 @@ const CommentList = () => {
   const handleInputChange = e => {
     const { name, value } = e.target;
     setFormValue({ ...formValue, [name]: value });
-    // console.log(content);
   };
 
   useEffect(() => {
@@ -59,19 +56,9 @@ const CommentList = () => {
         />
         <ItemWrap>
           {/* commentItem  */}
-          {/* {comments.map((comment) => (
-          <CommentItem
-            key={comment.id}
-            comment={comment}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-            />
-          ))} */}
           {comments?.map(comment => (
-            <CommentItem key={comment.id} username={post.username} comment={comment} boardId={boardId} />
+            <CommentItem key={comment.id} comment={comment} boardId={boardId} />
           ))}
-          {/* <CommentItem  />
-          <CommentItem /> */}
         </ItemWrap>
       </Container>
     </CommentWrapper>
