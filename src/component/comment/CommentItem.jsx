@@ -1,14 +1,22 @@
 import styled from 'styled-components';
 import { EditLocationAlt, DeleteForever } from '@mui/icons-material';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import Cookies from 'js-cookie';
 import { formatDate } from '../../utils/formatDate';
 import { __deleteComment, __updateComment } from '../../redux/modules/commentsSlice';
 import { useDispatch } from 'react-redux';
 
 const CommentItem = ({ comment, boardId }) => {
   const [isEdit, setIsEdit] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
   const dispatch = useDispatch();
+  const token = Cookies.get('token');
   const [content, setContent] = useState('');
+  useEffect(() => {
+    if (token) {
+      setIsLogin(() => true);
+    }
+  }, [token]);
 
   const handleEdit = (boardId, commentId) => {
     setIsEdit(true);
@@ -44,23 +52,25 @@ const CommentItem = ({ comment, boardId }) => {
             )}
           </CreatedDate>
         </CommentInfo>
-        <IconsWrapper>
-          {isEdit ? (
-            <>
-              <Button onClick={() => handleUpdate(boardId, comment.id, content)}>수정</Button>
-              <Button onClick={() => setIsEdit(false)}>취소</Button>
-            </>
-          ) : (
-            <>
-              <Icon onClick={() => handleEdit(boardId, comment.id)}>
-                <EditLocationAlt />
-              </Icon>
-              <Icon onClick={() => handleDelete(boardId, comment.id)}>
-                <DeleteForever />
-              </Icon>
-            </>
-          )}
-        </IconsWrapper>
+        {isLogin && (
+          <IconsWrapper>
+            {isEdit ? (
+              <>
+                <Button onClick={() => handleUpdate(boardId, comment.id, content)}>수정</Button>
+                <Button onClick={() => setIsEdit(false)}>취소</Button>
+              </>
+            ) : (
+              <>
+                <Icon onClick={() => handleEdit(boardId, comment.id)}>
+                  <EditLocationAlt />
+                </Icon>
+                <Icon onClick={() => handleDelete(boardId, comment.id)}>
+                  <DeleteForever />
+                </Icon>
+              </>
+            )}
+          </IconsWrapper>
+        )}
       </ItemInfo>
 
       {isEdit ? (
