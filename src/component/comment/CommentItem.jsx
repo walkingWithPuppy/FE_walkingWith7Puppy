@@ -22,7 +22,6 @@ const CommentItem = ({ username, comment, boardId }) => {
 
   const handleInputChange = e => {
     setContent(e.target.value);
-    console.log(e.target.value);
   };
 
   const handleUpdate = (boardId, commentId, content) => {

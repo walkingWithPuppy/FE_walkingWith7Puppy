@@ -96,13 +96,7 @@ export const commentsSlice = createSlice({
     },
     [__updateComment.fulfilled]: (state, action) => {
       state.isLoading = false;
-      const updatedComment = action.payload;
-      state.comments = state.comments.map(comment => {
-        if (comment.id === updatedComment.id) {
-          return updatedComment;
-        }
-        return comment;
-      });
+      state.comment = action.payload;
     },
     [__updateComment.rejected]: (state, action) => {
       state.isLoading = false;

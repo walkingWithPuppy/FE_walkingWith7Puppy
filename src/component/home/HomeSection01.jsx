@@ -36,6 +36,13 @@ const Section01 = styled.div`
   justify-content: center;
   padding-left: 5rem;
   gap: 3rem;
+
+  @media screen and (max-width: 1145px) {
+    background-image: none;
+  }
+  @media screen and (max-width: 689px) {
+    padding-left: 4rem;
+  }
 `;
 
 const TextContainer = styled.div`
@@ -47,6 +54,10 @@ const TextContainer = styled.div`
 const Title = styled.h1`
   font-size: 3.2rem;
   font-weight: bold;
+
+  @media screen and (max-width: 689px) {
+    font-size: 2.8rem;
+  }
 `;
 
 const Describe = styled.p`
