@@ -14,8 +14,6 @@ const List = () => {
   const token = Cookies.get('token');
   const dispatch = useDispatch();
   const posts = useSelector(state => state.boards.boards);
-  // const filteredList = useSelector(state => state.boards.filteredList);
-  // const [prevPosts, setPrevPosts] = useState(posts);
 
   const ADDRESS_SELECT = [
     { value: 'all', label: '전체' },
@@ -39,12 +37,6 @@ const List = () => {
     }
     dispatch(__getList());
   }, [token, dispatch]);
-
-  // useEffect(() => {
-  //   if (JSON.stringify(posts) !== JSON.stringify(prevPosts)) {
-  //     setPrevPosts(posts);
-  //   }
-  // }, [posts, prevPosts]);
 
   const handleChange = useCallback(
     event => {
