@@ -51,14 +51,10 @@ export const __updateComment = createAsyncThunk(
   'comments/updateComment',
   async ({ boardId, commentId, content }, thunkAPI) => {
     try {
-      const response = await authBoard.put(
-        `${PATH_URL.BOARD}/${boardId}/comments/${commentId}`,
-        { content },
-        {
-          content,
-        }
-      );
-      return response.data;
+      const response = await authBoard.put(`${PATH_URL.BOARD}/${boardId}/comments/${commentId}`, {
+        content,
+      });
+      return content;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -130,13 +126,7 @@ export const commentsSlice = createSlice({
     },
     [__updateComment.fulfilled]: (state, action) => {
       state.isLoading = false;
-      const updatedComment = action.payload;
-      state.comments = state.boards.map(comment => {
-        if (comment.id === updatedComment.id) {
-          return updatedComment;
-        }
-        return comment;
-      });
+      state.comment = action.payload;
     },
     [__updateComment.rejected]: (state, action) => {
       state.isLoading = false;

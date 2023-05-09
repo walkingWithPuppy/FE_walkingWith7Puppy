@@ -18,12 +18,12 @@ const CreateForm = () => {
   const initialValue = {
     title: '',
     address: '',
-    imgUrl: '',
+    img: '',
     content: '',
   };
 
   const [formValue, setFormValue] = useState(initialValue);
-  const [imgUrl, setImgUrl] = useState('');
+  const [img, setImg] = useState('');
   const { title, address, content } = formValue;
 
   useEffect(() => {
@@ -33,7 +33,7 @@ const CreateForm = () => {
         title: post.title,
         address: post.address,
         content: post.content,
-        imgUrl: post.img || noImg,
+        img: post.img || noImg,
       });
       // setImgUrl(post.img || '');
       imgRef.current.src = post.img || '';
@@ -54,7 +54,7 @@ const CreateForm = () => {
       };
       const img = imgRef.current.files[0];
       formData.append('data', new Blob([JSON.stringify(data)], { type: 'application/json' }));
-      formData.append('ImgUrl', img);
+      formData.append('img', img);
 
       if (isEdit) {
         const id = post.id;
@@ -95,7 +95,7 @@ const CreateForm = () => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onloadend = () => {
-      setImgUrl(reader.result);
+      setImg(reader.result);
     };
   };
 
@@ -122,11 +122,11 @@ const CreateForm = () => {
         />
         <ImageWrapper>
           {/* 이미지가 있으면 post.img없으면 noImg */}
-          <PreviewImage src={imgUrl ? imgUrl : ''} alt="noImg" />
+          <PreviewImage src={img ? img : ''} alt="noImg" />
           <input
             type="file"
             accept="image/*"
-            id="imgUrl"
+            id="img"
             onChange={saveImgFile}
             ref={imgRef}
             required

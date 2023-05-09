@@ -22,7 +22,6 @@ const CommentItem = ({ comment, boardId }) => {
 
   const handleInputChange = e => {
     setContent(e.target.value);
-    console.log(e.target.value);
   };
 
   // 수정완료
