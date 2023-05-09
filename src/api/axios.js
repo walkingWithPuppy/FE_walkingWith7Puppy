@@ -5,13 +5,17 @@ import { useNavigate } from 'react-router-dom';
 
 const API_URL = process.env.REACT_APP_SERVER_URL;
 
-export const api = axios.create({
+export const fetchBoard = axios.create({
+  baseURL: API_URL,
+});
+
+export const authBoard = axios.create({
   baseURL: API_URL,
   headers: { Authorization: `Bearer ${Cookies.get('token')}` },
 });
 
 export const user = axios.create({
-  baseURL: API_URL, //백엔드 서버 들어올 예정
+  baseURL: API_URL,
 });
 
 user.interceptors.request.use(
