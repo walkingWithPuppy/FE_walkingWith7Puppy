@@ -7,25 +7,32 @@ const API_URL = process.env.REACT_APP_SERVER_URL;
 
 export const api = axios.create({
   baseURL: API_URL,
+  headers: { Authorization: `Bearer ${Cookies.get('token')}` },
 });
 
-api.interceptors.request.use(
+export const user = axios.create({
+  baseURL: API_URL, //백엔드 서버 들어올 예정
+});
+
+user.interceptors.request.use(
   config => {
     const token = Cookies.get('token');
 
     if (token) {
       config.headers.common['Authorization'] = `Bearer ${token}`;
     }
+    console.log('인터셉터 config => ', config);
     return config;
   },
   error => {
-    console.log(error);
+    console.log('인터셉터 request 에러 => ', error);
     return Promise.reject(error);
   }
 );
 
-api.interceptors.response.use(
+user.interceptors.response.use(
   response => {
+    console.log('인터셉터 => ', response);
     return response;
   },
   error => {
