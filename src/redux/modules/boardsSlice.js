@@ -19,7 +19,6 @@ const header = {
 export const __getList = createAsyncThunk('boards/getList', async (payload, thunkAPI) => {
   try {
     const response = await boards.get(PATH_URL.BOARD);
-    // console.log(response.data);
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -50,14 +49,14 @@ export const __getByAddress = createAsyncThunk('boards/getByAddress', async (pay
 
 // 등록
 export const __createPost = createAsyncThunk('boards/createPost', async (payload, thunkAPI) => {
-  console.log('payload', payload);
+  // console.log('payload', payload);
   try {
     const response = await boards.post(PATH_URL.BOARD, payload, {
-      // headers: {
-      //   'Content-Type' : "multipart/form-data",
-      // },
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
     });
-    console.log('response.data', response.data);
+    // console.log('response.data', response.data);
     return response.data;
   } catch (error) {
     return thunkAPI.rejectWithValue(error);

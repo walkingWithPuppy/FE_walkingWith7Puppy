@@ -18,13 +18,12 @@ const HomeSection03 = () => {
     1: useScrollFadeIn('down', 1, 0.8),
   };
 
-  // TEST CODE: 임시 게시글 데이터 - 서버 게시글 데이터 받아올 경우 수정 (API 문서에 imgurl key는 없음)
-  const postList = useSelector(state => state.boards.boards).slice(0, 7);
   const dispatch = useDispatch();
+  const postList = useSelector(state => state.boards.boards).slice(0, 7);
 
   useEffect(() => {
     dispatch(__getList());
-  }, [dispatch]);
+  }, []);
 
   const swiperBreakpoints = {
     325: { slidePrevView: 1, spaceBetween: 80 },
@@ -66,7 +65,7 @@ const HomeSection03 = () => {
                 key={post.id}
                 title={post.title}
                 address={post.address}
-                imgurl={post.imgurl}
+                imgurl={post.img}
                 class="swiper-slide"
               />
             </SwiperSlide>
