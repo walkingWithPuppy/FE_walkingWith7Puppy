@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { PATH_URL } from '../../shared/constants';
 import { useDispatch } from 'react-redux';
 import { __createPost, __updatePost } from '../../redux/modules/boardsSlice';
+import { api } from '../../api/axios';
 
 const CreateForm = () => {
   const navigate = useNavigate();
@@ -13,18 +14,20 @@ const CreateForm = () => {
   const { post } = location.state || {};
   const boardId = new URLSearchParams(location.search).get('id');
   const isEdit = !!boardId;
+  const noImg = '/images/board/noImg.jpg';
 
   const initialValue = {
     title: '',
     address: '',
-    imgFile: '',
-    // imgurl: '',
+    // mgUrl: '',
+    imgUrl: '',
     content: '',
   };
-  // console.log(post);
 
   const [formValue, setFormValue] = useState(initialValue);
-  const [imgFile, setImgFile] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
+  const [imgFile, setImgFile] = useState({});
+
   // const { title, area, content,imgurl } = formValue;
   const { title, address, content } = formValue;
   useEffect(() => {
@@ -34,33 +37,48 @@ const CreateForm = () => {
         title: post.title,
         address: post.address,
         content: post.content,
-        // imgFile: post.imgurl || '',
+        imgUrl: post.imgUrl || '',
       });
-      //imgRef.current.src = post.imgurl || '';
+      imgRef.current.src = post.imgUrl || '';
     }
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   }, []);
+  const formData = new FormData();
 
-  const onSubmitHandler = e => {
+  const onSubmitHandler = async e => {
     e.preventDefault();
-    const payload = {
-      // AS-IS : file(base64), url 통신테스트후 수정필요
-      // imgurl,
-      imgFile,
+
+    const data = {
       title,
-      address,
       content,
+      address,
     };
+    formData.append('data', new Blob([JSON.stringify(data)], { type: 'application/json' }));
+    formData.append('image', imgFile);
+
+    // console.log(formData.values);
+    // console.log('title:::::::::::::', formData.get('title'));
+    // console.log('content:::::::::::::', content);
+    // console.log('imgUrl:::::::::::::', formData.get('image'));
+    // console.log('address:::::::::::::', address);
 
     if (post && post.id) {
-      payload.id = post.id;
+      // formData.append('id', boardId);
+      const response = await dispatch(__createPost(formData));
+      console.log(response);
+      if (response.status === 200) {
+        URL.revokeObjectURL(imgFile);
+        setImgFile({});
+        navigate(PATH_URL.BOARD);
+      }
     }
 
-    // console.log(title, area,content);
     if (isEdit) {
-      // console.log(post.id);
-      dispatch(__updatePost(payload));
+      // dispatch(__updatePost(formData));
+      dispatch(__updatePost(formData));
     } else {
-      dispatch(__createPost(payload));
+      // dispatch(__createPost(formData));
+      dispatch(__createPost(formData));
     }
     navigate(PATH_URL.BOARD);
   };
@@ -70,14 +88,18 @@ const CreateForm = () => {
     setFormValue({ ...formValue, [name]: value });
   };
 
-  // 이미지 업로드 input의 onChange
   const saveImgFile = () => {
     const file = imgRef.current.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      setImgFile(reader.result);
-    };
+    // const imgUrl = URL.createObjectURL(file);
+    formData.append('image', file);
+    // const reader = new FileReader();
+    // reader.readAsDataURL(file);
+    console.log('file::::::::::::', file);
+    // console.log('file::::::::::::', reader);
+    // reader.onloadend = () => {
+    setImgUrl(file);
+    setImgFile(file);
+    // };
   };
 
   return (
@@ -105,7 +127,7 @@ const CreateForm = () => {
         <ImageWrapper>
           {/* url방식 */}
           {/* 이미지는 파일형식 정해지면 처리 */}
-          <PreviewImage src={imgFile ? imgFile : '/assets/images/board/noImg.jpg'} alt="noImg" />
+          {/* <PreviewImage src={imgUrl ? imgUrl : noImg} alt="noImg" /> */}
           {/* // 이미지 업로드 input */}
           {/* url방식으로 저장되는 것 확인 */}
           {/* <Input
@@ -114,8 +136,7 @@ const CreateForm = () => {
             placeholder="이미지 url을 입력하세요"
             onChange={handleInputChange}
             /> */}
-          {/* base64저장 */}
-          <input type="file" accept="image/*" id="imgFile" onChange={saveImgFile} ref={imgRef} />
+          <input type="file" accept="image/*" id="imgUrl" onChange={saveImgFile} ref={imgRef} />
         </ImageWrapper>
         <Label htmlFor="content">내용</Label>
         <Textarea value={content} name="content" onChange={handleInputChange} />

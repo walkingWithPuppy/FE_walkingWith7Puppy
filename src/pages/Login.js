@@ -4,7 +4,7 @@ import { TextField, Button, Typography } from '@mui/material';
 import { PATH_URL } from '../shared/constants';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { api } from '../api/axios';
+import { user } from '../api/axios';
 import Cookies from 'js-cookie';
 import jwtDecode from 'jwt-decode';
 
@@ -27,25 +27,17 @@ const Login = () => {
 
   const userLogin = async () => {
     try {
-      const response = await api.post(`${PATH_URL.LOGIN}`, userInput);
+      const response = await user.post(`${PATH_URL.LOGIN}`, userInput);
       // const response = await api.post('/login', userInput); //테스트용
+
       const accessHeader = response.headers.get('Authorization');
       const token = accessHeader.split(' ')[1];
       const userToken = jwtDecode(token);
+      console.log('tokendecode:::::::', userToken);
       const expirationTime = new Date(userToken.exp * 1000);
+      console.log('expirationTime::::::::', expirationTime);
       Cookies.set('token', token, { expires: expirationTime });
 
-      // console.log(Cookies.get('token'));
-      // const token = response.data.token;
-      // const userToken = jwtDecode(token);
-      // const expirationTime = new Date(userToken.exp * 1000);
-      // Cookies.set('token', token, { expires: expirationTime }); //테스트용
-      // console.log(Cookies.get());
-      // setUserInput({
-      //   //테스트용
-      //   id: '',
-      //   password: '',
-      // });
       setUserInput({
         username: '',
         password: '',
@@ -53,7 +45,7 @@ const Login = () => {
       navigate(PATH_URL.HOME);
     } catch (error) {
       console.log(error); //통신시 키값 맞출 예정
-      // alert('존재하지않는 id입니다');
+      alert('존재하지않는 ID입니다');
     }
   };
   const goSinup = () => {

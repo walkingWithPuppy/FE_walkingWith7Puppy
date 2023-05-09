@@ -53,9 +53,9 @@ export const __createPost = createAsyncThunk('boards/createPost', async (payload
   // console.log('payload', payload);
   try {
     const response = await api.post(PATH_URL.BOARD, payload, {
-      // headers: {
-      //   'Content-Type' : "multipart/form-data",
-      // },
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
     });
     console.log('response.data', response.data);
     // return response.data;
