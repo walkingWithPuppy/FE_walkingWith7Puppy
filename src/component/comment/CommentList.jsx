@@ -14,6 +14,7 @@ const CommentList = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const comments = useSelector(state => state.boards.post.comments);
+  const post = useSelector(state => state.boards.post);
   // console.log('comments다', comments);
   const { boardId } = useParams();
 
@@ -31,12 +32,11 @@ const CommentList = () => {
 
   useEffect(() => {
     dispatch(__getPostById(boardId));
-  }, [dispatch]);
+  }, [dispatch, comments]);
 
   const handleClick = () => {
     setFormValue(initialValue);
     dispatch(__createComment({ boardId, content }));
-    alert(`입력한 댓글내용: ${content}`);
   };
 
   return (
@@ -68,8 +68,7 @@ const CommentList = () => {
             />
           ))} */}
           {comments?.map(comment => (
-            // console.log(comment.id);
-            <CommentItem key={comment.id} comment={comment} boardId={boardId} />
+            <CommentItem key={comment.id} username={post.username} comment={comment} boardId={boardId} />
           ))}
           {/* <CommentItem  />
           <CommentItem /> */}
