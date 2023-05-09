@@ -61,12 +61,11 @@ const List = () => {
   //   }
   // }, [posts, prevPosts]);
 
-  // 주소검색 이벤트핸들러 렌더링
   const handleChange = useCallback(
     event => {
       const address = event.target.value;
       setAddress(address);
-      // dispatch(__getByAddress(address));
+      dispatch(__getByAddress(address));
     },
     [dispatch]
   );
@@ -97,14 +96,11 @@ const List = () => {
         </Container>
       </SelectWrapper>
       <PostWrapper>
-        {/* 전체값 : 전체로 조회시 어떻게 전달할지 모름*/}
-        {/* {address === ADDRESS_SELECT[0].value
+        {address === ADDRESS_SELECT[0].value
           ? posts?.map(post => <Post key={post.id} post={post} />)
-          : filteredList?.map(post => <Post key={post.id} post={post} />)} */}
-        {posts?.map(post => (
-          <Post key={post.id} post={post} />
-        ))}
-        ;
+          : posts
+              ?.filter(item => item.address === address)
+              .map(post => <Post key={post.id} post={post} />)}
       </PostWrapper>
       <Link to={PATH_URL.CREATE}>
         {isLogin && (
