@@ -93,6 +93,9 @@ const FooterContent = styled.div`
 
     font-size: 16px;
   }
+  @media screen and (max-width: 600px) {
+    display: none;
+  }
 `;
 
 export default Footer;
