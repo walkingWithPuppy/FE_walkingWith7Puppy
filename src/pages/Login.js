@@ -4,7 +4,7 @@ import { TextField, Button, Typography } from '@mui/material';
 import { PATH_URL } from '../shared/constants';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { api } from '../api/axios';
+import { user } from '../api/axios';
 import Cookies from 'js-cookie';
 import jwtDecode from 'jwt-decode';
 const MotionContainer = motion('div');
@@ -24,7 +24,7 @@ const Login = () => {
   const { username, password } = userInput;
   const userLogin = async () => {
     try {
-      const response = await api.post(`${PATH_URL.LOGIN}`, userInput);
+      const response = await user.post(`${PATH_URL.LOGIN}`, userInput);
       // const response = await api.post('/login', userInput); //테스트용
       const accessHeader = response.headers.get('Authorization');
       const token = accessHeader.split(' ')[1];
