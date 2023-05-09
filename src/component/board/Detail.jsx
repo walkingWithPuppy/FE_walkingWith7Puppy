@@ -16,11 +16,11 @@ const Detail = () => {
 
   useEffect(() => {
     dispatch(__getPostById(boardId));
-  }, [boardId, dispatch]);
+  }, [dispatch, boardId]);
 
   useEffect(() => {
     if (token) {
-      setIsLogin(() => true);
+      setIsLogin(true);
     }
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   }, [token]);
@@ -39,26 +39,26 @@ const Detail = () => {
   const noImg = '/images/board/no-img.jpg';
 
   return (
-      <DetailWrapper>
-        <Container>
-          <ContentWrapper>
+    <DetailWrapper>
+      <Container>
+        <ContentWrapper>
           <Image src={post.img || noImg} alt="puppy" />
-            <Info>
-              <Title>{post.title}</Title>
-              <NickName>작성자 : {post.username}</NickName>
-              <Area>지역구 : {post.address}</Area>
-              <Description>{post.content}</Description>
-            </Info>
-          </ContentWrapper>
-          {/* 로그인한경우 id 같은 경우만 (+작성자id비교로직 추가필요) 수정,삭제 버튼 보이도록 */}
-          {isLogin && (
-            <ButtonWrapper>
-              <Button onClick={() => handleUpdate()}>수정하기</Button>
-              <Button onClick={() => handleDelete()}>삭제하기</Button>
-            </ButtonWrapper>
-          )}
-        </Container>
-      </DetailWrapper>
+          <Info>
+            <Title>{post.title}</Title>
+            <NickName>작성자 : {post.username}</NickName>
+            <Area>지역구 : {post.address}</Area>
+            <Description>{post.content}</Description>
+          </Info>
+        </ContentWrapper>
+        {/* 로그인한경우 id 같은 경우만 (+작성자id비교로직 추가필요) 수정,삭제 버튼 보이도록 */}
+        {isLogin && (
+          <ButtonWrapper>
+            <Button onClick={() => handleUpdate()}>수정하기</Button>
+            <Button onClick={() => handleDelete()}>삭제하기</Button>
+          </ButtonWrapper>
+        )}
+      </Container>
+    </DetailWrapper>
   );
 };
 
