@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { PATH_URL } from '../../shared/constants';
 
 const Post = ({ post }) => {
-  const noImg = '/images/board/noImg.jpg';
+  const noImg = '/images/board/no-img.jpg';
 
   return (
     <PostWrapper>

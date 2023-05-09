@@ -7,9 +7,7 @@ import { useState } from 'react';
 import { user } from '../api/axios';
 import Cookies from 'js-cookie';
 import jwtDecode from 'jwt-decode';
-
 const MotionContainer = motion('div');
-
 const Login = () => {
   const [userInput, setUserInput] = useState({
     username: '',
@@ -24,7 +22,6 @@ const Login = () => {
     });
   };
   const { username, password } = userInput;
-
   const userLogin = async () => {
     try {
       const response = await user.post(`${PATH_URL.LOGIN}`, userInput);
@@ -37,7 +34,6 @@ const Login = () => {
       const expirationTime = new Date(userToken.exp * 1000);
       console.log('expirationTime::::::::', expirationTime);
       Cookies.set('token', token, { expires: expirationTime });
-
       setUserInput({
         username: '',
         password: '',
@@ -51,7 +47,6 @@ const Login = () => {
   const goSinup = () => {
     navigate(PATH_URL.SIGNUP);
   };
-
   return (
     <MotionContainer
       initial={{ y: -50, opacity: 0 }}
@@ -107,7 +102,6 @@ const LoginContainer = styled.div`
   flex-direction: column;
   border: 2px solid #fbae03;
   border-radius: 10px;
-
   > div:first-child {
     width: 60%;
     margin: 0 auto;
@@ -121,10 +115,8 @@ const LoginBtnWrap = styled.div`
   margin-top: 55px;
   width: 100%;
   gap: 10px;
-
   > div {
     width: 50%;
   }
 `;
-
 export default Login;

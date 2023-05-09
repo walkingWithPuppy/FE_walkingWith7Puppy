@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const Section03Post = ({ title, address, imgurl }) => {
-  const noImgURL = '../../assets/images/board/noImg.jpg';
+  const noImgURL = '/images/board/no-img.jpg';
 
   return (
     <PostContainer>

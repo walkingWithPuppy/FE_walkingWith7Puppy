@@ -19,7 +19,7 @@ const header = {
 export const __getList = createAsyncThunk('boards/getList', async (payload, thunkAPI) => {
   try {
     const response = await api.get(PATH_URL.BOARD);
-    // console.log(response.data);
+    console.log(response.data);
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
