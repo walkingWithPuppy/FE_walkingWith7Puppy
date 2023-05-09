@@ -12,7 +12,7 @@ export const api = axios.create({
 api.interceptors.request.use(
   config => {
     const token = Cookies.get('token');
-    console.log(token);
+    // console.log(token);
 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -27,6 +27,7 @@ api.interceptors.request.use(
 
 api.interceptors.response.use(
   response => {
+    // console.log('응답완료 후 콘솔::::::::');
     return response;
   },
   error => {
