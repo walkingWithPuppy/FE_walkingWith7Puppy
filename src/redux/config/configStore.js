@@ -7,6 +7,7 @@ const store = configureStore({
     boards,
     comments,
   },
+  middleware: getDefaultMiddleware => getDefaultMiddleware({ serializableCheck: false }),
   devTools: process.env.NODE_ENV === 'development',
 });
 

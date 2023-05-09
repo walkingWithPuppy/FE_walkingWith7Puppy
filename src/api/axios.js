@@ -5,42 +5,39 @@ import { useNavigate } from 'react-router-dom';
 
 const API_URL = process.env.REACT_APP_SERVER_URL;
 
-export const fetchBoard = axios.create({
+export const api = axios.create({
   baseURL: API_URL,
 });
 
-export const authBoard = axios.create({
-  baseURL: API_URL,
-  headers: { Authorization: `Bearer ${Cookies.get('token')}` },
-});
-
-export const user = axios.create({
-  baseURL: API_URL,
-});
-
-user.interceptors.request.use(
+api.interceptors.request.use(
   config => {
     const token = Cookies.get('token');
+    console.log(token);
 
     if (token) {
-      config.headers.common['Authorization'] = `Bearer ${token}`;
+      config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
   error => {
+    console.log(error);
     return Promise.reject(error);
   }
 );
 
-user.interceptors.response.use(
+api.interceptors.response.use(
   response => {
     return response;
   },
   error => {
+    console.log(error);
+    console.log(error.response.data.message);
     if (error.status === 401) {
       const navigate = useNavigate();
       alert('재로그인이 필요합니다');
       navigate(PATH_URL.LOGIN);
+      return;
     }
+    alert(error.response.data.message);
   }
 );

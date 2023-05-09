@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { PATH_URL } from '../../shared/constants';
-import { authBoard, fetchBoard } from '../../api/axios';
+import { api } from '../../api/axios';
 
 const initialState = {
   comments: [],
@@ -11,7 +11,7 @@ const initialState = {
 //전체 조회
 export const __getList = createAsyncThunk('comments/getList', async (boardId, thunkAPI) => {
   try {
-    const response = await fetchBoard.get(`${PATH_URL.BOARD}/${boardId}/comments`);
+    const response = await api.get(`${PATH_URL.BOARD}/${boardId}/comments`);
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -23,7 +23,7 @@ export const __createComment = createAsyncThunk(
   'comments/createComment',
   async ({ boardId, content }, thunkAPI) => {
     try {
-      const response = await authBoard.post(`${PATH_URL.BOARD}/${boardId}/comments`, { content });
+      const response = await api.post(`${PATH_URL.BOARD}/${boardId}/comments`, { content });
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -36,10 +36,9 @@ export const __updateComment = createAsyncThunk(
   'comments/updateComment',
   async ({ boardId, commentId, content }, thunkAPI) => {
     try {
-      const response = await authBoard.put(
-        `${PATH_URL.BOARD}/${boardId}/comments/${commentId}`,
-        { content },
-      );
+      const response = await api.put(`${PATH_URL.BOARD}/${boardId}/comments/${commentId}`, {
+        content,
+      });
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -52,7 +51,7 @@ export const __deleteComment = createAsyncThunk(
   'comments/deleteComment',
   async ({ boardId, commentId }, thunkAPI) => {
     try {
-      await authBoard.delete(`${PATH_URL.BOARD}/${boardId}/comments/${commentId}`);
+      await api.delete(`${PATH_URL.BOARD}/${boardId}/comments/${commentId}`);
       return { boardId, commentId };
     } catch (error) {
       return thunkAPI.rejectWithValue(error);

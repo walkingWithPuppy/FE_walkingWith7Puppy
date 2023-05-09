@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { PATH_URL } from '../../shared/constants';
 import { useDispatch } from 'react-redux';
 import { __createPost, __updatePost } from '../../redux/modules/boardsSlice';
+import { api } from '../../api/axios';
 
 const CreateForm = () => {
   const navigate = useNavigate();
@@ -13,8 +14,8 @@ const CreateForm = () => {
   const { post } = location.state || {};
   const boardId = parseInt(new URLSearchParams(location.search).get('id'));
   const isEdit = !!boardId;
-
   const noImg = '/images/board/noImg.jpg';
+
   const initialValue = {
     title: '',
     address: '',
@@ -40,8 +41,9 @@ const CreateForm = () => {
     }
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   }, []);
+  const formData = new FormData();
 
-  const onSubmitHandler = e => {
+  const onSubmitHandler = async e => {
     e.preventDefault();
 
     // 필수체크
