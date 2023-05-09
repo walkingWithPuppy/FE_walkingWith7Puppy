@@ -58,7 +58,7 @@ export const __createPost = createAsyncThunk('boards/createPost', async (payload
       // },
     });
     console.log('response.data', response.data);
-    return response.data;
+    // return response.data;
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
   }

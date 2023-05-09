@@ -16,7 +16,7 @@ import {
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useNavigate } from 'react-router-dom';
-import { user } from '../api/axios';
+import { api } from '../api/axios';
 const MotionContainer = motion('div');
 
 const SignUp = () => {
@@ -46,8 +46,8 @@ const SignUp = () => {
         return;
       }
       delete inputData.password2;
-      await user.post(`${PATH_URL.SIGNUP}`, inputData);
-      // await user.post(`http://3.38.191.164/register`, inputData); //테스트용
+      await api.post(`${PATH_URL.SIGNUP}`, inputData);
+      // await api.post(`/register`, inputData); //테스트용
       inputData.password2 = '';
       setInputData({
         id: '',
@@ -99,7 +99,6 @@ const SignUp = () => {
             <FormControl variant="outlined" fullWidth>
               <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
               <OutlinedInput
-                // size="small"
                 type={showPassword ? 'text' : 'password'}
                 endAdornment={
                   <InputAdornment position="end">
