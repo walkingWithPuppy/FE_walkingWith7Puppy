@@ -18,7 +18,7 @@ import {
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useNavigate } from 'react-router-dom';
-import { user } from '../api/axios';
+import { api } from '../api/axios';
 const MotionContainer = motion('div');
 
 const SignUp = () => {
@@ -95,7 +95,7 @@ const SignUp = () => {
         return;
       }
       delete inputData.password2;
-      await user.post(`${PATH_URL.SIGNUP}`, inputData);
+      await api.post(`${PATH_URL.SIGNUP}`, inputData);
       // await api.post(`/register`, inputData); //테스트용
       inputData.password2 = '';
       setInputData({
@@ -108,7 +108,7 @@ const SignUp = () => {
       navigate(PATH_URL.LOGIN);
     } catch (error) {
       console.log(error); //통신 시 키값 맞출예정
-      alert('중복된 ID입니다');
+      // alert('중복된 ID입니다');
     }
   };
 

@@ -53,7 +53,7 @@ const List = () => {
       setIsLogin(true);
     }
     dispatch(__getList());
-  }, [posts]);
+  }, [token, dispatch, posts]);
   // 렌더링 체크필요
 
   // useEffect(() => {
