@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { PATH_URL } from '../shared/constants';
 import * as React from 'react';
 import FormHelperText from '@mui/material/FormHelperText';
+import Loading from '../component/Loading';
 
 import {
   TextField,
@@ -33,6 +34,7 @@ const SignUp = () => {
     password2: '',
     email: '',
   });
+  const [isLoading, setIsLoading] = useState(false);
   const { username, password, password2, email } = inputData;
 
   const changeId = e => {
@@ -95,6 +97,7 @@ const SignUp = () => {
         return;
       }
       delete inputData.password2;
+      setIsLoading(true);
       await api.post(`${PATH_URL.SIGNUP}`, inputData);
       // await api.post(`/register`, inputData); //테스트용
       inputData.password2 = '';
@@ -106,6 +109,7 @@ const SignUp = () => {
       });
       setPasswordCheck(true);
       navigate(PATH_URL.LOGIN);
+      setIsLoading(false);
     } catch (error) {
       console.log(error); //통신 시 키값 맞출예정
       // alert('중복된 ID입니다');
@@ -139,77 +143,80 @@ const SignUp = () => {
       exit={{ y: -50, opacity: 0 }}
       transition={{ duration: 0.2 }}
     >
-      <Container>
-        <div>
-          <Typography variant="h4">Sign up</Typography>
-          <Margin style={{ marginTop: 0 }}>
-            <TextField
-              label="ID"
-              helperText={usernameCheck ? ' ' : '영어,숫자로 4~12자'}
-              variant="outlined"
-              margin="normal"
-              fullWidth
-              size="small"
-              name="username"
-              value={username || ''}
-              onChange={changeId}
-            />
-          </Margin>
-          <Margin style={{ marginTop: 20 }}>
-            <FormControl variant="outlined" fullWidth>
-              <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-              <OutlinedInput
-                type={showPassword ? 'text' : 'password'}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                    >
-                      {showPassword ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-                label="Password"
-                name="password"
-                value={password || ''}
-                onChange={changePw}
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <Container>
+          <div>
+            <Typography variant="h4">Sign up</Typography>
+            <Margin style={{ marginTop: 0 }}>
+              <TextField
+                label="ID"
+                helperText={usernameCheck ? ' ' : '영어,숫자로 4~12자'}
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                size="small"
+                name="username"
+                value={username || ''}
+                onChange={changeId}
               />
-              <MyFormHelperText />
-            </FormControl>
+            </Margin>
+            <Margin style={{ marginTop: 20 }}>
+              <FormControl variant="outlined" fullWidth>
+                <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                <OutlinedInput
+                  type={showPassword ? 'text' : 'password'}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  label="Password"
+                  name="password"
+                  value={password || ''}
+                  onChange={changePw}
+                />
+                <MyFormHelperText />
+              </FormControl>
 
-            {pwSame ? (
-              <TextField
-                label="다시 한번 더 입력해주세요"
-                helperText=" "
-                size="small"
-                type="password"
-                variant="outlined"
-                margin="dense"
-                fullWidth
-                name="password2"
-                value={password2 || ''}
-                onChange={changePw2}
-              />
-            ) : (
-              <TextField
-                error
-                label="error"
-                helperText="패스워드가 일치하지않습니다"
-                size="small"
-                type="password"
-                variant="outlined"
-                margin="dense"
-                fullWidth
-                name="password2"
-                value={password2 || ''}
-                onChange={changePw2}
-              />
-            )}
-          </Margin>
-          {/* <Margin style={{ marginTop: '0' }}>
+              {pwSame ? (
+                <TextField
+                  label="다시 한번 더 입력해주세요"
+                  helperText=" "
+                  size="small"
+                  type="password"
+                  variant="outlined"
+                  margin="dense"
+                  fullWidth
+                  name="password2"
+                  value={password2 || ''}
+                  onChange={changePw2}
+                />
+              ) : (
+                <TextField
+                  error
+                  label="error"
+                  helperText="패스워드가 일치하지않습니다"
+                  size="small"
+                  type="password"
+                  variant="outlined"
+                  margin="dense"
+                  fullWidth
+                  name="password2"
+                  value={password2 || ''}
+                  onChange={changePw2}
+                />
+              )}
+            </Margin>
+            {/* <Margin style={{ marginTop: '0' }}>
             <TextField
               size="small"
               label="NickName"
@@ -221,34 +228,35 @@ const SignUp = () => {
               onChange={change}
             />
           </Margin> */}
-          <Margin>
-            <TextField
-              size="small"
-              label="Email"
-              helperText={emailCheck ? ' ' : '이메일형식(@)'}
-              variant="outlined"
-              margin="dense"
-              fullWidth
-              name="email"
-              value={email || ''}
-              onChange={changeEmail}
-            />
-          </Margin>
+            <Margin>
+              <TextField
+                size="small"
+                label="Email"
+                helperText={emailCheck ? ' ' : '이메일형식(@)'}
+                variant="outlined"
+                margin="dense"
+                fullWidth
+                name="email"
+                value={email || ''}
+                onChange={changeEmail}
+              />
+            </Margin>
 
-          <BtnWrap>
-            <div>
-              <Button variant="outlined" fullWidth onClick={goLogin}>
-                cancel
-              </Button>
-            </div>
-            <div>
-              <Button variant="outlined" fullWidth onClick={signupUser}>
-                sign up
-              </Button>
-            </div>
-          </BtnWrap>
-        </div>
-      </Container>
+            <BtnWrap>
+              <div>
+                <Button variant="outlined" fullWidth onClick={goLogin}>
+                  cancel
+                </Button>
+              </div>
+              <div>
+                <Button variant="outlined" fullWidth onClick={signupUser}>
+                  sign up
+                </Button>
+              </div>
+            </BtnWrap>
+          </div>
+        </Container>
+      )}
     </MotionContainer>
   );
 };
