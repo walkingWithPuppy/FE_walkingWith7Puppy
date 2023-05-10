@@ -15,6 +15,17 @@ const Detail = () => {
   const post = useSelector(state => state.boards.post);
   const { boardId } = useParams();
 
+  const handleUpdate = () => {
+    navigate(`${PATH_URL.CREATE}?id=${boardId}`, { state: { post } });
+  };
+
+  const handleDelete = async () => {
+    if (window.confirm('정말 삭제하시겠습니까?')) {
+      await dispatch(__deletePost(boardId));
+      navigate(PATH_URL.BOARD);
+    }
+  };
+
   useEffect(() => {
     if (token) {
       setIsLogin(true);
@@ -22,17 +33,6 @@ const Detail = () => {
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     dispatch(__getPostById(boardId));
   }, [token, dispatch]);
-
-  const handleUpdate = () => {
-    navigate(`${PATH_URL.CREATE}?id=${boardId}`, { state: { post } });
-  };
-
-  const handleDelete = () => {
-    if (window.confirm('정말 삭제하시겠습니까?')) {
-      dispatch(__deletePost(boardId));
-      navigate(PATH_URL.BOARD);
-    }
-  };
 
   const noImg = '/images/board/no-img.jpg';
 

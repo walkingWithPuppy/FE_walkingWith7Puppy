@@ -59,9 +59,9 @@ const CreateForm = () => {
 
       if (isEdit) {
         const id = post.id;
-        dispatch(__updatePost({ id, formData }));
+        await dispatch(__updatePost({ id, formData }));
       } else {
-        dispatch(__createPost(formData));
+        await dispatch(__createPost(formData));
       }
       navigate(PATH_URL.BOARD);
     }

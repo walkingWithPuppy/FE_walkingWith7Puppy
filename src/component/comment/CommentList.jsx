@@ -27,7 +27,7 @@ const CommentList = () => {
 
   useEffect(() => {
     if (token) {
-      setIsLogin(() => true);
+      setIsLogin(true);
     }
   }, [token]);
 
