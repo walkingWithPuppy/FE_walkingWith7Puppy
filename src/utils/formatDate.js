@@ -1,4 +1,4 @@
-export const formatDate = (stringDate) => {
+export const formatDate = (stringDate, timeFormat = 'hh:mm:ss') => {
   const date = new Date(stringDate);
   if (isNaN(date.getTime())) {
     return '';
@@ -9,5 +9,21 @@ export const formatDate = (stringDate) => {
   const hour = String(date.getHours()).padStart(2, '0');
   const minute = String(date.getMinutes()).padStart(2, '0');
   const second = String(date.getSeconds()).padStart(2, '0');
-  return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
+  
+  let timePart = '';
+  switch(timeFormat){
+    case 'hh:mm:ss':
+      timePart = `${hour}:${minute}:${second}`;
+      break;
+    case 'hh:mm':
+      timePart = `${hour}:${minute}`;
+      break;
+    case 'dd:mm:hh':
+      timePart = `${day}:${month}:${hour}`;
+      break;
+    default:
+      throw new Error('Invalid time format');
+  }
+
+  return `${year}-${month}-${day} ${timePart}`;
 }
