@@ -28,7 +28,7 @@ const Detail = () => {
     return response;
   };
 
-  const { data } = useQuery('check', checkAccess);
+  const { isLoading: loading, data } = useQuery('check', checkAccess);
 
   const handleUpdate = () => {
     navigate(`${PATH_URL.CREATE}?id=${boardId}`, { state: { post } });
@@ -42,10 +42,10 @@ const Detail = () => {
   };
 
   useEffect(() => {
-    if (token) {
+    if (token && !loading) {
       setIsLogin(true);
       const tokenUsername = jwtDecode(token);
-      data?.data.username === tokenUsername.sub ? setIdCheck(true) : setIdCheck(false);
+      data.data.username === tokenUsername.sub ? setIdCheck(true) : setIdCheck(false);
     }
     const fetchBoard = async () => {
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
@@ -54,15 +54,15 @@ const Detail = () => {
       setIsLoading(false);
     };
     fetchBoard();
-  }, [token, dispatch]);
+  }, [data]);
+  console.log(idCheck);
 
   const noImg = '/images/board/no-img.jpg';
   const handleImageError = e => (e.target.src = noImg);
 
-  const getFormattedDate = (date) => {
+  const getFormattedDate = date => {
     return date ? formatDate(date) : '';
   };
-  
 
   return (
     <DetailWrapper>
@@ -79,9 +79,7 @@ const Detail = () => {
                   <Area>{post.address}</Area>
                 </InfoTitle>
                 <NickName>{post.username}</NickName>
-                <Date>
-                {getFormattedDate(post.modifiedAt) || getFormattedDate(post.createdAt)}
-                </Date>
+                <Date>{getFormattedDate(post.modifiedAt) || getFormattedDate(post.createdAt)}</Date>
                 <Description>{post.content}</Description>
               </Info>
             </ContentWrapper>
