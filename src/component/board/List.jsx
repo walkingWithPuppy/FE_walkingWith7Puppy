@@ -8,14 +8,14 @@ import { PATH_URL } from '../../shared/constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { __getByAddress, __getList } from '../../redux/modules/boardsSlice';
 import Cookies from 'js-cookie';
+import Loading from '../Loading';
 
 const List = () => {
   const [isLogin, setIsLogin] = useState(false);
   const token = Cookies.get('token');
   const dispatch = useDispatch();
   const posts = useSelector(state => state.boards.boards);
-  const filteredList = useSelector(state => state.boards.filteredList);
-  const [prevPosts, setPrevPosts] = useState(posts);
+  const [isLoading, setIsLoading] = useState(false);
 
   const ADDRESS_SELECT = [
     { value: 'all', label: '전체' },
@@ -29,21 +29,6 @@ const List = () => {
     { value: '금천구', label: '금천구' },
     { value: '노원구', label: '노원구' },
     { value: '도봉구', label: '도봉구' },
-    { value: '동대문구', label: '동대문구' },
-    { value: '동작구', label: '동작구' },
-    { value: '마포구', label: '마포구' },
-    { value: '서대문구', label: '서대문구' },
-    { value: '서초구', label: '서초구' },
-    { value: '성동구', label: '성동구' },
-    { value: '성북구', label: '성북구' },
-    { value: '송파구', label: '송파구' },
-    { value: '양천구', label: '양천구' },
-    { value: '영등포구', label: '영등포구' },
-    { value: '용산구', label: '용산구' },
-    { value: '은평구', label: '은평구' },
-    { value: '종로구', label: '종로구' },
-    { value: '중구', label: '중구' },
-    { value: '중랑구', label: '중랑구' },
   ];
 
   const [address, setAddress] = useState(ADDRESS_SELECT[0].value);
@@ -52,8 +37,13 @@ const List = () => {
     if (token) {
       setIsLogin(true);
     }
-    dispatch(__getList());
-  }, [token, dispatch, posts]);
+    const fetchBoard = async () => {
+      setIsLoading(true);
+      await dispatch(__getList());
+      setIsLoading(false);
+    };
+    fetchBoard();
+  }, [token, dispatch]);
 
   const handleChange = useCallback(
     event => {
@@ -73,19 +63,23 @@ const List = () => {
             <InputLabel id="demo-simple-select-label">
               <StLabel>만나요</StLabel>
             </InputLabel>
-            <StSelect
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={address}
-              label="Address"
-              onChange={handleChange}
-            >
-              {ADDRESS_SELECT.map(address => (
-                <MenuItem key={address.value} value={address.value}>
-                  {address.label}
-                </MenuItem>
-              ))}
-            </StSelect>
+            {isLoading ? (
+              <Loading />
+            ) : (
+              <StSelect
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={address}
+                label="Address"
+                onChange={handleChange}
+              >
+                {ADDRESS_SELECT.map(address => (
+                  <MenuItem key={address.value} value={address.value}>
+                    {address.label}
+                  </MenuItem>
+                ))}
+              </StSelect>
+            )}
           </StFormControl>
         </Container>
       </SelectWrapper>

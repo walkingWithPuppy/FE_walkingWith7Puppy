@@ -4,7 +4,6 @@ import { useState, useRef, useEffect } from 'react';
 import { PATH_URL } from '../../shared/constants';
 import { useDispatch } from 'react-redux';
 import { __createPost, __updatePost } from '../../redux/modules/boardsSlice';
-import { api } from '../../api/axios';
 
 const CreateForm = () => {
   const navigate = useNavigate();
@@ -60,9 +59,9 @@ const CreateForm = () => {
 
       if (isEdit) {
         const id = post.id;
-        dispatch(__updatePost({ id, formData }));
+        await dispatch(__updatePost({ id, formData }));
       } else {
-        dispatch(__createPost(formData));
+        await dispatch(__createPost(formData));
       }
       navigate(PATH_URL.BOARD);
     }
