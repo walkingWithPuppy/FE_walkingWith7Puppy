@@ -38,7 +38,6 @@ const CommentList = () => {
     setIsLoading(false);
     setFormValue(initialValue);
   };
-
   useEffect(() => {
     if (token) {
       setIsLogin(true);
@@ -77,7 +76,12 @@ const CommentList = () => {
             />
             <ItemWrap>
               {comments?.map(comment => (
-                <CommentItem key={comment.id} comment={comment} boardId={boardId} />
+                <CommentItem
+                  key={comment.id}
+                  comment={comment}
+                  boardId={boardId}
+                  username={comment.username}
+                />
               ))}
             </ItemWrap>
           </Container>

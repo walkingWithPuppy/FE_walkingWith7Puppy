@@ -17,6 +17,8 @@ const List = () => {
   const dispatch = useDispatch();
   const posts = useSelector(state => state.boards.boards);
   const [isLoading, setIsLoading] = useState(false);
+  const filteredList = useSelector(state => state.boards.filteredList);
+  const [prevPosts, setPrevPosts] = useState(posts);
 
   const { ADDRESS_SELECT, address, setAddress } = useAddressSelect();
 
@@ -24,13 +26,13 @@ const List = () => {
     if (token) {
       setIsLogin(true);
     }
-    const fetchBoard = async () => {
+    const fetchData = async () => {
       setIsLoading(true);
       await dispatch(__getList());
       setIsLoading(false);
     };
-    fetchBoard();
-  }, [token, dispatch]);
+    fetchData();
+  }, [token, dispatch, posts]);
 
   const handleChange = useCallback(
     event => {
@@ -67,7 +69,7 @@ const List = () => {
         </Container>
       </SelectWrapper>
       {isLoading ? (
-        <Loading margin="20%" />
+        <Loading margin="25%" />
       ) : (
         <>
           <PostWrapper>
