@@ -49,11 +49,12 @@ const Detail = () => {
     }
     const fetchBoard = async () => {
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+      setIsLoading(true);
       await dispatch(__getPostById(boardId));
       setIsLoading(false);
     };
     fetchBoard();
-  }, [data]);
+  }, [token, dispatch]);
 
   const noImg = '/images/board/no-img.jpg';
   const handleImageError = e => (e.target.src = noImg);
@@ -61,7 +62,7 @@ const Detail = () => {
   return (
     <DetailWrapper>
       {isLoading ? (
-        <Loading />
+        <Loading margin="240%" />
       ) : (
         <DetailCommentContainer>
           <Container>
