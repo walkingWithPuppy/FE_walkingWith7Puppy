@@ -17,7 +17,11 @@ const Detail = () => {
   const [idCheck, setIdCheck] = useState(false);
 
   const token = Cookies.get('token');
-  const tokenUsername = jwtDecode(token);
+  let tokenUsername;
+  if (token) {
+    tokenUsername = jwtDecode(token);
+  }
+  // const tokenUsername = jwtDecode(token);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const post = useSelector(state => state.boards.post);
