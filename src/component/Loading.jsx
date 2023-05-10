@@ -17,13 +17,9 @@ const Loading = ({ margin }) => {
 
 const LoadingContainer = styled.div`
   .axios-loading-indicator {
-    /* position: fixed;
-    top: 50%;
-    left: 50%; */
     margin-top: ${props => props.margin};
     width: 100%;
     height: 100%;
-    /* transform: translate(-50%, -50%); */
     background-color: white;
 
     display: flex;
