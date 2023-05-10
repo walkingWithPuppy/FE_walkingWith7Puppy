@@ -30,11 +30,6 @@ const Detail = () => {
 
   const { data } = useQuery('check', checkAccess);
 
-  // console.log(data?.data.username);
-  // console.log(tokenUsername.sub);
-  // console.log(data.config.headers.Authorization);
-  // console.log(data.data.username);
-
   const handleUpdate = () => {
     navigate(`${PATH_URL.CREATE}?id=${boardId}`, { state: { post } });
   };
@@ -89,7 +84,7 @@ const Detail = () => {
               </ButtonWrapper>
             )}
           </Container>
-          <CommentList />
+          <CommentList idCheck={idCheck} />
         </DetailCommentContainer>
       )}
     </DetailWrapper>

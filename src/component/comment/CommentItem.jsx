@@ -7,7 +7,7 @@ import { __deleteComment, __updateComment } from '../../redux/modules/commentsSl
 import { __getPostById } from '../../redux/modules/boardsSlice';
 import { useDispatch } from 'react-redux';
 
-const CommentItem = ({ comment, boardId }) => {
+const CommentItem = ({ comment, boardId, idCheck }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
   const dispatch = useDispatch();
@@ -54,7 +54,7 @@ const CommentItem = ({ comment, boardId }) => {
             )}
           </CreatedDate>
         </CommentInfo>
-        {isLogin && (
+        {idCheck && (
           <IconsWrapper>
             {isEdit ? (
               <>
