@@ -67,7 +67,7 @@ const List = () => {
         </Container>
       </SelectWrapper>
       {isLoading ? (
-        <Loading />
+        <Loading margin="20%" />
       ) : (
         <>
           <PostWrapper>

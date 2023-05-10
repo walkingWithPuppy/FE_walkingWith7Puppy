@@ -64,7 +64,7 @@ const Login = () => {
       transition={{ duration: 0.2 }}
     >
       {isLoading ? (
-        <Loading />
+        <Loading margin="30%" />
       ) : (
         <LoginContainer>
           <div>

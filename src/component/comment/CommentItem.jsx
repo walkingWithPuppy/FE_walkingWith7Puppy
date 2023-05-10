@@ -6,6 +6,7 @@ import { formatDate } from '../../utils/formatDate';
 import { __deleteComment, __updateComment } from '../../redux/modules/commentsSlice';
 import { __getPostById } from '../../redux/modules/boardsSlice';
 import { useDispatch } from 'react-redux';
+import Loading from '../Loading';
 
 const CommentItem = ({ comment, boardId }) => {
   const [isEdit, setIsEdit] = useState(false);
@@ -13,6 +14,7 @@ const CommentItem = ({ comment, boardId }) => {
   const dispatch = useDispatch();
   const token = Cookies.get('token');
   const [content, setContent] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     if (token) {
       setIsLogin(true);
@@ -25,8 +27,10 @@ const CommentItem = ({ comment, boardId }) => {
   };
 
   const handleDelete = async (boardId, commentId) => {
+    setIsLoading(true);
     await dispatch(__deleteComment({ boardId, commentId }));
     await dispatch(__getPostById(boardId));
+    setIsLoading(false);
   };
 
   const handleInputChange = e => {
@@ -34,55 +38,63 @@ const CommentItem = ({ comment, boardId }) => {
   };
 
   const handleUpdate = async (boardId, commentId, content) => {
+    setIsLoading(true);
     await dispatch(__updateComment({ boardId, commentId, content }));
     await dispatch(__getPostById(boardId));
+    setIsLoading(false);
     setIsEdit(false);
   };
 
   return (
-    <CommentItemWrapper>
-      <ItemInfo>
-        <CommentInfo>
-          <NickName>{comment.username}</NickName>
-          <CreatedDate>
-            {comment.modifiedAt ? (
-              <>{formatDate(comment.modifiedAt)}</>
-            ) : comment.createdAt ? (
-              <>{formatDate(comment.createdAt)}</>
-            ) : (
-              <></>
-            )}
-          </CreatedDate>
-        </CommentInfo>
-        {isLogin && (
-          <IconsWrapper>
-            {isEdit ? (
-              <>
-                <Button onClick={() => handleUpdate(boardId, comment.id, content)}>수정</Button>
-                <Button onClick={() => setIsEdit(false)}>취소</Button>
-              </>
-            ) : (
-              <>
-                <Icon onClick={() => handleEdit(boardId, comment.id)}>
-                  <EditLocationAlt />
-                </Icon>
-                <Icon onClick={() => handleDelete(boardId, comment.id)}>
-                  <DeleteForever />
-                </Icon>
-              </>
-            )}
-          </IconsWrapper>
-        )}
-      </ItemInfo>
-
-      <CommentWrapper>
-      {isEdit ? (
-        <Input type="text" value={content} onChange={handleInputChange} />
+    <>
+      {isLoading ? (
+        <Loading />
       ) : (
-        <Content>{comment.content}</Content>
+        <CommentItemWrapper>
+          <ItemInfo>
+            <CommentInfo>
+              <NickName>{comment.username}</NickName>
+              <CreatedDate>
+                {comment.modifiedAt ? (
+                  <>{formatDate(comment.modifiedAt)}</>
+                ) : comment.createdAt ? (
+                  <>{formatDate(comment.createdAt)}</>
+                ) : (
+                  <></>
+                )}
+              </CreatedDate>
+            </CommentInfo>
+            {isLogin && (
+              <IconsWrapper>
+                {isEdit ? (
+                  <>
+                    <Button onClick={() => handleUpdate(boardId, comment.id, content)}>수정</Button>
+                    <Button onClick={() => setIsEdit(false)}>취소</Button>
+                  </>
+                ) : (
+                  <>
+                    <Icon onClick={() => handleEdit(boardId, comment.id)}>
+                      <EditLocationAlt />
+                    </Icon>
+                    <Icon onClick={() => handleDelete(boardId, comment.id)}>
+                      <DeleteForever />
+                    </Icon>
+                  </>
+                )}
+              </IconsWrapper>
+            )}
+          </ItemInfo>
+
+          <CommentWrapper>
+            {isEdit ? (
+              <Input type="text" value={content} onChange={handleInputChange} />
+            ) : (
+              <Content>{comment.content}</Content>
+            )}
+          </CommentWrapper>
+        </CommentItemWrapper>
       )}
-      </CommentWrapper>
-    </CommentItemWrapper>
+    </>
   );
 };
 
@@ -91,19 +103,19 @@ const CommentItemWrapper = styled.div`
   padding: 10px;
   border-radius: 5px;
   background-color: #f9f9f9;
-  `;
-  
-  const ItemInfo = styled.div`
+`;
+
+const ItemInfo = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 5px;
-  `;
-  
-  const CommentInfo = styled.div`
+`;
+
+const CommentInfo = styled.div`
   display: flex;
-  `;
-  const NickName = styled.p`
+`;
+const NickName = styled.p`
   font-size: 14px;
   font-weight: bold;
   margin-right: 10px;

@@ -70,7 +70,7 @@ const Detail = () => {
   return (
     <DetailWrapper>
       {isLoading ? (
-        <Loading />
+        <Loading margin="240%" />
       ) : (
         <DetailCommentContainer>
           <Container>
