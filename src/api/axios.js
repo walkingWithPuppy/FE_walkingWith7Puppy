@@ -39,6 +39,6 @@ api.interceptors.response.use(
       navigate(PATH_URL.LOGIN);
       return;
     }
-    alert(error.response.data.message);
+    // alert(error.response.data.message);
   }
 );

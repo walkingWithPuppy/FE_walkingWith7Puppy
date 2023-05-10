@@ -5,6 +5,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { PATH_URL } from '../../shared/constants';
 import { __deletePost, __getPostById } from '../../redux/modules/boardsSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { useQuery } from 'react-query';
+import { api } from '../../api/axios';
 
 const Detail = () => {
   const [isLogin, setIsLogin] = useState(false);
@@ -25,6 +27,15 @@ const Detail = () => {
     }
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   }, [token]);
+
+  const checkAccess = async () => {
+    const response = await api.get(`${PATH_URL.BOARD}/${boardId}`);
+    return response;
+  };
+
+  const { data, isError } = useQuery('check', checkAccess);
+  // console.log(data.config.headers.Authorization);
+  console.log(data.data.username);
 
   const handleUpdate = () => {
     navigate(`${PATH_URL.CREATE}?id=${boardId}`, { state: { post } });
