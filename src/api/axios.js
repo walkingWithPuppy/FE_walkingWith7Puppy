@@ -1,7 +1,6 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { PATH_URL } from '../shared/constants';
-import { useNavigate } from 'react-router-dom';
 
 const API_URL = process.env.REACT_APP_SERVER_URL;
 
@@ -28,8 +27,6 @@ api.interceptors.response.use(
     return response;
   },
   async error => {
-    // console.log(error.config.url);
-    // console.log(error.config.method);
     const {
       config,
       config: { url, method },
@@ -38,7 +35,6 @@ api.interceptors.response.use(
       },
     } = error;
 
-    // console.log(error.response.data.message);
     if (errorCode === 'EXPIRED_ACCESS_TOKEN') {
       const refresh = Cookies.get('refreshToken');
       const originReq = config;
@@ -56,27 +52,35 @@ api.interceptors.response.use(
 
       return axios(originReq);
     } else if (errorCode === 'EXPIRED_REFRESH_TOKEN') {
-      const navigate = useNavigate();
       alert('만료시간이 다 되어 재로그인이 필요합니다');
-      navigate(PATH_URL.LOGIN);
+      window.location.replace(PATH_URL.LOGIN);
     } else if (errorCode === 'DUPLICATED_MEMBER') {
       alert(message);
+      return Promise.reject(error);
     } else if (errorCode === 'DUPLICATED_EMAIL') {
       alert(message);
+      return Promise.reject(error);
     } else if (errorCode === 'MEMBER_NOT_FOUND') {
       alert(message);
+      return Promise.reject(error);
     } else if (errorCode === 'INACTIVE_MEMBER') {
       alert(message);
+      return Promise.reject(error);
     } else if (errorCode === 'INTERNAL_SERVER_ERROR') {
       alert(message);
+      return Promise.reject(error);
     } else if (errorCode === 'IO_EXCEPTION') {
       alert(message);
+      return Promise.reject(error);
     } else if (errorCode === 'INVALID_REQUEST_PARAMETER') {
       alert(message);
+      return Promise.reject(error);
     } else if (errorCode === 'INVALID_PASSWORD') {
       alert(message);
+      return Promise.reject(error);
     } else if (errorCode === 'RESOURCE_NOT_FOUND') {
       alert(message);
+      return Promise.reject(error);
     }
   }
 );

@@ -6,15 +6,18 @@ import { ThemeProvider } from '@mui/material';
 import { Provider } from 'react-redux';
 import store from './redux/config/configStore';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { RecoilRoot } from 'recoil';
 
 const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <QueryClientProvider client={queryClient}>
-    <ThemeProvider theme={theme}>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </ThemeProvider>
+    <RecoilRoot>
+      <ThemeProvider theme={theme}>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </ThemeProvider>
+    </RecoilRoot>
   </QueryClientProvider>
 );

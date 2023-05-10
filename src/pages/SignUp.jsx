@@ -20,6 +20,9 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../api/axios';
+import { useRecoilState } from 'recoil';
+import { signupInput } from '../atoms';
+
 const MotionContainer = motion('div');
 
 const SignUp = () => {
@@ -28,14 +31,16 @@ const SignUp = () => {
   const [pwSame, setPwSame] = useState(true);
   const [usernameCheck, setUsernameCheck] = useState(true);
   const [emailCheck, setEmailCheck] = useState(true);
+  const [recoilInput, setRecoilInput] = useRecoilState(signupInput);
   const [inputData, setInputData] = useState({
-    username: '',
-    password: '',
-    password2: '',
-    email: '',
+    username: recoilInput.username,
+    password: recoilInput.password,
+    password2: recoilInput.password2,
+    email: recoilInput.email,
   });
   const [isLoading, setIsLoading] = useState(false);
   const { username, password, password2, email } = inputData;
+
   const navigate = useNavigate();
 
   const changeId = e => {
@@ -44,6 +49,10 @@ const SignUp = () => {
     const idRegExp = /^(?=.*[a-zA-Z])(?=.*[0-9]).{4,12}$/;
     setInputData({
       ...inputData,
+      [name]: value,
+    });
+    setRecoilInput({
+      ...recoilInput,
       [name]: value,
     });
     if (!idRegExp.test(value)) {
@@ -60,6 +69,10 @@ const SignUp = () => {
       ...inputData,
       [name]: value,
     });
+    setRecoilInput({
+      ...recoilInput,
+      [name]: value,
+    });
     if (!pwRegExp.test(value)) {
       setPasswordCheck(false);
     } else {
@@ -72,6 +85,10 @@ const SignUp = () => {
       ...inputData,
       [name]: value,
     });
+    setRecoilInput({
+      ...recoilInput,
+      [name]: value,
+    });
   };
 
   const changeEmail = e => {
@@ -82,6 +99,10 @@ const SignUp = () => {
       ...inputData,
       [name]: value,
     });
+    setRecoilInput({
+      ...recoilInput,
+      [name]: value,
+    });
     if (!emailRegExp.test(value)) {
       setEmailCheck(false);
     } else {
@@ -90,26 +111,35 @@ const SignUp = () => {
   };
 
   const signupUser = async () => {
-    if (password2 !== password) {
-      setPwSame(false);
-      return;
+    try {
+      if (password2 !== password) {
+        setPwSame(false);
+        return;
+      }
+      if (!(passwordCheck && usernameCheck && emailCheck)) {
+        return;
+      }
+      delete inputData.password2;
+      setIsLoading(true);
+      await api.post(`${PATH_URL.SIGNUP}`, inputData);
+      inputData.password2 = '';
+      setInputData({
+        username: '',
+        password: '',
+        password2: '',
+        email: '',
+      });
+      setPasswordCheck(true);
+      setRecoilInput({
+        username: '',
+        password: '',
+        password2: '',
+        email: '',
+      });
+      navigate(PATH_URL.LOGIN);
+    } catch (error) {
+      navigate(PATH_URL.SIGNUP);
     }
-    if (!(passwordCheck && usernameCheck && emailCheck)) {
-      return;
-    }
-    delete inputData.password2;
-    setIsLoading(true);
-    await api.post(`${PATH_URL.SIGNUP}`, inputData);
-
-    inputData.password2 = '';
-    setInputData({
-      usename: '',
-      password: '',
-      password2: '',
-      email: '',
-    });
-    setPasswordCheck(true);
-    navigate(PATH_URL.LOGIN);
   };
 
   const goLogin = () => {
@@ -211,18 +241,6 @@ const SignUp = () => {
                 />
               )}
             </Margin>
-            {/* <Margin style={{ marginTop: '0' }}>
-            <TextField
-              size="small"
-              label="NickName"
-              variant="outlined"
-              margin="dense"
-              fullWidth
-              name="nickname"
-              value={nickname || ''}
-              onChange={change}
-            />
-          </Margin> */}
             <Margin>
               <TextField
                 size="small"
