@@ -59,6 +59,11 @@ const Detail = () => {
   const noImg = '/images/board/no-img.jpg';
   const handleImageError = e => (e.target.src = noImg);
 
+  const getFormattedDate = (date) => {
+    return date ? formatDate(date) : '';
+  };
+  
+
   return (
     <DetailWrapper>
       {isLoading ? (
@@ -75,13 +80,7 @@ const Detail = () => {
                 </InfoTitle>
                 <NickName>{post.username}</NickName>
                 <Date>
-                  {post.modifiedAt ? (
-                    <>{formatDate(post.modifiedAt)}</>
-                  ) : post.createdAt ? (
-                    <>{formatDate(post.createdAt)}</>
-                  ) : (
-                    <></>
-                  )}
+                {getFormattedDate(post.modifiedAt) || getFormattedDate(post.createdAt)}
                 </Date>
                 <Description>{post.content}</Description>
               </Info>

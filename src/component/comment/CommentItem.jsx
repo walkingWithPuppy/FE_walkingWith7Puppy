@@ -48,57 +48,55 @@ const CommentItem = ({ comment, boardId, username }) => {
     setIsEdit(false);
   };
 
+  const getFormattedDate = date => {
+    return date ? formatDate(date) : '';
+  };
+
   return (
     <>
       {isLoading ? (
         <Loading />
       ) : (
-        <CommentItemWrapper>
-          <ItemInfo>
-            <CommentInfo>
-              <NickName>{comment.username}</NickName>
-              <CreatedDate>
-                {comment.modifiedAt ? (
-                  <>{formatDate(comment.modifiedAt)}</>
-                ) : comment.createdAt ? (
-                  <>{formatDate(comment.createdAt)}</>
-                ) : (
-                  <></>
-                )}
-              </CreatedDate>
-            </CommentInfo>
+    <CommentItemWrapper>
+      <ItemInfo>
+        <CommentInfo>
+          <NickName>{comment.username}</NickName>
+          <CreatedDate>
+            {getFormattedDate(comment.modifiedAt) || getFormattedDate(comment.createdAt)}
+          </CreatedDate>
+        </CommentInfo>
 
-            <IconsWrapper>
-              {isEdit ? (
+        <IconsWrapper>
+          {isEdit ? (
+            <>
+              <Button onClick={() => handleUpdate(boardId, comment.id, content)}>수정</Button>
+              <Button onClick={() => setIsEdit(false)}>취소</Button>
+            </>
+          ) : (
+            <>
+              {idCheck && (
                 <>
-                  <Button onClick={() => handleUpdate(boardId, comment.id, content)}>수정</Button>
-                  <Button onClick={() => setIsEdit(false)}>취소</Button>
-                </>
-              ) : (
-                <>
-                  {idCheck && (
-                    <>
                       <Icon onClick={handleEdit}>
-                        <EditLocationAlt />
-                      </Icon>
-                      <Icon onClick={() => handleDelete(boardId, comment.id)}>
-                        <DeleteForever />
-                      </Icon>
-                    </>
-                  )}
+                    <EditLocationAlt />
+                  </Icon>
+                  <Icon onClick={() => handleDelete(boardId, comment.id)}>
+                    <DeleteForever />
+                  </Icon>
                 </>
               )}
-            </IconsWrapper>
-          </ItemInfo>
+            </>
+          )}
+        </IconsWrapper>
+      </ItemInfo>
 
-          <CommentWrapper>
-            {isEdit ? (
-              <Input type="text" value={content} onChange={handleInputChange} />
-            ) : (
-              <Content>{comment.content}</Content>
-            )}
-          </CommentWrapper>
-        </CommentItemWrapper>
+      <CommentWrapper>
+        {isEdit ? (
+          <Input type="text" value={content} onChange={handleInputChange} />
+        ) : (
+          <Content>{comment.content}</Content>
+        )}
+      </CommentWrapper>
+    </CommentItemWrapper>
       )}
     </>
   );

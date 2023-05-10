@@ -30,11 +30,9 @@ export const __getPostById = createAsyncThunk('boards/getPostById', async (id, t
   }
 });
 
-// 개별조회(지역으로) -임시
+// 지역구 검색
 export const __getByAddress = createAsyncThunk('boards/getByAddress', async (payload, thunkAPI) => {
-  // const url = `http://example.com/?search=${encodeURI('한글')}`;
   try {
-    // const response = await api.get(`${PATH_URL.BOARD}?address=${encodeURI(payload)}`);
     const response = await api.get(`${PATH_URL.BOARD}?address=${payload}`);
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {

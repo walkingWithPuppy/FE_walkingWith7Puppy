@@ -72,20 +72,24 @@ const List = () => {
         <Loading margin="25%" />
       ) : (
         <>
-          <PostWrapper>
-            {address === ADDRESS_SELECT[0].value
-              ? posts?.map(post => <Post key={post.id} post={post} />)
-              : posts
-                  ?.filter(item => item.address === address)
-                  .map(post => <Post key={post.id} post={post} />)}
-          </PostWrapper>
-          <Link to={PATH_URL.CREATE}>
-            {isLogin && (
-              <CreateButton>
-                <CreateIcon />
-              </CreateButton>
-            )}
-          </Link>
+      <PostWrapper>
+        {address === ADDRESS_SELECT[0].value ? (
+          posts?.map(post => <Post key={post.id} post={post} />)
+        ) : posts?.filter(item => item.address === address).length === 0 ? (
+          <NoPostText>조회하신 지역구에는 메이트가 없습니다.</NoPostText>
+        ) : (
+          posts
+            ?.filter(item => item.address === address)
+            .map(post => <Post key={post.id} post={post} />)
+        )}
+      </PostWrapper>
+      <Link to={PATH_URL.CREATE}>
+        {isLogin && (
+          <CreateButton>
+            <CreateIcon />
+          </CreateButton>
+        )}
+      </Link>
         </>
       )}
     </ListWrapper>
@@ -95,9 +99,9 @@ const List = () => {
 const ListWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
   margin: 20px auto;
   max-width: 1200px;
+  justify-content: center;
 `;
 
 const PostWrapper = styled.div`
@@ -158,6 +162,12 @@ const CreateButton = styled.button`
   & > svg {
     color: white;
   }
+`;
+
+const NoPostText = styled.p`
+  text-align: center;
+  font-size: 18px;
+  color: #555;
 `;
 
 export default List;
