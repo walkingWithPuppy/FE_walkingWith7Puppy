@@ -17,7 +17,7 @@ const Detail = () => {
   const [idCheck, setIdCheck] = useState(false);
 
   const token = Cookies.get('token');
-  const tokenUsername = jwtDecode(token);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const post = useSelector(state => state.boards.post);
@@ -44,6 +44,7 @@ const Detail = () => {
   useEffect(() => {
     if (token) {
       setIsLogin(true);
+      const tokenUsername = jwtDecode(token);
       data?.data.username === tokenUsername.sub && setIdCheck(true);
     }
     const fetchBoard = async () => {
@@ -52,7 +53,8 @@ const Detail = () => {
       setIsLoading(false);
     };
     fetchBoard();
-  }, [token, dispatch]);
+    console.log('렌더링중');
+  }, []);
 
   const noImg = '/images/board/no-img.jpg';
 

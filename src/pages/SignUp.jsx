@@ -96,7 +96,7 @@ const SignUp = () => {
       }
       delete inputData.password2;
       await api.post(`${PATH_URL.SIGNUP}`, inputData);
-      // await api.post(`/register`, inputData); //테스트용
+
       inputData.password2 = '';
       setInputData({
         usename: '',
@@ -107,8 +107,7 @@ const SignUp = () => {
       setPasswordCheck(true);
       navigate(PATH_URL.LOGIN);
     } catch (error) {
-      console.log(error); //통신 시 키값 맞출예정
-      // alert('중복된 ID입니다');
+      alert('중복된 ID입니다');
     }
   };
 

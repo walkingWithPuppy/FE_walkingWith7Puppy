@@ -7,7 +7,7 @@ import Cookies from 'js-cookie';
 import { useDispatch, useSelector } from 'react-redux';
 import { __createComment } from '../../redux/modules/commentsSlice';
 
-const CommentList = () => {
+const CommentList = ({ idCheck }) => {
   const [isLogin, setIsLogin] = useState(false);
   const token = Cookies.get('token');
   const dispatch = useDispatch();
@@ -63,7 +63,7 @@ const CommentList = () => {
         />
         <ItemWrap>
           {comments?.map(comment => (
-            <CommentItem key={comment.id} comment={comment} boardId={boardId} />
+            <CommentItem key={comment.id} comment={comment} boardId={boardId} idCheck={idCheck} />
           ))}
         </ItemWrap>
       </Container>

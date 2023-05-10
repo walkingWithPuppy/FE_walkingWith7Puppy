@@ -15,7 +15,7 @@ api.interceptors.request.use(
     console.log('axios 인터셉터 요청');
 
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+      config.headers.ACCESS_KEY = `Bearer ${token}`;
     }
     return config;
   },
@@ -27,18 +27,40 @@ api.interceptors.request.use(
 
 api.interceptors.response.use(
   response => {
-    // console.log('응답완료 후 콘솔::::::::');
     return response;
   },
-  error => {
-    console.log(error);
-    console.log(error.response.data.message);
-    if (error.status === 401) {
+  async error => {
+    console.log(error.config.url);
+    console.log(error.config.method);
+    const {
+      config,
+      config: { url },
+      config: { method },
+      response: {
+        data: { errorCode },
+      },
+    } = error;
+
+    if (errorCode === 'EXPIRED_ACCESS_TOKEN') {
+      const refresh = Cookies.get('refreshToken');
+      const originReq = config;
+      const { headers } = await api({
+        url: url,
+        method: method,
+        headers: { REFRESH_KEY: refresh },
+      });
+
+      const { ACCESS_KEY: newAccessToken, REFRESH_KEY: newRefreshToken } = headers;
+      Cookies.set('token', newAccessToken);
+      Cookies.set('refreshToken', newRefreshToken);
+
+      originReq.headers.ACCESS_KEY = `Bearer ${newAccessToken}`;
+
+      return axios(originReq);
+    } else if (errorCode === 'EXPIRED_REFRESH_TOKEN') {
       const navigate = useNavigate();
-      alert('재로그인이 필요합니다');
+      alert('만료시간이 다 되어 재로그인이 필요합니다');
       navigate(PATH_URL.LOGIN);
-      return;
     }
-    // alert(error.response.data.message);
   }
 );
