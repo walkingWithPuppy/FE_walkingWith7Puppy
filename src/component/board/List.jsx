@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { __getByAddress, __getList } from '../../redux/modules/boardsSlice';
 import Cookies from 'js-cookie';
 import Loading from '../Loading';
+import useAddressSelect from '../../hooks/useAddressSelect';
 
 const List = () => {
   const [isLogin, setIsLogin] = useState(false);
@@ -17,21 +18,7 @@ const List = () => {
   const posts = useSelector(state => state.boards.boards);
   const [isLoading, setIsLoading] = useState(false);
 
-  const ADDRESS_SELECT = [
-    { value: 'all', label: '전체' },
-    { value: '강서구', label: '강서구' },
-    { value: '강동구', label: '강동구' },
-    { value: '강북구', label: '강북구' },
-    { value: '강남구', label: '강남구' },
-    { value: '관악구', label: '관악구' },
-    { value: '광진구', label: '광진구' },
-    { value: '구로구', label: '구로구' },
-    { value: '금천구', label: '금천구' },
-    { value: '노원구', label: '노원구' },
-    { value: '도봉구', label: '도봉구' },
-  ];
-
-  const [address, setAddress] = useState(ADDRESS_SELECT[0].value);
+  const { ADDRESS_SELECT, address, setAddress } = useAddressSelect();
 
   useEffect(() => {
     if (token) {
@@ -63,40 +50,42 @@ const List = () => {
             <InputLabel id="demo-simple-select-label">
               <StLabel>만나요</StLabel>
             </InputLabel>
-            {isLoading ? (
-              <Loading />
-            ) : (
-              <StSelect
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={address}
-                label="Address"
-                onChange={handleChange}
-              >
-                {ADDRESS_SELECT.map(address => (
-                  <MenuItem key={address.value} value={address.value}>
-                    {address.label}
-                  </MenuItem>
-                ))}
-              </StSelect>
-            )}
+            <StSelect
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={address}
+              label="Address"
+              onChange={handleChange}
+            >
+              {ADDRESS_SELECT.map(address => (
+                <MenuItem key={address.value} value={address.value}>
+                  {address.label}
+                </MenuItem>
+              ))}
+            </StSelect>
           </StFormControl>
         </Container>
       </SelectWrapper>
-      <PostWrapper>
-        {address === ADDRESS_SELECT[0].value
-          ? posts?.map(post => <Post key={post.id} post={post} />)
-          : posts
-              ?.filter(item => item.address === address)
-              .map(post => <Post key={post.id} post={post} />)}
-      </PostWrapper>
-      <Link to={PATH_URL.CREATE}>
-        {isLogin && (
-          <CreateButton>
-            <CreateIcon />
-          </CreateButton>
-        )}
-      </Link>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <>
+          <PostWrapper>
+            {address === ADDRESS_SELECT[0].value
+              ? posts?.map(post => <Post key={post.id} post={post} />)
+              : posts
+                  ?.filter(item => item.address === address)
+                  .map(post => <Post key={post.id} post={post} />)}
+          </PostWrapper>
+          <Link to={PATH_URL.CREATE}>
+            {isLogin && (
+              <CreateButton>
+                <CreateIcon />
+              </CreateButton>
+            )}
+          </Link>
+        </>
+      )}
     </ListWrapper>
   );
 };

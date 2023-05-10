@@ -4,6 +4,8 @@ import { useState, useRef, useEffect } from 'react';
 import { PATH_URL } from '../../shared/constants';
 import { useDispatch } from 'react-redux';
 import { __createPost, __updatePost } from '../../redux/modules/boardsSlice';
+import { FormControl, Select, MenuItem } from '@mui/material';
+import useAddressSelect from '../../hooks/useAddressSelect';
 
 const CreateForm = () => {
   const navigate = useNavigate();
@@ -15,6 +17,12 @@ const CreateForm = () => {
   const isEdit = !!boardId;
   const noImg = '/images/board/no-img.jpg';
 
+  const {
+    ADDRESS_SELECT,
+    address: selectAddress,
+    setAddress: setSelectAddress,
+  } = useAddressSelect();
+
   const initialValue = {
     title: '',
     address: '',
@@ -24,7 +32,7 @@ const CreateForm = () => {
 
   const [formValue, setFormValue] = useState(initialValue);
   const [img, setImg] = useState('');
-  const { title, address, content } = formValue;
+  const { title, content } = formValue;
 
   useEffect(() => {
     if (post) {
@@ -35,7 +43,6 @@ const CreateForm = () => {
         content: post.content,
         img: post.img,
       });
-      // imgRef.current.src = post.img || '';
       setImg(post.img);
     }
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
@@ -49,15 +56,12 @@ const CreateForm = () => {
       const data = {
         title,
         content,
-        address,
+        address: selectAddress,
       };
       const img = imgRef.current.files[0];
 
       formData.append('data', new Blob([JSON.stringify(data)], { type: 'application/json' }));
-      console.log(img && console.log(img, '$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$'));
       img && formData.append('img', img);
-      // img 없을경우에는???(변경없을경우나))
-      // if(post) 일경우 hidden
 
       if (isEdit) {
         const id = post.id;
@@ -100,6 +104,12 @@ const CreateForm = () => {
     };
   };
 
+  const handleSelect = e => {
+    const selectedAddress = e.target.value;
+    setSelectAddress(selectedAddress);
+    setFormValue(prevFormValue => ({ ...prevFormValue, address: selectAddress }));
+  };
+
   return (
     <CreateFormWrapper>
       <FormWrapper onSubmit={onSubmitHandler}>
@@ -114,15 +124,23 @@ const CreateForm = () => {
           onChange={handleInputChange}
         />
         <Label htmlFor="address">지역구</Label>
-        <Input
-          name="address"
-          value={address}
-          type="text"
-          placeholder="거주하시는 지역구를 입력하세요"
-          onChange={handleInputChange}
-        />
+        <FormControl>
+          <SelectStyle
+            value={post ? post.address : selectAddress}
+            onChange={handleSelect}
+            displayEmpty
+            inputProps={{ 'aria-label': 'Without label' }}
+          >
+            <MenuItem value=""></MenuItem>
+            {ADDRESS_SELECT.map(address => (
+              <MenuItem key={address.value} value={address.value}>
+                {address.label}
+              </MenuItem>
+            ))}
+          </SelectStyle>
+        </FormControl>
+
         <ImageWrapper>
-          {/* 이미지가 있으면 post.img없으면 noImg */}
           <PreviewImage src={img || noImg} alt="noImg" />
           <input
             type="file"
@@ -171,6 +189,7 @@ const Label = styled.label`
 
 const Input = styled.input`
   padding: 0.5rem;
+  padding-left: 0.7rem;
   margin-bottom: 1rem;
   border: 1px solid #fbae03;
   border-radius: 0.5rem;
@@ -215,6 +234,17 @@ const PreviewImage = styled.img`
   max-width: 100%;
   max-height: 250px;
   object-fit: contain;
+`;
+
+const SelectStyle = styled(Select)`
+  height: 45px;
+  .MuiOutlinedInput-notchedOutline {
+    border-color: #fbae03;
+    border-radius: 0.5rem;
+  }
+  .MuiSelect-icon {
+    color: #fbae03;
+  }
 `;
 
 export default CreateForm;
