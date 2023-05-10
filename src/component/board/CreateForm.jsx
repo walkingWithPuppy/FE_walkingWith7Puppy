@@ -52,7 +52,6 @@ const CreateForm = () => {
   const onSubmitHandler = async e => {
     e.preventDefault();
     const img = imgRef.current.files[0];
-    console.log(img);
 
     if (isFormValid()) {
       const formData = new FormData();
