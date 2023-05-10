@@ -51,6 +51,7 @@ const CreateForm = () => {
 
   const onSubmitHandler = async e => {
     e.preventDefault();
+    const img = imgRef.current.files[0];
 
     if (isFormValid()) {
       const formData = new FormData();
@@ -59,7 +60,6 @@ const CreateForm = () => {
         content,
         address: selectAddress,
       };
-      const img = imgRef.current.files[0];
 
       formData.append('data', new Blob([JSON.stringify(data)], { type: 'application/json' }));
       img && formData.append('img', img);
@@ -86,6 +86,10 @@ const CreateForm = () => {
     if (!formValue.content || formValue.content.trim() === '') {
       alert('내용을 입력해주세요.');
       return false;
+    }
+    if (!img) {
+      alert('이미지를 업로드해주세요');
+      return;
     }
     return true;
   };
@@ -122,6 +126,7 @@ const CreateForm = () => {
           type="text"
           placeholder="제목을 입력하세요"
           onChange={handleInputChange}
+          required
         />
         <Label htmlFor="address">지역구</Label>
         <FormControl>
@@ -150,8 +155,7 @@ const CreateForm = () => {
             name="img"
             onChange={saveImgFile}
             ref={imgRef}
-            required={!isEdit}
-          />
+            />
         </ImageWrapper>
         <Label htmlFor="content">내용</Label>
         <Textarea value={content} name="content" onChange={handleInputChange} />
