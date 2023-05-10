@@ -32,7 +32,7 @@ const List = () => {
       setIsLoading(false);
     };
     fetchData();
-  }, [token, dispatch, posts]);
+  }, [token, dispatch]);
 
   const handleChange = useCallback(
     event => {
