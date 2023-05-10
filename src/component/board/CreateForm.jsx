@@ -35,7 +35,6 @@ const CreateForm = () => {
         content: post.content,
         img: post.img,
       });
-      // imgRef.current.src = post.img || '';
       setImg(post.img);
     }
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
@@ -52,12 +51,9 @@ const CreateForm = () => {
         address,
       };
       const img = imgRef.current.files[0];
-      
+
       formData.append('data', new Blob([JSON.stringify(data)], { type: 'application/json' }));
-      console.log(img && console.log(img,'$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$'))
       img && formData.append('img', img);
-      // img 없을경우에는???(변경없을경우나))
-      // if(post) 일경우 hidden
 
       if (isEdit) {
         const id = post.id;
@@ -92,7 +88,6 @@ const CreateForm = () => {
 
   const saveImgFile = e => {
     const file = e.target.files[0];
-    // const file = imgRef.current.files[0];
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onloadend = () => {
@@ -122,15 +117,16 @@ const CreateForm = () => {
           onChange={handleInputChange}
         />
         <ImageWrapper>
-          {/* 이미지가 있으면 post.img없으면 noImg */}
           <PreviewImage src={img || noImg} alt="noImg" />
-          <input
+          <FileInputLabel htmlFor="img">사진을 등록해주세요</FileInputLabel>
+          <FileInput
             type="file"
             accept="image/*"
             id="img"
+            name="img"
             onChange={saveImgFile}
             ref={imgRef}
-            required={!isEdit} // board id가 없으면등록필수
+            required={!isEdit}
           />
         </ImageWrapper>
         <Label htmlFor="content">내용</Label>
@@ -209,12 +205,37 @@ const ImageWrapper = styled.div`
   flex-direction: column;
   text-align: center;
   margin-bottom: 15px;
+
+  & input[type='file'] {
+    display: none;
+  }
 `;
 
 const PreviewImage = styled.img`
   max-width: 100%;
   max-height: 250px;
   object-fit: contain;
+`;
+const FileInput = styled.input`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 150px;
+  height: 150px;
+  opacity: 0;
+  cursor: pointer;
+`;
+const FileInputLabel = styled.label`
+  display: block;
+  margin: 8px auto;
+  text-align: center;
+  width: 250px;
+  font-size: 15px;
+  padding: 4px 8px;
+  background-color: #fbae03;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
 `;
 
 export default CreateForm;
