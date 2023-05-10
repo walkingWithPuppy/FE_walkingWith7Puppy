@@ -2,10 +2,11 @@ import styled from 'styled-components';
 
 const Section03Post = ({ title, address, imgurl }) => {
   const noImgURL = '/images/board/no-img.jpg';
+  const handleImageError = e => (e.target.src = noImgURL);
 
   return (
     <PostContainer>
-      <img src={imgurl || noImgURL} alt="dog Image" />
+      <img src={imgurl || noImgURL} onError={handleImageError} alt="dog Image" />
       <TextLabelContainer>
         <h1>{title}</h1>
         <h5>{address}</h5>

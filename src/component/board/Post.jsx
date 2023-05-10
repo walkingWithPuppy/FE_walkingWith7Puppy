@@ -6,11 +6,13 @@ import { PATH_URL } from '../../shared/constants';
 const Post = ({ post }) => {
   const noImg = '/images/board/no-img.jpg';
 
+  const handleImageError = e => (e.target.src = noImg);
+
   return (
     <PostWrapper>
       <Link to={`${PATH_URL.BOARD}/${post.id}`}>
         <Area>{post.address}</Area>
-        <Image src={post.img || noImg} alt='puppy' />
+        <Image src={post.img || noImg} onError={handleImageError} alt="puppy" />
         <Info>
           <Title>{post.title}</Title>
           <Content>{post.content}</Content>
