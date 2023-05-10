@@ -4,6 +4,8 @@ import { useState, useRef, useEffect } from 'react';
 import { PATH_URL } from '../../shared/constants';
 import { useDispatch } from 'react-redux';
 import { __createPost, __updatePost } from '../../redux/modules/boardsSlice';
+import { FormControl, Select, MenuItem } from '@mui/material';
+import useAddressSelect from '../../hooks/useAddressSelect';
 
 const CreateForm = () => {
   const navigate = useNavigate();
@@ -15,6 +17,12 @@ const CreateForm = () => {
   const isEdit = !!boardId;
   const noImg = '/images/board/no-img.jpg';
 
+  const {
+    ADDRESS_SELECT,
+    address: selectAddress,
+    setAddress: setSelectAddress,
+  } = useAddressSelect();
+
   const initialValue = {
     title: '',
     address: '',
@@ -24,10 +32,11 @@ const CreateForm = () => {
 
   const [formValue, setFormValue] = useState(initialValue);
   const [img, setImg] = useState('');
-  const { title, address, content } = formValue;
+  const { title, content } = formValue;
 
   useEffect(() => {
     if (post) {
+      setSelectAddress(post.address);
       setFormValue({
         ...formValue,
         title: post.title,
@@ -48,7 +57,7 @@ const CreateForm = () => {
       const data = {
         title,
         content,
-        address,
+        address: selectAddress,
       };
       const img = imgRef.current.files[0];
 
@@ -95,6 +104,12 @@ const CreateForm = () => {
     };
   };
 
+  const handleSelect = e => {
+    const selectedAddress = e.target.value;
+    setSelectAddress(selectedAddress);
+    setFormValue(prevFormValue => ({ ...prevFormValue, address: selectAddress }));
+  };
+
   return (
     <CreateFormWrapper>
       <FormWrapper onSubmit={onSubmitHandler}>
@@ -109,13 +124,22 @@ const CreateForm = () => {
           onChange={handleInputChange}
         />
         <Label htmlFor="address">지역구</Label>
-        <Input
-          name="address"
-          value={address}
-          type="text"
-          placeholder="거주하시는 지역구를 입력하세요"
-          onChange={handleInputChange}
-        />
+        <FormControl>
+          <SelectStyle
+            value={selectAddress}
+            onChange={handleSelect}
+            displayEmpty
+            inputProps={{ 'aria-label': 'Without label' }}
+          >
+            <MenuItem value=""></MenuItem>
+            {ADDRESS_SELECT.map(address => (
+              <MenuItem key={address.value} value={address.value}>
+                {address.label}
+              </MenuItem>
+            ))}
+          </SelectStyle>
+        </FormControl>
+
         <ImageWrapper>
           <PreviewImage src={img || noImg} alt="noImg" />
           <FileInputLabel htmlFor="img">사진을 등록해주세요</FileInputLabel>
@@ -167,6 +191,7 @@ const Label = styled.label`
 
 const Input = styled.input`
   padding: 0.5rem;
+  padding-left: 0.7rem;
   margin-bottom: 1rem;
   border: 1px solid #fbae03;
   border-radius: 0.5rem;
@@ -236,6 +261,17 @@ const FileInputLabel = styled.label`
   color: #fff;
   border-radius: 4px;
   cursor: pointer;
+`;
+
+const SelectStyle = styled(Select)`
+  height: 45px;
+  .MuiOutlinedInput-notchedOutline {
+    border-color: #fbae03;
+    border-radius: 0.5rem;
+  }
+  .MuiSelect-icon {
+    color: #fbae03;
+  }
 `;
 
 export default CreateForm;

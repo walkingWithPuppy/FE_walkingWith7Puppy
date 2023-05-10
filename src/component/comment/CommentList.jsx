@@ -6,9 +6,11 @@ import { __getPostById } from '../../redux/modules/boardsSlice';
 import Cookies from 'js-cookie';
 import { useDispatch, useSelector } from 'react-redux';
 import { __createComment } from '../../redux/modules/commentsSlice';
+import Loading from '../Loading';
 
 const CommentList = () => {
   const [isLogin, setIsLogin] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const token = Cookies.get('token');
   const dispatch = useDispatch();
   const comments = useSelector(state => state.boards.post.comments);
@@ -30,9 +32,10 @@ const CommentList = () => {
       alert('댓글을 입력해주세요.');
       return false;
     }
-
+    setIsLoading(true);
     await dispatch(__createComment({ boardId, content }));
     await dispatch(__getPostById(boardId));
+    setIsLoading(false);
     setFormValue(initialValue);
   };
   useEffect(() => {
@@ -46,37 +49,45 @@ const CommentList = () => {
   }, [dispatch, boardId]);
 
   return (
-    <CommentWrapper>
-      <Container>
-        <Info>
-          <CommentTitle>
-            {comments?.length > 0 ? `${comments.length}개의 댓글이 있습니다.` : '댓글이 없습니다.'}
-          </CommentTitle>
-          {isLogin && (
-            <Button onClick={handleClick} background="#fbae03" color="#fff">
-              같이 산책하기
-            </Button>
-          )}
-        </Info>
-        <Input
-          type="text"
-          name="content"
-          value={content}
-          onChange={handleInputChange}
-          placeholder="댓글을 입력하세요"
-        />
-        <ItemWrap>
-          {comments?.map(comment => (
-            <CommentItem
-              key={comment.id}
-              comment={comment}
-              boardId={boardId}
-              username={comment.username}
+    <>
+      {isLoading ? (
+        <Loading margin="20%" />
+      ) : (
+        <CommentWrapper>
+          <Container>
+            <Info>
+              <CommentTitle>
+                {comments?.length > 0
+                  ? `${comments.length}개의 댓글이 있습니다.`
+                  : '댓글이 없습니다.'}
+              </CommentTitle>
+              {isLogin && (
+                <Button onClick={handleClick} background="#fbae03" color="#fff">
+                  같이 산책하기
+                </Button>
+              )}
+            </Info>
+            <Input
+              type="text"
+              name="content"
+              value={content}
+              onChange={handleInputChange}
+              placeholder="댓글을 입력하세요"
             />
-          ))}
-        </ItemWrap>
-      </Container>
-    </CommentWrapper>
+            <ItemWrap>
+              {comments?.map(comment => (
+                <CommentItem
+                  key={comment.id}
+                  comment={comment}
+                  boardId={boardId}
+                  username={comment.username}
+                />
+              ))}
+            </ItemWrap>
+          </Container>
+        </CommentWrapper>
+      )}
+    </>
   );
 };
 

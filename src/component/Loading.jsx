@@ -1,9 +1,9 @@
 import { BeatLoader } from 'react-spinners';
 import styled from 'styled-components';
 
-const Loading = () => {
+const Loading = ({ margin }) => {
   return (
-    <LoadingContainer>
+    <LoadingContainer margin={margin}>
       <div className="axios-loading-indicator">
         <BeatLoader color="#fbae03" />
         <p>
@@ -17,12 +17,9 @@ const Loading = () => {
 
 const LoadingContainer = styled.div`
   .axios-loading-indicator {
-    position: fixed;
-    top: 50%;
-    left: 50%;
+    margin-top: ${props => props.margin};
     width: 100%;
     height: 100%;
-    transform: translate(-50%, -50%);
     background-color: white;
 
     display: flex;
