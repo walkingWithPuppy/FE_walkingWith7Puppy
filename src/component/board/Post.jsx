@@ -33,12 +33,6 @@ const PostWrapper = styled.div`
   overflow: hidden;
 `;
 
-// const Image = styled.img`
-//   width: 100%;
-//   object-fit: cover;
-//   height: 250px;
-// `;
-
 const Info = styled.div`
   padding: 10px;
 `;
@@ -47,9 +41,8 @@ const Title = styled.p`
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 10px;
-  // white-space: nowrap; // 공백무시 한줄
   overflow: hidden;
-  text-overflow: ellipsis; /* 2줄 이상인 경우 ...으로 나타내기 */
+  text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
@@ -60,9 +53,8 @@ const Content = styled.p`
   color: #9d9d9d;
   margin-bottom: 10px;
   line-height: 1.5;
-  // white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis; /* 2줄 이상인 경우 ...으로 나타내기 */
+  text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
