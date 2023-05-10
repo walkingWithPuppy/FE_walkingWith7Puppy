@@ -75,11 +75,13 @@ const CommentItem = ({ comment, boardId }) => {
         )}
       </ItemInfo>
 
+      <CommentWrapper>
       {isEdit ? (
         <Input type="text" value={content} onChange={handleInputChange} />
       ) : (
         <Content>{comment.content}</Content>
       )}
+      </CommentWrapper>
     </CommentItemWrapper>
   );
 };
@@ -89,19 +91,19 @@ const CommentItemWrapper = styled.div`
   padding: 10px;
   border-radius: 5px;
   background-color: #f9f9f9;
-`;
-
-const ItemInfo = styled.div`
+  `;
+  
+  const ItemInfo = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 5px;
-`;
-
-const CommentInfo = styled.div`
+  `;
+  
+  const CommentInfo = styled.div`
   display: flex;
-`;
-const NickName = styled.p`
+  `;
+  const NickName = styled.p`
   font-size: 14px;
   font-weight: bold;
   margin-right: 10px;
@@ -141,13 +143,20 @@ const Input = styled.input`
     outline: none;
   }
 `;
+
+const CommentWrapper = styled.div`
+  min-width: 700px;
+`;
+
 const Button = styled.button`
-  width: 5rem;
+  width: 4rem;
   border: 2px solid #fbae03;
   border-radius: 1rem;
   padding: 0.2rem 0.8rem;
+  margin-right: 5px;
   background-color: ${props => props.background};
   color: ${props => props.color};
   font-weight: 550;
+  gap: 5px;
 `;
 export default CommentItem;
