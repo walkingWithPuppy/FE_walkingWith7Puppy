@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { formatDate } from '../../utils/formatDate';
 import { __deleteComment, __updateComment } from '../../redux/modules/commentsSlice';
+import { __getPostById } from '../../redux/modules/boardsSlice';
 import { useDispatch } from 'react-redux';
 
 const CommentItem = ({ comment, boardId }) => {
@@ -14,7 +15,7 @@ const CommentItem = ({ comment, boardId }) => {
   const [content, setContent] = useState('');
   useEffect(() => {
     if (token) {
-      setIsLogin(() => true);
+      setIsLogin(true);
     }
   }, [token]);
 
@@ -23,17 +24,18 @@ const CommentItem = ({ comment, boardId }) => {
     setContent(comment.content);
   };
 
-  const handleDelete = (boardId, commentId) => {
-    dispatch(__deleteComment({ boardId, commentId }));
-    setIsEdit(false);
+  const handleDelete = async (boardId, commentId) => {
+    await dispatch(__deleteComment({ boardId, commentId }));
+    await dispatch(__getPostById(boardId));
   };
 
   const handleInputChange = e => {
     setContent(e.target.value);
   };
 
-  const handleUpdate = (boardId, commentId, content) => {
-    dispatch(__updateComment({ boardId, commentId, content }));
+  const handleUpdate = async (boardId, commentId, content) => {
+    await dispatch(__updateComment({ boardId, commentId, content }));
+    await dispatch(__getPostById(boardId));
     setIsEdit(false);
   };
 

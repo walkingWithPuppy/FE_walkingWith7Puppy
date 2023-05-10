@@ -1,5 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom';
-import { PATH_URL } from '../../shared/constants';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import CommentItem from './CommentItem';
@@ -11,7 +10,6 @@ import { __createComment } from '../../redux/modules/commentsSlice';
 const CommentList = () => {
   const [isLogin, setIsLogin] = useState(false);
   const token = Cookies.get('token');
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const comments = useSelector(state => state.boards.post.comments);
   const { boardId } = useParams();
@@ -27,20 +25,21 @@ const CommentList = () => {
     setFormValue({ ...formValue, [name]: value });
   };
 
+  const handleClick = async () => {
+    setFormValue(initialValue);
+    await dispatch(__createComment({ boardId, content }));
+    await dispatch(__getPostById(boardId));
+  };
+
   useEffect(() => {
     if (token) {
-      setIsLogin(() => true);
+      setIsLogin(true);
     }
   }, [token]);
 
   useEffect(() => {
     dispatch(__getPostById(boardId));
-  }, [dispatch, comments]);
-
-  const handleClick = () => {
-    setFormValue(initialValue);
-    dispatch(__createComment({ boardId, content }));
-  };
+  }, [dispatch, boardId]);
 
   return (
     <CommentWrapper>
@@ -50,7 +49,7 @@ const CommentList = () => {
             {comments?.length > 0 ? `${comments.length}개의 댓글이 있습니다.` : '댓글이 없습니다.'}
           </CommentTitle>
           {isLogin && (
-            <Button onClick={() => handleClick()} background="#fbae03" color="#fff">
+            <Button onClick={handleClick} background="#fbae03" color="#fff">
               같이 산책하기
             </Button>
           )}
@@ -63,7 +62,6 @@ const CommentList = () => {
           placeholder="댓글을 입력하세요"
         />
         <ItemWrap>
-          {/* commentItem  */}
           {comments?.map(comment => (
             <CommentItem key={comment.id} comment={comment} boardId={boardId} />
           ))}

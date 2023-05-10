@@ -26,9 +26,12 @@ const Login = () => {
     try {
       const response = await api.post(`${PATH_URL.LOGIN}`, userInput);
       // const response = await api.post('/login', userInput); //테스트용
+      console.log(response.headers.get('ACCESS_KEY'));
+      // console.log(response);
+      // const accessHeader = response.headers.get('Authorization');
 
-      const accessHeader = response.headers.get('Authorization');
-      console.log(response);
+      const accessHeader = response.headers.get('ACCESS_KEY');
+      // console.log(accessHeader);
       const token = accessHeader.split(' ')[1];
       const userToken = jwtDecode(token);
       console.log('tokendecode:::::::', userToken);
