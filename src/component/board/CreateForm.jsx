@@ -110,6 +110,12 @@ const CreateForm = () => {
     setFormValue(prevFormValue => ({ ...prevFormValue, address: selectAddress }));
   };
 
+  useEffect(() => {
+    if (post) {
+      setSelectAddress(post.address);
+    }
+  }, []);
+
   return (
     <CreateFormWrapper>
       <FormWrapper onSubmit={onSubmitHandler}>
@@ -126,7 +132,7 @@ const CreateForm = () => {
         <Label htmlFor="address">지역구</Label>
         <FormControl>
           <SelectStyle
-            value={post ? post.address : selectAddress}
+            value={selectAddress}
             onChange={handleSelect}
             displayEmpty
             inputProps={{ 'aria-label': 'Without label' }}
