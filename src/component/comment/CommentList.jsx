@@ -33,6 +33,7 @@ const CommentList = () => {
 
     await dispatch(__createComment({ boardId, content }));
     await dispatch(__getPostById(boardId));
+    setFormValue(initialValue);
   };
 
   useEffect(() => {
