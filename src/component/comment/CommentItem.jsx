@@ -15,7 +15,7 @@ const CommentItem = ({ comment, boardId }) => {
   const [content, setContent] = useState('');
   useEffect(() => {
     if (token) {
-      setIsLogin(() => true);
+      setIsLogin(true);
     }
   }, [token]);
 

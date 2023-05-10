@@ -8,12 +8,14 @@ import { PATH_URL } from '../../shared/constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { __getByAddress, __getList } from '../../redux/modules/boardsSlice';
 import Cookies from 'js-cookie';
+import Loading from '../Loading';
 
 const List = () => {
   const [isLogin, setIsLogin] = useState(false);
   const token = Cookies.get('token');
   const dispatch = useDispatch();
   const posts = useSelector(state => state.boards.boards);
+  const [isLoading, setIsLoading] = useState(false);
 
   const ADDRESS_SELECT = [
     { value: 'all', label: '전체' },
@@ -35,7 +37,12 @@ const List = () => {
     if (token) {
       setIsLogin(true);
     }
-    dispatch(__getList());
+    const fetchBoard = async () => {
+      setIsLoading(true);
+      await dispatch(__getList());
+      setIsLoading(false);
+    };
+    fetchBoard();
   }, [token, dispatch]);
 
   const handleChange = useCallback(
@@ -56,19 +63,23 @@ const List = () => {
             <InputLabel id="demo-simple-select-label">
               <StLabel>만나요</StLabel>
             </InputLabel>
-            <StSelect
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={address}
-              label="Address"
-              onChange={handleChange}
-            >
-              {ADDRESS_SELECT.map(address => (
-                <MenuItem key={address.value} value={address.value}>
-                  {address.label}
-                </MenuItem>
-              ))}
-            </StSelect>
+            {isLoading ? (
+              <Loading />
+            ) : (
+              <StSelect
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={address}
+                label="Address"
+                onChange={handleChange}
+              >
+                {ADDRESS_SELECT.map(address => (
+                  <MenuItem key={address.value} value={address.value}>
+                    {address.label}
+                  </MenuItem>
+                ))}
+              </StSelect>
+            )}
           </StFormControl>
         </Container>
       </SelectWrapper>

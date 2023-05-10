@@ -5,9 +5,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { PATH_URL } from '../../shared/constants';
 import { __deletePost, __getPostById } from '../../redux/modules/boardsSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import Loading from '../Loading';
+import CommentList from '../comment/CommentList';
 
 const Detail = () => {
   const [isLogin, setIsLogin] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const token = Cookies.get('token');
   const navigate = useNavigate();
@@ -30,39 +33,55 @@ const Detail = () => {
     if (token) {
       setIsLogin(true);
     }
-    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-    dispatch(__getPostById(boardId));
+    const fetchBoard = async () => {
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+      await dispatch(__getPostById(boardId));
+      setIsLoading(false);
+    };
+    fetchBoard();
   }, [token, dispatch]);
 
   const noImg = '/images/board/no-img.jpg';
 
   return (
     <DetailWrapper>
-      <Container>
-        <ContentWrapper>
-          <Image src={post.img || noImg} alt="puppy" />
-          <Info>
-            <Title>{post.title}</Title>
-            <NickName>작성자 : {post.username}</NickName>
-            <Area>지역구 : {post.address}</Area>
-            <Description>{post.content}</Description>
-          </Info>
-        </ContentWrapper>
-        {/* 로그인한경우 id 같은 경우만 (+작성자id비교로직 추가필요) 수정,삭제 버튼 보이도록 */}
-        {isLogin && (
-          <ButtonWrapper>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <DetailCommentContainer>
+          <Container>
+            <ContentWrapper>
+              <Image src={post.img || noImg} alt="puppy" />
+              <Info>
+                <Title>{post.title}</Title>
+                <NickName>작성자 : {post.username}</NickName>
+                <Area>지역구 : {post.address}</Area>
+                <Description>{post.content}</Description>
+              </Info>
+            </ContentWrapper>
+            {/* 로그인한경우 id 같은 경우만 (+작성자id비교로직 추가필요) 수정,삭제 버튼 보이도록 */}
             {isLogin && (
-              <>
-                <Button onClick={() => handleUpdate()}>수정하기</Button>
-                <Button onClick={() => handleDelete()}>삭제하기</Button>
-              </>
+              <ButtonWrapper>
+                {isLogin && (
+                  <>
+                    <Button onClick={() => handleUpdate()}>수정하기</Button>
+                    <Button onClick={() => handleDelete()}>삭제하기</Button>
+                  </>
+                )}
+              </ButtonWrapper>
             )}
-          </ButtonWrapper>
-        )}
-      </Container>
+          </Container>
+          <CommentList />
+        </DetailCommentContainer>
+      )}
     </DetailWrapper>
   );
 };
+
+const DetailCommentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
 const DetailWrapper = styled.div`
   display: flex;
