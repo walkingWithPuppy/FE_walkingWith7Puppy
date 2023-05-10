@@ -26,27 +26,23 @@ const Login = () => {
 
   const { username, password } = userInput;
   const userLogin = async () => {
-    try {
-      const response = await api.post(`${PATH_URL.LOGIN}`, userInput);
+    const response = await api.post(`${PATH_URL.LOGIN}`, userInput);
 
-      const accessHeader = response.headers.get('ACCESS_KEY');
-      const refreshHeader = response.headers.get('REFRESH_KEY');
+    const accessHeader = response.headers.get('ACCESS_KEY');
+    const refreshHeader = response.headers.get('REFRESH_KEY');
 
-      const acessToken = accessHeader.split(' ')[1];
-      const refreshToken = refreshHeader.split(' ')[1];
-      const userToken = jwtDecode(acessToken);
-      const expirationTime = new Date(userToken.exp * 1000);
+    const acessToken = accessHeader.split(' ')[1];
+    const refreshToken = refreshHeader.split(' ')[1];
+    const userToken = jwtDecode(acessToken);
+    const expirationTime = new Date(userToken.exp * 1000);
 
-      Cookies.set('token', acessToken, { expires: expirationTime });
-      Cookies.set('refreshToken', refreshToken, { expires: expirationTime });
-      setUserInput({
-        username: '',
-        password: '',
-      });
-      navigate(PATH_URL.HOME);
-    } catch (error) {
-      alert('존재하지않는 ID입니다');
-    }
+    Cookies.set('token', acessToken, { expires: expirationTime });
+    Cookies.set('refreshToken', refreshToken, { expires: expirationTime });
+    setUserInput({
+      username: '',
+      password: '',
+    });
+    navigate(PATH_URL.HOME);
   };
   const goSinup = () => {
     navigate(PATH_URL.SIGNUP);

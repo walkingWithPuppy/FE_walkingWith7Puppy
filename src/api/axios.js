@@ -12,7 +12,6 @@ export const api = axios.create({
 api.interceptors.request.use(
   config => {
     const token = Cookies.get('token');
-    console.log('axios 인터셉터 요청');
 
     if (token) {
       config.headers.ACCESS_KEY = `Bearer ${token}`;
@@ -20,7 +19,6 @@ api.interceptors.request.use(
     return config;
   },
   error => {
-    console.log(error);
     return Promise.reject(error);
   }
 );
@@ -30,17 +28,17 @@ api.interceptors.response.use(
     return response;
   },
   async error => {
-    console.log(error.config.url);
-    console.log(error.config.method);
+    // console.log(error.config.url);
+    // console.log(error.config.method);
     const {
       config,
-      config: { url },
-      config: { method },
+      config: { url, method },
       response: {
-        data: { errorCode },
+        data: { errorCode, message },
       },
     } = error;
 
+    // console.log(error.response.data.message);
     if (errorCode === 'EXPIRED_ACCESS_TOKEN') {
       const refresh = Cookies.get('refreshToken');
       const originReq = config;
@@ -61,6 +59,24 @@ api.interceptors.response.use(
       const navigate = useNavigate();
       alert('만료시간이 다 되어 재로그인이 필요합니다');
       navigate(PATH_URL.LOGIN);
+    } else if (errorCode === 'DUPLICATED_MEMBER') {
+      alert(message);
+    } else if (errorCode === 'DUPLICATED_EMAIL') {
+      alert(message);
+    } else if (errorCode === 'MEMBER_NOT_FOUND') {
+      alert(message);
+    } else if (errorCode === 'INACTIVE_MEMBER') {
+      alert(message);
+    } else if (errorCode === 'INTERNAL_SERVER_ERROR') {
+      alert(message);
+    } else if (errorCode === 'IO_EXCEPTION') {
+      alert(message);
+    } else if (errorCode === 'INVALID_REQUEST_PARAMETER') {
+      alert(message);
+    } else if (errorCode === 'INVALID_PASSWORD') {
+      alert(message);
+    } else if (errorCode === 'RESOURCE_NOT_FOUND') {
+      alert(message);
     }
   }
 );

@@ -34,9 +34,11 @@ const SignUp = () => {
     email: '',
   });
   const { username, password, password2, email } = inputData;
+  const navigate = useNavigate();
 
   const changeId = e => {
     const { name, value } = e.target;
+
     const idRegExp = /^(?=.*[a-zA-Z])(?=.*[0-9]).{4,12}$/;
     setInputData({
       ...inputData,
@@ -86,32 +88,27 @@ const SignUp = () => {
   };
 
   const signupUser = async () => {
-    try {
-      if (password2 !== password) {
-        setPwSame(false);
-        return;
-      }
-      if (!(passwordCheck && usernameCheck && emailCheck)) {
-        return;
-      }
-      delete inputData.password2;
-      await api.post(`${PATH_URL.SIGNUP}`, inputData);
-
-      inputData.password2 = '';
-      setInputData({
-        usename: '',
-        password: '',
-        password2: '',
-        email: '',
-      });
-      setPasswordCheck(true);
-      navigate(PATH_URL.LOGIN);
-    } catch (error) {
-      alert('중복된 ID입니다');
+    if (password2 !== password) {
+      setPwSame(false);
+      return;
     }
+    if (!(passwordCheck && usernameCheck && emailCheck)) {
+      return;
+    }
+    delete inputData.password2;
+    await api.post(`${PATH_URL.SIGNUP}`, inputData);
+
+    inputData.password2 = '';
+    setInputData({
+      usename: '',
+      password: '',
+      password2: '',
+      email: '',
+    });
+    setPasswordCheck(true);
+    navigate(PATH_URL.LOGIN);
   };
 
-  const navigate = useNavigate();
   const goLogin = () => {
     navigate(PATH_URL.LOGIN);
   };
