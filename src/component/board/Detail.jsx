@@ -18,7 +18,11 @@ const Detail = () => {
   const [idCheck, setIdCheck] = useState(false);
 
   const token = Cookies.get('token');
-  const tokenUsername = jwtDecode(token);
+  let tokenUsername;
+  if (token) {
+    tokenUsername = jwtDecode(token);
+  }
+  // const tokenUsername = jwtDecode(token);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const post = useSelector(state => state.boards.post);
@@ -61,6 +65,7 @@ const Detail = () => {
   }, [token, dispatch]);
 
   const noImg = '/images/board/no-img.jpg';
+  const handleImageError = e => (e.target.src = noImg);
 
   return (
     <DetailWrapper>
@@ -70,7 +75,7 @@ const Detail = () => {
         <DetailCommentContainer>
           <Container>
             <ContentWrapper>
-              <Image src={post.img || noImg} alt="puppy" />
+              <Image src={post.img || noImg} onError={handleImageError} alt="puppy" />
               <Info>
                 <InfoTitle>
                   <Title>{post.title}</Title>
@@ -93,8 +98,8 @@ const Detail = () => {
               <ButtonWrapper>
                 {idCheck && (
                   <>
-                <Button onClick={() => handleUpdate()}>수정하기</Button>
-                <Button onClick={() => handleDelete()}>삭제하기</Button>
+                    <Button onClick={() => handleUpdate()}>수정하기</Button>
+                    <Button onClick={() => handleDelete()}>삭제하기</Button>
                   </>
                 )}
               </ButtonWrapper>

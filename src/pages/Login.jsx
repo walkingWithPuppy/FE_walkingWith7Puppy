@@ -7,12 +7,15 @@ import { useState } from 'react';
 import { api } from '../api/axios';
 import Cookies from 'js-cookie';
 import jwtDecode from 'jwt-decode';
+import Loading from '../component/Loading';
 const MotionContainer = motion('div');
 const Login = () => {
   const [userInput, setUserInput] = useState({
     username: '',
     password: '',
   });
+  const [isLoading, setIsLoading] = useState(false);
+
   const navigate = useNavigate();
   const inputChange = e => {
     const { name, value } = e.target;
@@ -24,9 +27,10 @@ const Login = () => {
   const { username, password } = userInput;
   const userLogin = async () => {
     try {
+      setIsLoading(true);
       const response = await api.post(`${PATH_URL.LOGIN}`, userInput);
       // const response = await api.post('/login', userInput); //테스트용
-      console.log(response.headers.get('ACCESS_KEY'));
+      // console.log(response.headers.get('ACCESS_KEY'));
       // console.log(response);
       // const accessHeader = response.headers.get('Authorization');
 
@@ -34,15 +38,16 @@ const Login = () => {
       // console.log(accessHeader);
       const token = accessHeader.split(' ')[1];
       const userToken = jwtDecode(token);
-      console.log('tokendecode:::::::', userToken);
+      // console.log('tokendecode:::::::', userToken);
       const expirationTime = new Date(userToken.exp * 1000);
-      console.log('expirationTime::::::::', expirationTime);
+      // console.log('expirationTime::::::::', expirationTime);
       Cookies.set('token', token, { expires: expirationTime });
       setUserInput({
         username: '',
         password: '',
       });
       navigate(PATH_URL.HOME);
+      setIsLoading(false);
     } catch (error) {
       console.log(error); //통신시 키값 맞출 예정
       alert('존재하지않는 ID입니다');
@@ -58,42 +63,46 @@ const Login = () => {
       exit={{ y: -50, opacity: 0 }}
       transition={{ duration: 0.2 }}
     >
-      <LoginContainer>
-        <div>
-          <Typography variant="h4">Login</Typography>
-          <TextField
-            label="ID"
-            variant="outlined"
-            margin="dense"
-            fullWidth
-            name="username"
-            value={username || ''}
-            onChange={inputChange}
-          />
-          <TextField
-            label="Password"
-            type="password"
-            variant="outlined"
-            margin="dense"
-            fullWidth
-            name="password"
-            value={password || ''}
-            onChange={inputChange}
-          />
-          <LoginBtnWrap>
-            <div>
-              <Button variant="outlined" fullWidth onClick={userLogin}>
-                Login
-              </Button>
-            </div>
-            <div>
-              <Button variant="outlined" fullWidth onClick={goSinup}>
-                signup
-              </Button>
-            </div>
-          </LoginBtnWrap>
-        </div>
-      </LoginContainer>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <LoginContainer>
+          <div>
+            <Typography variant="h4">Login</Typography>
+            <TextField
+              label="ID"
+              variant="outlined"
+              margin="dense"
+              fullWidth
+              name="username"
+              value={username || ''}
+              onChange={inputChange}
+            />
+            <TextField
+              label="Password"
+              type="password"
+              variant="outlined"
+              margin="dense"
+              fullWidth
+              name="password"
+              value={password || ''}
+              onChange={inputChange}
+            />
+            <LoginBtnWrap>
+              <div>
+                <Button variant="outlined" fullWidth onClick={userLogin}>
+                  Login
+                </Button>
+              </div>
+              <div>
+                <Button variant="outlined" fullWidth onClick={goSinup}>
+                  signup
+                </Button>
+              </div>
+            </LoginBtnWrap>
+          </div>
+        </LoginContainer>
+      )}
     </MotionContainer>
   );
 };
