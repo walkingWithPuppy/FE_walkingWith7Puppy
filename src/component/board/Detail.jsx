@@ -54,7 +54,7 @@ const Detail = () => {
       setIsLoading(false);
     };
     fetchBoard();
-  }, [data]);
+  }, [token, dispatch]);
 
   const noImg = '/images/board/no-img.jpg';
   const handleImageError = e => (e.target.src = noImg);

@@ -17,8 +17,8 @@ const List = () => {
   const dispatch = useDispatch();
   const posts = useSelector(state => state.boards.boards);
   const [isLoading, setIsLoading] = useState(false);
-  const filteredList = useSelector(state => state.boards.filteredList);
-  const [prevPosts, setPrevPosts] = useState(posts);
+  // const filteredList = useSelector(state => state.boards.filteredList);
+  // const [prevPosts, setPrevPosts] = useState(posts);
 
   const { ADDRESS_SELECT, address, setAddress } = useAddressSelect();
 

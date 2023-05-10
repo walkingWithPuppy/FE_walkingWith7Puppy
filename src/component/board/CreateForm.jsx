@@ -36,6 +36,7 @@ const CreateForm = () => {
 
   useEffect(() => {
     if (post) {
+      setSelectAddress(post.address);
       setFormValue({
         ...formValue,
         title: post.title,
@@ -109,12 +110,6 @@ const CreateForm = () => {
     setSelectAddress(selectedAddress);
     setFormValue(prevFormValue => ({ ...prevFormValue, address: selectAddress }));
   };
-
-  useEffect(() => {
-    if (post) {
-      setSelectAddress(post.address);
-    }
-  }, []);
 
   return (
     <CreateFormWrapper>

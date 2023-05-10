@@ -12,8 +12,6 @@ export const api = axios.create({
 api.interceptors.request.use(
   config => {
     const token = Cookies.get('token');
-    console.log('axios 요청');
-
     if (token) {
       config.headers.ACCESS_KEY = `Bearer ${token}`;
     }
