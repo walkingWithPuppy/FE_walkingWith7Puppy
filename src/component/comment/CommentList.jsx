@@ -1,5 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom';
-import { PATH_URL } from '../../shared/constants';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import CommentItem from './CommentItem';
@@ -11,7 +10,6 @@ import { __createComment } from '../../redux/modules/commentsSlice';
 const CommentList = () => {
   const [isLogin, setIsLogin] = useState(false);
   const token = Cookies.get('token');
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const comments = useSelector(state => state.boards.post.comments);
   const { boardId } = useParams();
@@ -29,7 +27,7 @@ const CommentList = () => {
 
   useEffect(() => {
     dispatch(__getPostById(boardId));
-  }, [dispatch, comments]);
+  }, [dispatch, boardId]);
 
   const handleClick = () => {
     setFormValue(initialValue);
@@ -43,7 +41,7 @@ const CommentList = () => {
           <CommentTitle>
             {comments?.length > 0 ? `${comments.length}개의 댓글이 있습니다.` : '댓글이 없습니다.'}
           </CommentTitle>
-          <Button onClick={() => handleClick()} background="#fbae03" color="#fff">
+          <Button onClick={handleClick} background="#fbae03" color="#fff">
             같이 산책하기
           </Button>
         </Info>
@@ -55,7 +53,6 @@ const CommentList = () => {
           placeholder="댓글을 입력하세요"
         />
         <ItemWrap>
-          {/* commentItem  */}
           {comments?.map(comment => (
             <CommentItem key={comment.id} comment={comment} boardId={boardId} />
           ))}

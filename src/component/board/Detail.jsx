@@ -15,15 +15,12 @@ const Detail = () => {
   const { boardId } = useParams();
 
   useEffect(() => {
-    dispatch(__getPostById(boardId));
-  }, [dispatch, boardId]);
-
-  useEffect(() => {
     if (token) {
       setIsLogin(true);
     }
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-  }, [token]);
+    dispatch(__getPostById(boardId));
+  }, [token, dispatch]);
 
   const handleUpdate = () => {
     navigate(`${PATH_URL.CREATE}?id=${boardId}`, { state: { post } });
