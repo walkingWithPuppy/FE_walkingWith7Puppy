@@ -26,7 +26,7 @@ const CommentList = () => {
   };
 
   const handleClick = async () => {
-    if (!formValue.content | formValue.content.trim() === '') {
+    if (!formValue.content | (formValue.content.trim() === '')) {
       alert('댓글을 입력해주세요.');
       return false;
     }
@@ -35,7 +35,6 @@ const CommentList = () => {
     await dispatch(__getPostById(boardId));
     setFormValue(initialValue);
   };
-
   useEffect(() => {
     if (token) {
       setIsLogin(true);
@@ -68,7 +67,12 @@ const CommentList = () => {
         />
         <ItemWrap>
           {comments?.map(comment => (
-            <CommentItem key={comment.id} comment={comment} boardId={boardId} />
+            <CommentItem
+              key={comment.id}
+              comment={comment}
+              boardId={boardId}
+              username={comment.username}
+            />
           ))}
         </ItemWrap>
       </Container>

@@ -24,7 +24,6 @@ export const __getList = createAsyncThunk('boards/getList', async (payload, thun
 export const __getPostById = createAsyncThunk('boards/getPostById', async (id, thunkAPI) => {
   try {
     const response = await api.get(`${PATH_URL.BOARD}/${id}`);
-    console.log(response);
     return response.data;
   } catch (error) {
     return thunkAPI.rejectWithValue(error);

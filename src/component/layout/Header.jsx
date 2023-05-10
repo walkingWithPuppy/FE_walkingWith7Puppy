@@ -19,6 +19,7 @@ const Header = () => {
 
   const logoutHandle = () => {
     Cookies.remove('token');
+    Cookies.remove('refreshToken');
     setIsLogin(prev => !prev);
     navigate(PATH_URL.HOME);
   };

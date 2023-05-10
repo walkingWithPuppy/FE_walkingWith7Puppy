@@ -6,16 +6,19 @@ import { formatDate } from '../../utils/formatDate';
 import { __deleteComment, __updateComment } from '../../redux/modules/commentsSlice';
 import { __getPostById } from '../../redux/modules/boardsSlice';
 import { useDispatch } from 'react-redux';
+import jwtDecode from 'jwt-decode';
 
-const CommentItem = ({ comment, boardId }) => {
+const CommentItem = ({ comment, boardId, username }) => {
   const [isEdit, setIsEdit] = useState(false);
-  const [isLogin, setIsLogin] = useState(false);
+  const [idCheck, setIdCheck] = useState(false);
   const dispatch = useDispatch();
   const token = Cookies.get('token');
   const [content, setContent] = useState('');
+
   useEffect(() => {
     if (token) {
-      setIsLogin(true);
+      const tokenUsername = jwtDecode(token);
+      username === tokenUsername.sub ? setIdCheck(true) : setIdCheck(false);
     }
   }, [token]);
 
@@ -54,33 +57,36 @@ const CommentItem = ({ comment, boardId }) => {
             )}
           </CreatedDate>
         </CommentInfo>
-        {isLogin && (
-          <IconsWrapper>
-            {isEdit ? (
-              <>
-                <Button onClick={() => handleUpdate(boardId, comment.id, content)}>수정</Button>
-                <Button onClick={() => setIsEdit(false)}>취소</Button>
-              </>
-            ) : (
-              <>
-                <Icon onClick={() => handleEdit(boardId, comment.id)}>
-                  <EditLocationAlt />
-                </Icon>
-                <Icon onClick={() => handleDelete(boardId, comment.id)}>
-                  <DeleteForever />
-                </Icon>
-              </>
-            )}
-          </IconsWrapper>
-        )}
+
+        <IconsWrapper>
+          {isEdit ? (
+            <>
+              <Button onClick={() => handleUpdate(boardId, comment.id, content)}>수정</Button>
+              <Button onClick={() => setIsEdit(false)}>취소</Button>
+            </>
+          ) : (
+            <>
+              {idCheck && (
+                <>
+                  <Icon onClick={() => handleEdit(boardId, comment.id)}>
+                    <EditLocationAlt />
+                  </Icon>
+                  <Icon onClick={() => handleDelete(boardId, comment.id)}>
+                    <DeleteForever />
+                  </Icon>
+                </>
+              )}
+            </>
+          )}
+        </IconsWrapper>
       </ItemInfo>
 
       <CommentWrapper>
-      {isEdit ? (
-        <Input type="text" value={content} onChange={handleInputChange} />
-      ) : (
-        <Content>{comment.content}</Content>
-      )}
+        {isEdit ? (
+          <Input type="text" value={content} onChange={handleInputChange} />
+        ) : (
+          <Content>{comment.content}</Content>
+        )}
       </CommentWrapper>
     </CommentItemWrapper>
   );
@@ -91,19 +97,19 @@ const CommentItemWrapper = styled.div`
   padding: 10px;
   border-radius: 5px;
   background-color: #f9f9f9;
-  `;
-  
-  const ItemInfo = styled.div`
+`;
+
+const ItemInfo = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 5px;
-  `;
-  
-  const CommentInfo = styled.div`
+`;
+
+const CommentInfo = styled.div`
   display: flex;
-  `;
-  const NickName = styled.p`
+`;
+const NickName = styled.p`
   font-size: 14px;
   font-weight: bold;
   margin-right: 10px;

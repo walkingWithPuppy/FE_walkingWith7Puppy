@@ -18,11 +18,6 @@ const Detail = () => {
   const [idCheck, setIdCheck] = useState(false);
 
   const token = Cookies.get('token');
-  let tokenUsername;
-  if (token) {
-    tokenUsername = jwtDecode(token);
-  }
-  // const tokenUsername = jwtDecode(token);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const post = useSelector(state => state.boards.post);
@@ -34,11 +29,6 @@ const Detail = () => {
   };
 
   const { data } = useQuery('check', checkAccess);
-
-  // console.log(data?.data.username);
-  // console.log(tokenUsername.sub);
-  // console.log(data.config.headers.Authorization);
-  // console.log(data.data.username);
 
   const handleUpdate = () => {
     navigate(`${PATH_URL.CREATE}?id=${boardId}`, { state: { post } });
@@ -54,7 +44,8 @@ const Detail = () => {
   useEffect(() => {
     if (token) {
       setIsLogin(true);
-      data?.data.username === tokenUsername.sub && setIdCheck(true);
+      const tokenUsername = jwtDecode(token);
+      data?.data.username === tokenUsername.sub ? setIdCheck(true) : setIdCheck(false);
     }
     const fetchBoard = async () => {
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
@@ -62,7 +53,7 @@ const Detail = () => {
       setIsLoading(false);
     };
     fetchBoard();
-  }, [token, dispatch]);
+  }, [data]);
 
   const noImg = '/images/board/no-img.jpg';
   const handleImageError = e => (e.target.src = noImg);

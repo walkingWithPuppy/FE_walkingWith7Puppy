@@ -17,6 +17,7 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
+
   const inputChange = e => {
     const { name, value } = e.target;
     setUserInput({
@@ -24,34 +25,27 @@ const Login = () => {
       [name]: value,
     });
   };
+
   const { username, password } = userInput;
   const userLogin = async () => {
-    try {
-      setIsLoading(true);
-      const response = await api.post(`${PATH_URL.LOGIN}`, userInput);
-      // const response = await api.post('/login', userInput); //테스트용
-      // console.log(response.headers.get('ACCESS_KEY'));
-      // console.log(response);
-      // const accessHeader = response.headers.get('Authorization');
+    setIsLoading(true);
+    const response = await api.post(`${PATH_URL.LOGIN}`, userInput);
 
-      const accessHeader = response.headers.get('ACCESS_KEY');
-      // console.log(accessHeader);
-      const token = accessHeader.split(' ')[1];
-      const userToken = jwtDecode(token);
-      // console.log('tokendecode:::::::', userToken);
-      const expirationTime = new Date(userToken.exp * 1000);
-      // console.log('expirationTime::::::::', expirationTime);
-      Cookies.set('token', token, { expires: expirationTime });
-      setUserInput({
-        username: '',
-        password: '',
-      });
-      navigate(PATH_URL.HOME);
-      setIsLoading(false);
-    } catch (error) {
-      console.log(error); //통신시 키값 맞출 예정
-      alert('존재하지않는 ID입니다');
-    }
+    const accessHeader = response.headers.get('ACCESS_KEY');
+    const refreshHeader = response.headers.get('REFRESH_KEY');
+
+    const acessToken = accessHeader.split(' ')[1];
+    const refreshToken = refreshHeader.split(' ')[1];
+    const userToken = jwtDecode(acessToken);
+    const expirationTime = new Date(userToken.exp * 1000);
+
+    Cookies.set('token', acessToken, { expires: expirationTime });
+    Cookies.set('refreshToken', refreshToken, { expires: expirationTime });
+    setUserInput({
+      username: '',
+      password: '',
+    });
+    navigate(PATH_URL.HOME);
   };
   const goSinup = () => {
     navigate(PATH_URL.SIGNUP);
