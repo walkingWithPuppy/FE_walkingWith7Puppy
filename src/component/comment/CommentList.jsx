@@ -79,11 +79,11 @@ const CommentWrapper = styled.div`
   align-items: center;
   margin: 15px auto;
   background-color: #fff;
-  padding: 20px;
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
 `;
 
 const Container = styled.div`
+  padding: 10px 20px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -93,6 +93,7 @@ const Container = styled.div`
 const Info = styled.div`
   display: flex;
   align-items: center;
+  min-width: 550px;
   margin-bottom: 20px;
   justify-content: space-between;
   width: 100%;
