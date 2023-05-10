@@ -26,9 +26,14 @@ const CommentList = () => {
   };
 
   const handleClick = async () => {
-    setFormValue(initialValue);
+    if (!formValue.content | formValue.content.trim() === '') {
+      alert('댓글을 입력해주세요.');
+      return false;
+    }
+
     await dispatch(__createComment({ boardId, content }));
     await dispatch(__getPostById(boardId));
+    setFormValue(initialValue);
   };
 
   useEffect(() => {
