@@ -7,12 +7,14 @@ import { useState } from 'react';
 import { api } from '../api/axios';
 import Cookies from 'js-cookie';
 import jwtDecode from 'jwt-decode';
+import Loading from '../component/Loading';
 const MotionContainer = motion('div');
 const Login = () => {
   const [userInput, setUserInput] = useState({
     username: '',
     password: '',
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -26,6 +28,7 @@ const Login = () => {
 
   const { username, password } = userInput;
   const userLogin = async () => {
+    setIsLoading(true);
     const response = await api.post(`${PATH_URL.LOGIN}`, userInput);
 
     const accessHeader = response.headers.get('ACCESS_KEY');
@@ -54,42 +57,46 @@ const Login = () => {
       exit={{ y: -50, opacity: 0 }}
       transition={{ duration: 0.2 }}
     >
-      <LoginContainer>
-        <div>
-          <Typography variant="h4">Login</Typography>
-          <TextField
-            label="ID"
-            variant="outlined"
-            margin="dense"
-            fullWidth
-            name="username"
-            value={username || ''}
-            onChange={inputChange}
-          />
-          <TextField
-            label="Password"
-            type="password"
-            variant="outlined"
-            margin="dense"
-            fullWidth
-            name="password"
-            value={password || ''}
-            onChange={inputChange}
-          />
-          <LoginBtnWrap>
-            <div>
-              <Button variant="outlined" fullWidth onClick={userLogin}>
-                Login
-              </Button>
-            </div>
-            <div>
-              <Button variant="outlined" fullWidth onClick={goSinup}>
-                signup
-              </Button>
-            </div>
-          </LoginBtnWrap>
-        </div>
-      </LoginContainer>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <LoginContainer>
+          <div>
+            <Typography variant="h4">Login</Typography>
+            <TextField
+              label="ID"
+              variant="outlined"
+              margin="dense"
+              fullWidth
+              name="username"
+              value={username || ''}
+              onChange={inputChange}
+            />
+            <TextField
+              label="Password"
+              type="password"
+              variant="outlined"
+              margin="dense"
+              fullWidth
+              name="password"
+              value={password || ''}
+              onChange={inputChange}
+            />
+            <LoginBtnWrap>
+              <div>
+                <Button variant="outlined" fullWidth onClick={userLogin}>
+                  Login
+                </Button>
+              </div>
+              <div>
+                <Button variant="outlined" fullWidth onClick={goSinup}>
+                  signup
+                </Button>
+              </div>
+            </LoginBtnWrap>
+          </div>
+        </LoginContainer>
+      )}
     </MotionContainer>
   );
 };

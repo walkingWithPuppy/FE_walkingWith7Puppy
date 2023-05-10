@@ -21,8 +21,6 @@ const HomeSection03 = () => {
   const dispatch = useDispatch();
   const postList = useSelector(state => state.boards.boards).slice(0, 7);
 
-  const test = useSelector(state => state.boards);
-
   useEffect(() => {
     dispatch(__getList());
   }, []);

@@ -20,11 +20,15 @@ const LoadingContainer = styled.div`
     position: fixed;
     top: 50%;
     left: 50%;
+    width: 100%;
+    height: 100%;
     transform: translate(-50%, -50%);
+    background-color: white;
 
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
   }
 
   p {

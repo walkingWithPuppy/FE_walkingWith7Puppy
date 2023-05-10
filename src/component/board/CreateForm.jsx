@@ -13,12 +13,12 @@ const CreateForm = () => {
   const { post } = location.state || {};
   const boardId = parseInt(new URLSearchParams(location.search).get('id'));
   const isEdit = !!boardId;
-  const noImg = '/images/board/noImg.jpg';
+  const noImg = '/images/board/no-img.jpg';
 
   const initialValue = {
     title: '',
     address: '',
-    img: '',
+    img: noImg,
     content: '',
   };
 
@@ -33,19 +33,17 @@ const CreateForm = () => {
         title: post.title,
         address: post.address,
         content: post.content,
-        img: post.img || noImg,
+        img: post.img,
       });
-      // setImgUrl(post.img || '');
-      imgRef.current.src = post.img || '';
+      // imgRef.current.src = post.img || '';
+      setImg(post.img);
     }
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   }, []);
-  const formData = new FormData();
 
   const onSubmitHandler = async e => {
     e.preventDefault();
 
-    // 필수체크
     if (isFormValid()) {
       const formData = new FormData();
       const data = {
@@ -54,8 +52,12 @@ const CreateForm = () => {
         address,
       };
       const img = imgRef.current.files[0];
+      
       formData.append('data', new Blob([JSON.stringify(data)], { type: 'application/json' }));
-      formData.append('img', img);
+      console.log(img && console.log(img,'$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$'))
+      img && formData.append('img', img);
+      // img 없을경우에는???(변경없을경우나))
+      // if(post) 일경우 hidden
 
       if (isEdit) {
         const id = post.id;
@@ -80,7 +82,6 @@ const CreateForm = () => {
       alert('내용을 입력해주세요.');
       return false;
     }
-    // 모든 필드가 유효하면 true 반환
     return true;
   };
 
@@ -89,7 +90,6 @@ const CreateForm = () => {
     setFormValue({ ...formValue, [name]: value });
   };
 
-  // 이미지 미리보기
   const saveImgFile = e => {
     const file = e.target.files[0];
     // const file = imgRef.current.files[0];
@@ -123,14 +123,14 @@ const CreateForm = () => {
         />
         <ImageWrapper>
           {/* 이미지가 있으면 post.img없으면 noImg */}
-          <PreviewImage src={img ? img : ''} alt="noImg" />
+          <PreviewImage src={img || noImg} alt="noImg" />
           <input
             type="file"
             accept="image/*"
             id="img"
             onChange={saveImgFile}
             ref={imgRef}
-            required
+            required={!isEdit} // board id가 없으면등록필수
           />
         </ImageWrapper>
         <Label htmlFor="content">내용</Label>

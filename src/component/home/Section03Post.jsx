@@ -1,11 +1,10 @@
 import styled from 'styled-components';
+import ImgTag from '../common/ImgTag';
 
 const Section03Post = ({ title, address, imgurl }) => {
-  const noImgURL = '/images/board/no-img.jpg';
-
   return (
     <PostContainer>
-      <img src={imgurl || noImgURL} alt="dog Image" />
+      <ImgTag img={imgurl} height="70%" />
       <TextLabelContainer>
         <h1>{title}</h1>
         <h5>{address}</h5>
@@ -23,12 +22,6 @@ const PostContainer = styled.div`
   background-color: white;
 
   overflow: hidden;
-
-  img {
-    width: 100%;
-    height: 70%;
-    object-fit: cover;
-  }
 `;
 
 const TextLabelContainer = styled.div`

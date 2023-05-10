@@ -7,7 +7,7 @@ import Cookies from 'js-cookie';
 import { useDispatch, useSelector } from 'react-redux';
 import { __createComment } from '../../redux/modules/commentsSlice';
 
-const CommentList = ({ idCheck }) => {
+const CommentList = () => {
   const [isLogin, setIsLogin] = useState(false);
   const token = Cookies.get('token');
   const dispatch = useDispatch();
@@ -26,11 +26,15 @@ const CommentList = ({ idCheck }) => {
   };
 
   const handleClick = async () => {
-    setFormValue(initialValue);
+    if (!formValue.content | (formValue.content.trim() === '')) {
+      alert('댓글을 입력해주세요.');
+      return false;
+    }
+
     await dispatch(__createComment({ boardId, content }));
     await dispatch(__getPostById(boardId));
+    setFormValue(initialValue);
   };
-
   useEffect(() => {
     if (token) {
       setIsLogin(true);
@@ -63,7 +67,12 @@ const CommentList = ({ idCheck }) => {
         />
         <ItemWrap>
           {comments?.map(comment => (
-            <CommentItem key={comment.id} comment={comment} boardId={boardId} idCheck={idCheck} />
+            <CommentItem
+              key={comment.id}
+              comment={comment}
+              boardId={boardId}
+              username={comment.username}
+            />
           ))}
         </ItemWrap>
       </Container>
@@ -79,11 +88,11 @@ const CommentWrapper = styled.div`
   align-items: center;
   margin: 15px auto;
   background-color: #fff;
-  padding: 20px;
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
 `;
 
 const Container = styled.div`
+  padding: 10px 20px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -93,6 +102,7 @@ const Container = styled.div`
 const Info = styled.div`
   display: flex;
   align-items: center;
+  min-width: 550px;
   margin-bottom: 20px;
   justify-content: space-between;
   width: 100%;

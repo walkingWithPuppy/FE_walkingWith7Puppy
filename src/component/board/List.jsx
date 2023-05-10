@@ -145,6 +145,7 @@ const StTitle = styled.span`
   font-size: 24px;
   font-weight: semi-bold;
   color: #fbae03;
+  z-index: 1;
 `;
 
 const StLabel = styled.p`

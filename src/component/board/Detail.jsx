@@ -10,6 +10,7 @@ import CommentList from '../comment/CommentList';
 import { useQuery } from 'react-query';
 import { api } from '../../api/axios';
 import jwtDecode from 'jwt-decode';
+import { formatDate } from '../../utils/formatDate';
 
 const Detail = () => {
   const [isLogin, setIsLogin] = useState(false);
@@ -17,7 +18,6 @@ const Detail = () => {
   const [idCheck, setIdCheck] = useState(false);
 
   const token = Cookies.get('token');
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const post = useSelector(state => state.boards.post);
@@ -45,7 +45,7 @@ const Detail = () => {
     if (token) {
       setIsLogin(true);
       const tokenUsername = jwtDecode(token);
-      data?.data.username === tokenUsername.sub && setIdCheck(true);
+      data?.data.username === tokenUsername.sub ? setIdCheck(true) : setIdCheck(false);
     }
     const fetchBoard = async () => {
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
@@ -53,10 +53,10 @@ const Detail = () => {
       setIsLoading(false);
     };
     fetchBoard();
-    console.log('렌더링중');
-  }, []);
+  }, [data]);
 
   const noImg = '/images/board/no-img.jpg';
+  const handleImageError = e => (e.target.src = noImg);
 
   return (
     <DetailWrapper>
@@ -66,15 +66,25 @@ const Detail = () => {
         <DetailCommentContainer>
           <Container>
             <ContentWrapper>
-              <Image src={post.img || noImg} alt="puppy" />
+              <Image src={post.img || noImg} onError={handleImageError} alt="puppy" />
               <Info>
-                <Title>{post.title}</Title>
-                <NickName>작성자 : {post.username}</NickName>
-                <Area>지역구 : {post.address}</Area>
+                <InfoTitle>
+                  <Title>{post.title}</Title>
+                  <Area>{post.address}</Area>
+                </InfoTitle>
+                <NickName>{post.username}</NickName>
+                <Date>
+                  {post.modifiedAt ? (
+                    <>{formatDate(post.modifiedAt)}</>
+                  ) : post.createdAt ? (
+                    <>{formatDate(post.createdAt)}</>
+                  ) : (
+                    <></>
+                  )}
+                </Date>
                 <Description>{post.content}</Description>
               </Info>
             </ContentWrapper>
-            {/* 로그인한경우 id 같은 경우만 (+작성자id비교로직 추가필요) 수정,삭제 버튼 보이도록 */}
             {isLogin && (
               <ButtonWrapper>
                 {idCheck && (
@@ -86,7 +96,7 @@ const Detail = () => {
               </ButtonWrapper>
             )}
           </Container>
-          <CommentList idCheck={idCheck} />
+          <CommentList />
         </DetailCommentContainer>
       )}
     </DetailWrapper>
@@ -103,6 +113,7 @@ const DetailWrapper = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 30px;
+  flex-direction: column;
 `;
 
 const Container = styled.div`
@@ -111,7 +122,7 @@ const Container = styled.div`
   flex-direction: column;
   max-width: 800px;
   width: 100%;
-  padding: 30px 20px;
+  padding: 30px;
   background-color: #ffffff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 `;
@@ -136,8 +147,14 @@ const Image = styled.img`
 
 const Info = styled.div`
   display: flex;
-  margin-top: 30px;
+  margin-top: 20px;
   flex-direction: column;
+`;
+
+const InfoTitle = styled.div`
+  display: flex;
+  width: 400px;
+  justify-content: space-between;
 `;
 
 const Title = styled.h2`
@@ -157,7 +174,13 @@ const Area = styled.p`
   font-weight: 700;
   font-size: 16px;
   color: #9d9d9d;
-  margin-bottom: 5px;
+`;
+
+const Date = styled.p`
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #666666;
 `;
 
 const Description = styled.p`
@@ -170,19 +193,23 @@ const Description = styled.p`
 const ButtonWrapper = styled.div`
   justify-content: flex-end;
   display: flex;
-  margin-left: 500px; // 오른쪽으로 버튼배치 수정필요
   gap: 10px;
   margin-top: 10px;
 `;
-
 const Button = styled.button`
   width: 5rem;
   border: 2px solid #fbae03;
   border-radius: 1rem;
   padding: 0.2rem 0.8rem;
-  background-color: ${props => props.background};
-  color: ${props => props.color};
-  font-weight: 550;
-`;
+  background-color: #fff;
+  color: #fbae03;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
 
+  &:hover {
+    background-color: #fbae03;
+    color: #fff;
+  }
+`;
 export default Detail;
