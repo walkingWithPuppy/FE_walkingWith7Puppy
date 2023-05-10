@@ -1,18 +1,14 @@
-import react from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { PATH_URL } from '../../shared/constants';
+import ImgTag from '../common/ImgTag';
 
 const Post = ({ post }) => {
-  const noImg = '/images/board/no-img.jpg';
-
-  const handleImageError = e => (e.target.src = noImg);
-
   return (
     <PostWrapper>
       <Link to={`${PATH_URL.BOARD}/${post.id}`}>
         <Area>{post.address}</Area>
-        <Image src={post.img || noImg} onError={handleImageError} alt="puppy" />
+        <ImgTag img={post.img} height="250px" />
         <Info>
           <Title>{post.title}</Title>
           <Content>{post.content}</Content>
@@ -37,11 +33,11 @@ const PostWrapper = styled.div`
   overflow: hidden;
 `;
 
-const Image = styled.img`
-  width: 100%;
-  object-fit: cover;
-  height: 250px;
-`;
+// const Image = styled.img`
+//   width: 100%;
+//   object-fit: cover;
+//   height: 250px;
+// `;
 
 const Info = styled.div`
   padding: 10px;
