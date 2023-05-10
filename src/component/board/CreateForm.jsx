@@ -52,9 +52,9 @@ const CreateForm = () => {
         address,
       };
       const img = imgRef.current.files[0];
-      
+
       formData.append('data', new Blob([JSON.stringify(data)], { type: 'application/json' }));
-      console.log(img && console.log(img,'$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$'))
+      console.log(img && console.log(img, '$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$'));
       img && formData.append('img', img);
       // img 없을경우에는???(변경없을경우나))
       // if(post) 일경우 hidden

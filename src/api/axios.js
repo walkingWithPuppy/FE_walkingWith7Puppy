@@ -15,7 +15,7 @@ api.interceptors.request.use(
     console.log('axios 인터셉터 요청');
 
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+      config.headers.ACCESS_KEY = `Bearer ${token}`;
     }
     return config;
   },
