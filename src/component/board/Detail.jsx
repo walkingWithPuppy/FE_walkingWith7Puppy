@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 const Detail = () => {
   const [isLogin, setIsLogin] = useState(false);
+
   const token = Cookies.get('token');
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -50,8 +51,12 @@ const Detail = () => {
         {/* 로그인한경우 id 같은 경우만 (+작성자id비교로직 추가필요) 수정,삭제 버튼 보이도록 */}
         {isLogin && (
           <ButtonWrapper>
-            <Button onClick={() => handleUpdate()}>수정하기</Button>
-            <Button onClick={() => handleDelete()}>삭제하기</Button>
+            {isLogin && (
+              <>
+                <Button onClick={() => handleUpdate()}>수정하기</Button>
+                <Button onClick={() => handleDelete()}>삭제하기</Button>
+              </>
+            )}
           </ButtonWrapper>
         )}
       </Container>

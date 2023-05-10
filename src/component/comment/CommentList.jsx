@@ -26,6 +26,12 @@ const CommentList = () => {
   };
 
   useEffect(() => {
+    if (token) {
+      setIsLogin(() => true);
+    }
+  }, [token]);
+
+  useEffect(() => {
     dispatch(__getPostById(boardId));
   }, [dispatch, boardId]);
 
@@ -41,9 +47,11 @@ const CommentList = () => {
           <CommentTitle>
             {comments?.length > 0 ? `${comments.length}개의 댓글이 있습니다.` : '댓글이 없습니다.'}
           </CommentTitle>
-          <Button onClick={handleClick} background="#fbae03" color="#fff">
-            같이 산책하기
-          </Button>
+          {isLogin && (
+            <Button onClick={() => handleClick()} background="#fbae03" color="#fff">
+              같이 산책하기
+            </Button>
+          )}
         </Info>
         <Input
           type="text"
