@@ -51,53 +51,57 @@ const Login = () => {
     navigate(PATH_URL.SIGNUP);
   };
   return (
-    <MotionContainer
-      initial={{ y: -50, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      exit={{ y: -50, opacity: 0 }}
-      transition={{ duration: 0.2 }}
-    >
+    <>
       {isLoading ? (
-        <Loading />
+        <Loading margin="30%" />
       ) : (
-        <LoginContainer>
-          <div>
-            <Typography variant="h4">Login</Typography>
-            <TextField
-              label="ID"
-              variant="outlined"
-              margin="dense"
-              fullWidth
-              name="username"
-              value={username || ''}
-              onChange={inputChange}
-            />
-            <TextField
-              label="Password"
-              type="password"
-              variant="outlined"
-              margin="dense"
-              fullWidth
-              name="password"
-              value={password || ''}
-              onChange={inputChange}
-            />
-            <LoginBtnWrap>
+        <>
+          <MotionContainer
+            initial={{ y: -50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -50, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            <LoginContainer>
               <div>
-                <Button variant="outlined" fullWidth onClick={userLogin}>
-                  Login
-                </Button>
+                <Typography variant="h4">Login</Typography>
+                <TextField
+                  label="ID"
+                  variant="outlined"
+                  margin="dense"
+                  fullWidth
+                  name="username"
+                  value={username || ''}
+                  onChange={inputChange}
+                />
+                <TextField
+                  label="Password"
+                  type="password"
+                  variant="outlined"
+                  margin="dense"
+                  fullWidth
+                  name="password"
+                  value={password || ''}
+                  onChange={inputChange}
+                />
+                <LoginBtnWrap>
+                  <div>
+                    <Button variant="outlined" fullWidth onClick={userLogin}>
+                      Login
+                    </Button>
+                  </div>
+                  <div>
+                    <Button variant="outlined" fullWidth onClick={goSinup}>
+                      signup
+                    </Button>
+                  </div>
+                </LoginBtnWrap>
               </div>
-              <div>
-                <Button variant="outlined" fullWidth onClick={goSinup}>
-                  signup
-                </Button>
-              </div>
-            </LoginBtnWrap>
-          </div>
-        </LoginContainer>
+            </LoginContainer>
+          </MotionContainer>
+        </>
       )}
-    </MotionContainer>
+    </>
   );
 };
 const LoginContainer = styled.div`

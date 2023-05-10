@@ -8,7 +8,6 @@ import Login from '../pages/Login';
 import SignUp from '../pages/SignUp';
 import { PATH_URL } from './constants';
 import BoardCreate from '../pages/BoardCreate';
-import LoadingTest from './LoadingTest';
 
 const AnimatedRouter = () => {
   const location = useLocation();
@@ -21,7 +20,6 @@ const AnimatedRouter = () => {
         <Route path={PATH_URL.BOARD} element={<BoardList />} />
         <Route path={PATH_URL.POST} element={<BoardDetail />} />
         <Route path={PATH_URL.CREATE} element={<BoardCreate />} />
-        <Route path="/test" element={<LoadingTest />} />
       </Routes>
     </AnimatePresence>
   );

@@ -7,6 +7,7 @@ import { __deleteComment, __updateComment } from '../../redux/modules/commentsSl
 import { __getPostById } from '../../redux/modules/boardsSlice';
 import { useDispatch } from 'react-redux';
 import jwtDecode from 'jwt-decode';
+import Loading from '../Loading';
 
 const CommentItem = ({ comment, boardId, username }) => {
   const [isEdit, setIsEdit] = useState(false);
@@ -14,6 +15,7 @@ const CommentItem = ({ comment, boardId, username }) => {
   const dispatch = useDispatch();
   const token = Cookies.get('token');
   const [content, setContent] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (token) {
@@ -22,14 +24,16 @@ const CommentItem = ({ comment, boardId, username }) => {
     }
   }, [token]);
 
-  const handleEdit = (boardId, commentId) => {
+  const handleEdit = () => {
     setIsEdit(true);
     setContent(comment.content);
   };
 
   const handleDelete = async (boardId, commentId) => {
+    setIsLoading(true);
     await dispatch(__deleteComment({ boardId, commentId }));
     await dispatch(__getPostById(boardId));
+    setIsLoading(false);
   };
 
   const handleInputChange = e => {
@@ -37,58 +41,66 @@ const CommentItem = ({ comment, boardId, username }) => {
   };
 
   const handleUpdate = async (boardId, commentId, content) => {
+    setIsLoading(true);
     await dispatch(__updateComment({ boardId, commentId, content }));
     await dispatch(__getPostById(boardId));
+    setIsLoading(false);
     setIsEdit(false);
   };
 
   return (
-    <CommentItemWrapper>
-      <ItemInfo>
-        <CommentInfo>
-          <NickName>{comment.username}</NickName>
-          <CreatedDate>
-            {comment.modifiedAt ? (
-              <>{formatDate(comment.modifiedAt)}</>
-            ) : comment.createdAt ? (
-              <>{formatDate(comment.createdAt)}</>
-            ) : (
-              <></>
-            )}
-          </CreatedDate>
-        </CommentInfo>
+    <>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <CommentItemWrapper>
+          <ItemInfo>
+            <CommentInfo>
+              <NickName>{comment.username}</NickName>
+              <CreatedDate>
+                {comment.modifiedAt ? (
+                  <>{formatDate(comment.modifiedAt)}</>
+                ) : comment.createdAt ? (
+                  <>{formatDate(comment.createdAt)}</>
+                ) : (
+                  <></>
+                )}
+              </CreatedDate>
+            </CommentInfo>
 
-        <IconsWrapper>
-          {isEdit ? (
-            <>
-              <Button onClick={() => handleUpdate(boardId, comment.id, content)}>수정</Button>
-              <Button onClick={() => setIsEdit(false)}>취소</Button>
-            </>
-          ) : (
-            <>
-              {idCheck && (
+            <IconsWrapper>
+              {isEdit ? (
                 <>
-                  <Icon onClick={() => handleEdit(boardId, comment.id)}>
-                    <EditLocationAlt />
-                  </Icon>
-                  <Icon onClick={() => handleDelete(boardId, comment.id)}>
-                    <DeleteForever />
-                  </Icon>
+                  <Button onClick={() => handleUpdate(boardId, comment.id, content)}>수정</Button>
+                  <Button onClick={() => setIsEdit(false)}>취소</Button>
+                </>
+              ) : (
+                <>
+                  {idCheck && (
+                    <>
+                      <Icon onClick={handleEdit}>
+                        <EditLocationAlt />
+                      </Icon>
+                      <Icon onClick={() => handleDelete(boardId, comment.id)}>
+                        <DeleteForever />
+                      </Icon>
+                    </>
+                  )}
                 </>
               )}
-            </>
-          )}
-        </IconsWrapper>
-      </ItemInfo>
+            </IconsWrapper>
+          </ItemInfo>
 
-      <CommentWrapper>
-        {isEdit ? (
-          <Input type="text" value={content} onChange={handleInputChange} />
-        ) : (
-          <Content>{comment.content}</Content>
-        )}
-      </CommentWrapper>
-    </CommentItemWrapper>
+          <CommentWrapper>
+            {isEdit ? (
+              <Input type="text" value={content} onChange={handleInputChange} />
+            ) : (
+              <Content>{comment.content}</Content>
+            )}
+          </CommentWrapper>
+        </CommentItemWrapper>
+      )}
+    </>
   );
 };
 
@@ -109,6 +121,7 @@ const ItemInfo = styled.div`
 const CommentInfo = styled.div`
   display: flex;
 `;
+
 const NickName = styled.p`
   font-size: 14px;
   font-weight: bold;
