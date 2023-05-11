@@ -5,14 +5,12 @@ import { PATH_URL } from '../../shared/constants';
 import Cookies from 'js-cookie';
 
 const HomeSection04 = () => {
-  const animatedItem = {
-    0: useScrollFadeIn('down', 1, 0.2),
-  };
+  const animatedItem = useScrollFadeIn(1, 0.2);
 
   const token = Cookies.get('token');
 
   return (
-    <Section04 {...animatedItem[0]}>
+    <Section04 {...animatedItem}>
       <Link to={token ? PATH_URL.CREATE : PATH_URL.LOGIN}>
         <Button>우리 동네 강아지 친구, 지금 찾아보세요!</Button>
       </Link>

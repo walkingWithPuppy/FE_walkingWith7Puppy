@@ -4,9 +4,9 @@ import useScrollFadeIn from '../../hooks/useScrollFadeIn';
 
 const HomeSection02 = () => {
   const animatedItem = {
-    0: useScrollFadeIn('down', 1, 0.4),
-    1: useScrollFadeIn('down', 1.5, 1),
-    2: useScrollFadeIn('down', 2, 1.5),
+    0: useScrollFadeIn(1, 0.4),
+    1: useScrollFadeIn(1.5, 1),
+    2: useScrollFadeIn(2, 1.5),
   };
 
   return (

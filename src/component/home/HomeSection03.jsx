@@ -14,8 +14,8 @@ import { Keyboard, Scrollbar, Navigation, Pagination } from 'swiper';
 
 const HomeSection03 = () => {
   const animatedItem = {
-    0: useScrollFadeIn('down', 1, 0.2),
-    1: useScrollFadeIn('down', 1, 0.8),
+    0: useScrollFadeIn(1, 0.2),
+    1: useScrollFadeIn(1, 0.8),
   };
 
   const dispatch = useDispatch();
