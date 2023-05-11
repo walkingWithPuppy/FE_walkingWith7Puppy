@@ -54,6 +54,7 @@ const HomeSection03 = () => {
           }}
           modules={[Keyboard, Scrollbar, Navigation, Pagination]}
           breakpoints={swiperBreakpoints}
+          spaceBetween={20}
           style={{
             '--swiper-navigation-color': '#fff',
             '--swiper-pagination-color': '#fbae03',
