@@ -6,7 +6,6 @@ import { PATH_URL } from '../../shared/constants';
 import Cookies from 'js-cookie';
 
 const Header = () => {
-  // TEST CODE: login token 검증
   const [isLogin, setIsLogin] = useState(false);
   const token = Cookies.get('token');
   const navigate = useNavigate();

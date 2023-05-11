@@ -115,7 +115,6 @@ const DetailWrapper = styled.div`
 
 const Container = styled.div`
   display: flex;
-  // align-items: center;
   flex-direction: column;
   max-width: 800px;
   width: 100%;

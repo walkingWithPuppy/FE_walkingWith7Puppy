@@ -17,8 +17,6 @@ const List = () => {
   const dispatch = useDispatch();
   const posts = useSelector(state => state.boards.boards);
   const [isLoading, setIsLoading] = useState(false);
-  // const filteredList = useSelector(state => state.boards.filteredList);
-  // const [prevPosts, setPrevPosts] = useState(posts);
 
   const { ADDRESS_SELECT, address, setAddress } = useAddressSelect();
 
@@ -72,24 +70,24 @@ const List = () => {
         <Loading margin="25%" />
       ) : (
         <>
-      <PostWrapper>
-        {address === ADDRESS_SELECT[0].value ? (
-          posts?.map(post => <Post key={post.id} post={post} />)
-        ) : posts?.filter(item => item.address === address).length === 0 ? (
-          <NoPostText>조회하신 지역구에는 메이트가 없습니다.</NoPostText>
-        ) : (
-          posts
-            ?.filter(item => item.address === address)
-            .map(post => <Post key={post.id} post={post} />)
-        )}
-      </PostWrapper>
-      <Link to={PATH_URL.CREATE}>
-        {isLogin && (
-          <CreateButton>
-            <CreateIcon />
-          </CreateButton>
-        )}
-      </Link>
+          <PostWrapper>
+            {address === ADDRESS_SELECT[0].value ? (
+              posts?.map(post => <Post key={post.id} post={post} />)
+            ) : posts?.filter(item => item.address === address).length === 0 ? (
+              <NoPostText>조회하신 지역구에는 메이트가 없습니다.</NoPostText>
+            ) : (
+              posts
+                ?.filter(item => item.address === address)
+                .map(post => <Post key={post.id} post={post} />)
+            )}
+          </PostWrapper>
+          <Link to={PATH_URL.CREATE}>
+            {isLogin && (
+              <CreateButton>
+                <CreateIcon />
+              </CreateButton>
+            )}
+          </Link>
         </>
       )}
     </ListWrapper>

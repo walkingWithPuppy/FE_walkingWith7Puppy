@@ -20,7 +20,6 @@ const Post = ({ post }) => {
 
 const PostWrapper = styled.div`
   display: flex;
-  // align-items:flex-start
   flex-direction: column;
   width: 300px;
   height: 450px;
