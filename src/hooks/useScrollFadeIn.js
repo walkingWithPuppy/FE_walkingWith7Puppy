@@ -1,22 +1,7 @@
 import { useRef, useCallback, useEffect } from 'react';
 
-const useScrollFadeIn = (direction, duration, delay) => {
+const useScrollFadeIn = (duration, delay) => {
   const dom = useRef(null);
-
-  const handleDirection = name => {
-    switch (name) {
-      case 'up':
-        return 'translate3d(0, 50%, 0)';
-      case 'down':
-        return 'translate3d(0, -50%, 0)';
-      case 'left':
-        return 'translate3d(50%, 0, 0)';
-      case 'right':
-        return 'translate3d(-50%, 0, 0)';
-      default:
-        return;
-    }
-  };
 
   const handleScroll = useCallback(
     ([entry]) => {
@@ -46,7 +31,7 @@ const useScrollFadeIn = (direction, duration, delay) => {
     }
   }, [handleScroll]);
 
-  return { ref: dom, style: { opacity: 0, transform: handleDirection(direction) } };
+  return { ref: dom, style: { opacity: 0, transform: 'translate3d(0, -50%, 0)' } };
 };
 
 export default useScrollFadeIn;

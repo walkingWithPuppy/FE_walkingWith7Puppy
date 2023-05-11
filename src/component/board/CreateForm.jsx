@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useState, useRef, useEffect } from 'react';
 import { PATH_URL } from '../../shared/constants';
@@ -155,7 +155,7 @@ const CreateForm = () => {
             name="img"
             onChange={saveImgFile}
             ref={imgRef}
-            />
+          />
         </ImageWrapper>
         <Label htmlFor="content">내용</Label>
         <Textarea value={content} name="content" onChange={handleInputChange} />

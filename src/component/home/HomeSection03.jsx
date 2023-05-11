@@ -14,8 +14,8 @@ import { Keyboard, Scrollbar, Navigation, Pagination } from 'swiper';
 
 const HomeSection03 = () => {
   const animatedItem = {
-    0: useScrollFadeIn('down', 1, 0.2),
-    1: useScrollFadeIn('down', 1, 0.8),
+    0: useScrollFadeIn(1, 0.2),
+    1: useScrollFadeIn(1, 0.8),
   };
 
   const dispatch = useDispatch();
@@ -54,6 +54,7 @@ const HomeSection03 = () => {
           }}
           modules={[Keyboard, Scrollbar, Navigation, Pagination]}
           breakpoints={swiperBreakpoints}
+          spaceBetween={20}
           style={{
             '--swiper-navigation-color': '#fff',
             '--swiper-pagination-color': '#fbae03',
