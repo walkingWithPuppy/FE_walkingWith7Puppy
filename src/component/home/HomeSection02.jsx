@@ -13,7 +13,7 @@ const HomeSection02 = () => {
     <Section02>
       <TextLabel>
         <div id="title" {...animatedItem[0]}>
-          WWP와 함께해요!
+          <span>WWP</span>와 함께해요!
         </div>
         <div {...animatedItem[1]}>
           혼자 산책하기 지겨우신가요? 가까운 동네 주민과 반려견 친구를 함께 만나보세요!{' '}
@@ -41,6 +41,9 @@ const TextLabel = styled.div`
   #title {
     font-size: 1.8rem;
     font-weight: 700;
+  }
+  span {
+    font-family: 'Rubik', sans-serif;
   }
 `;
 
