@@ -96,6 +96,7 @@ const HeaderTitle = styled.div`
 
   font-weight: bold;
   font-size: 1.3rem;
+  font-family: 'Rubik', sans-serif;
   color: #fbae03;
   cursor: pointer;
 `;

@@ -54,6 +54,7 @@ const TextContainer = styled.div`
 const Title = styled.h1`
   font-size: 3.2rem;
   font-weight: bold;
+  font-family: 'Rubik', sans-serif;
 
   @media screen and (max-width: 689px) {
     font-size: 2.8rem;
