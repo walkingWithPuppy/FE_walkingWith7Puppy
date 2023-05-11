@@ -86,8 +86,6 @@ const Button = styled.button`
 
   span {
     font-family: 'Rubik', sans-serif;
-    margin: 0;
-    padding: 0;
   }
 
   :hover {
