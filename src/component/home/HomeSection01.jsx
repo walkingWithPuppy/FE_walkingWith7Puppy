@@ -30,6 +30,7 @@ const Section01 = styled.div`
   background-repeat: no-repeat;
   background-position: 90% 80%;
   background-size: 35rem;
+  font-family: 'Rubik', sans-serif;
 
   display: flex;
   flex-direction: column;
@@ -54,7 +55,6 @@ const TextContainer = styled.div`
 const Title = styled.h1`
   font-size: 3.2rem;
   font-weight: bold;
-  font-family: 'Rubik', sans-serif;
 
   @media screen and (max-width: 689px) {
     font-size: 2.8rem;
@@ -78,6 +78,7 @@ const Button = styled.button`
   display: flex;
   justify-content: space-around;
   align-items: center;
+  font-family: 'Rubik', sans-serif;
 
   :hover {
     transition: 0.7s;
