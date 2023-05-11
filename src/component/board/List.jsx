@@ -10,6 +10,7 @@ import { __getByAddress, __getList } from '../../redux/modules/boardsSlice';
 import Cookies from 'js-cookie';
 import Loading from '../Loading';
 import useAddressSelect from '../../hooks/useAddressSelect';
+import PetsIcon from '@mui/icons-material/Pets';
 
 const List = () => {
   const [isLogin, setIsLogin] = useState(false);
@@ -17,7 +18,6 @@ const List = () => {
   const dispatch = useDispatch();
   const posts = useSelector(state => state.boards.boards);
   const [isLoading, setIsLoading] = useState(false);
-
   const { ADDRESS_SELECT, address, setAddress } = useAddressSelect();
 
   useEffect(() => {
@@ -45,7 +45,9 @@ const List = () => {
     <ListWrapper>
       <SelectWrapper>
         <Container>
-          <StTitle>메이트를 찾고 있어요</StTitle>
+          <StTitle>
+            메이트를 찾고 있어요 <PetsIcon />
+          </StTitle>
           <StFormControl>
             <InputLabel id="demo-simple-select-label">
               <StLabel>만나요</StLabel>
@@ -74,7 +76,9 @@ const List = () => {
             {address === ADDRESS_SELECT[0].value ? (
               posts?.map(post => <Post key={post.id} post={post} />)
             ) : posts?.filter(item => item.address === address).length === 0 ? (
-              <NoPostText>조회하신 지역구에는 메이트가 없습니다.</NoPostText>
+              <NoPostTextContainer>
+                <NoPostText>조회하신 지역구에는 메이트가 없어요</NoPostText>
+              </NoPostTextContainer>
             ) : (
               posts
                 ?.filter(item => item.address === address)
@@ -97,23 +101,30 @@ const List = () => {
 const ListWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 20px auto;
+  margin: 40px auto;
   max-width: 1200px;
   justify-content: center;
 `;
 
 const PostWrapper = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 30px;
+  justify-items: start;
+  margin-top: 40px;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 20px;
+  @media screen and (max-width: 768px) {
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(auto-fit, minmax(100px, 1fr));
+  }
 `;
 
 const Container = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 90%;
+  width: 100%;
 `;
 
 const SelectWrapper = styled.div`
@@ -127,7 +138,6 @@ const StFormControl = styled(FormControl)`
 `;
 
 const StTitle = styled.span`
-  margin-bottom: 20px;
   text-align: center;
   font-size: 24px;
   font-weight: semi-bold;
@@ -136,7 +146,8 @@ const StTitle = styled.span`
 `;
 
 const StLabel = styled.p`
-  font-size: px;
+  font-size: 18px;
+  margin-top: -2px;
   font-weight: bold;
 `;
 
@@ -162,10 +173,19 @@ const CreateButton = styled.button`
   }
 `;
 
-const NoPostText = styled.p`
-  text-align: center;
-  font-size: 18px;
+const NoPostTextContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  margin-top: 200px;
+  grid-column: 1 / -1;
+  grid-row: 1 / 2;
   color: #555;
+`;
+
+const NoPostText = styled.div`
+  align-self: center;
 `;
 
 export default List;

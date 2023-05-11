@@ -23,13 +23,19 @@ const PostWrapper = styled.div`
   flex-direction: column;
   width: 300px;
   height: 450px;
-  margin: 20px;
+  margin: 20px auto;
   padding: 20px;
   box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.2);
   a {
     text-decoration: none;
   }
   overflow: hidden;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    transform: translateY(-10px);
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
+    transition: all 0.5s ease-in-out;
+  }
 `;
 
 const Info = styled.div`
