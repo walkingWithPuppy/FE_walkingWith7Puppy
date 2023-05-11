@@ -11,6 +11,7 @@ import { useQuery } from 'react-query';
 import { api } from '../../api/axios';
 import jwtDecode from 'jwt-decode';
 import { formatDate } from '../../utils/formatDate';
+import PetsIcon from '@mui/icons-material/Pets';
 
 const Detail = () => {
   const [isLogin, setIsLogin] = useState(false);
@@ -69,6 +70,9 @@ const Detail = () => {
         <Loading margin="240%" />
       ) : (
         <DetailCommentContainer>
+          <StTitle>
+            같이 산책하러 가요 <PetsIcon />
+          </StTitle>
           <Container>
             <ContentWrapper>
               <Image src={post.img || noImg} onError={handleImageError} alt="puppy" />
@@ -120,6 +124,7 @@ const Container = styled.div`
   width: 100%;
   padding: 30px;
   background-color: #ffffff;
+  margin-top: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 `;
 
@@ -157,6 +162,12 @@ const Title = styled.h2`
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 20px;
+`;
+
+const StTitle = styled.span`
+  font-size: 24px;
+  font-weight: semi-bold;
+  color: #fbae03;
 `;
 
 const NickName = styled.p`
