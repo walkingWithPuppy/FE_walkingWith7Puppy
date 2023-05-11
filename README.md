@@ -1,11 +1,12 @@
-<h1> Walking With Puppy </h1>
+<h1> Walking With Puppy - FE </h1>
 
 ![Frame 5](https://github.com/xxyeon129/FE_walkingWith7Puppy/assets/102347529/c89a5426-2e35-45b4-a277-cf53bc199dcf)
 
 
-- **배포 링크 :** http://walking-with-puppy.s3-website.ap-northeast-2.amazonaws.com/
+- **FE 배포 링크 :** http://walking-with-puppy.s3-website.ap-northeast-2.amazonaws.com/
+- **BE 배포 링크 :** [http://ec2-3-34-51-88.ap-northeast-2.compute.amazonaws.com:8080](http://ec2-3-34-51-88.ap-northeast-2.compute.amazonaws.com:8080)<br>
 - **프로젝트 기간 :** 2023.05.04 ~ 2023.05.11
-- **팀원 :** 강희진, 정승연, 김수진
+- **FE 팀원 :** 강희진, 정승연, 김수진
 
 
 <br />
@@ -33,7 +34,7 @@
 
 <br />
 
-# **💫** 서비스 소개
+# 💫 서비스 소개
 
 > 우리 강아지도 나도 매번 혼자 산책하기 심심한데.. 우리 동네에서 같이 산책할 견주는 어떻게 구하지? <br />
 혼자 산책하기 지겨우신가요? Walking With Puppy에서 가까운 동네 주민과 반려견 친구를 함께 만나보세요!
@@ -41,6 +42,15 @@
 - 🐶 편하게 게시글을 올리고 나와 마음이 맞는 견주들과 이야기를 나누어 보세요.
 - ✔️ 지역별로 필터링해서 우리 지역 견주들을 확인해보세요.
 - 🐕 마음에 드는 견주가 있나요? 부담 없이 댓글을 남겨 보세요.
+
+<br />
+
+# 🎬 화면 구성
+|                                                             메인 페이지                                                             |                                                            로그인 페이지                                                             |
+|:------------------------------------------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------------------------------------------:|
+| <img width="329" src="https://walkingpuppy7.s3.ap-northeast-2.amazonaws.com/%EB%A9%94%EC%9D%B8%ED%8E%98%EC%9D%B4%EC%A7%80.PNG"/> | <img width="329" src="https://walkingpuppy7.s3.ap-northeast-2.amazonaws.com/%EB%A1%9C%EA%B7%B8%EC%9D%B8%ED%8E%98%EC%9D%B4%EC%A7%80.PNG"/> |  
+|                                                           게시물 조회 페이지                                                           |                                                           게시물 작성 페이지                                                           |
+| <img width="329" src="https://walkingpuppy7.s3.ap-northeast-2.amazonaws.com/%EA%B2%8C%EC%8B%9C%EB%AC%BC%EC%A1%B0%ED%9A%8C.PNG"/> | <img width="329" src="https://walkingpuppy7.s3.ap-northeast-2.amazonaws.com/%EA%B2%8C%EC%8B%9C%EB%AC%BC%EC%9E%91%EC%84%B1.PNG"/> |  
 
 
 
@@ -74,6 +84,70 @@
 
 - [Figma](https://www.figma.com/file/7nkJR0jZpYcB0a39KVwXbE/mini-project?type=design&node-id=0%3A1&t=7BKy9eH9NTtY8ogv-1)
 
+
+<br />
+  
+#  폴더 구조
+
+## 폴더 구조
+
+
+```
+📂 src
+├──📂 api
+│   └── 📄 axios
+├──📂 assets
+│   └── 📄 // svg icons
+├──📂 components
+│   ├── 📂 board
+│   │   ├── 📄 CreateForm
+│   │   ├── 📄 Detail
+│   │   ├── 📄 List
+│   │   └── 📄 Post
+│   ├── 📂 comment
+│   │   ├── 📄 CommentItem
+│   │   └── 📄 CommentList
+│   ├── 📂 common
+│   │   └── 📄 ImgTag
+│   ├── 📂 home
+│   │   ├── 📄 HomeSection01
+│   │   ├── 📄 HomeSection02
+│   │   ├── 📄 HomeSection03
+│   │   ├── 📄 HomeSection04
+│   │   ├── 📄 Section02Card
+│   │   └── 📄 Section03Post
+│   ├── 📂 layout
+│   │   ├── 📄 Footer
+│   │   └── 📄 Header
+│   └── 📄 Loading
+├── 📂 hooks
+│   ├── 📄 useAddressSelect
+│   └── 📄 useScrollFadeIn
+├── 📂 pages
+│   ├── 📄 BoardCreate
+│   ├── 📄 BoardDetail
+│   ├── 📄 BoardList
+│   ├── 📄 Home
+│   ├── 📄 Login
+│   └── 📄 Signup
+├── 📂 redux
+│   ├── 📂 config
+│   │   └── 📄 configStore
+│   └── 📂 modules
+│       ├── 📄 boardsSlice
+│       └── 📄 commentSlice
+├── 📂 shared
+│   ├── 📄 AnimatedRouter
+│   ├── 📄 constants
+│   ├── 📄 GlobalStyle
+│   ├── 📄 Layout
+│   ├── 📄 Router
+│   └── 📄 theme
+├── 📂 utils
+│   └── 📄 formatDate
+├── 📄 App
+└── 📄 index
+```
 
 <br />
 
