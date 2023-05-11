@@ -102,7 +102,7 @@ const HeaderTitle = styled.div`
 `;
 
 const Button = styled.button`
-  width: 5rem;
+  width: 6rem;
   border: 2px solid #fbae03;
   border-radius: 1rem;
   padding: 0.2rem 0.8rem;
