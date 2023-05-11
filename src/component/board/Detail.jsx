@@ -55,7 +55,6 @@ const Detail = () => {
     };
     fetchBoard();
   }, [data]);
-  console.log(idCheck);
 
   const noImg = '/images/board/no-img.jpg';
   const handleImageError = e => (e.target.src = noImg);
@@ -116,7 +115,6 @@ const DetailWrapper = styled.div`
 
 const Container = styled.div`
   display: flex;
-  // align-items: center;
   flex-direction: column;
   max-width: 800px;
   width: 100%;

@@ -30,6 +30,7 @@ const Section02 = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  font-family: 'Rubik', sans-serif;
 `;
 
 const TextLabel = styled.div`

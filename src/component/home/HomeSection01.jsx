@@ -30,6 +30,7 @@ const Section01 = styled.div`
   background-repeat: no-repeat;
   background-position: 90% 80%;
   background-size: 35rem;
+  font-family: 'Rubik', sans-serif;
 
   display: flex;
   flex-direction: column;
@@ -77,6 +78,7 @@ const Button = styled.button`
   display: flex;
   justify-content: space-around;
   align-items: center;
+  font-family: 'Rubik', sans-serif;
 
   :hover {
     transition: 0.7s;
