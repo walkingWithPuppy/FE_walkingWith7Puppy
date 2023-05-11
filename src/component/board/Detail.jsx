@@ -168,6 +168,7 @@ const StTitle = styled.span`
   font-size: 24px;
   font-weight: semi-bold;
   color: #fbae03;
+  width: 85%;
 `;
 
 const NickName = styled.p`
@@ -181,6 +182,7 @@ const Area = styled.p`
   font-weight: 700;
   font-size: 16px;
   color: #9d9d9d;
+  width: 15%;
 `;
 
 const Date = styled.p`
