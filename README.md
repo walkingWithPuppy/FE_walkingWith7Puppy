@@ -48,7 +48,7 @@
 # 🎬 화면 구성
 |                                                             메인 페이지                                                             |                                                            로그인 페이지                                                             |
 |:------------------------------------------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------------------------------------------:|
-| <img width="329" src="https://walkingpuppy7.s3.ap-northeast-2.amazonaws.com/%EB%A9%94%EC%9D%B8%ED%8E%98%EC%9D%B4%EC%A7%80.PNG"/> | <img width="329" src="https://walkingpuppy7.s3.ap-northeast-2.amazonaws.com/%EB%A1%9C%EA%B7%B8%EC%9D%B8%ED%8E%98%EC%9D%B4%EC%A7%80.PNG"/> |  
+| <img width="329" src="https://github.com/walkingWithPuppy/FE_walkingWith7Puppy/assets/102347529/f9bc40cc-c000-4f8a-8d43-2fdc0fc15800"/> | <img width="329" src="https://walkingpuppy7.s3.ap-northeast-2.amazonaws.com/%EB%A1%9C%EA%B7%B8%EC%9D%B8%ED%8E%98%EC%9D%B4%EC%A7%80.PNG"/> |  
 |                                                           게시물 조회 페이지                                                           |                                                           게시물 작성 페이지                                                           |
 | <img width="329" src="https://walkingpuppy7.s3.ap-northeast-2.amazonaws.com/%EA%B2%8C%EC%8B%9C%EB%AC%BC%EC%A1%B0%ED%9A%8C.PNG"/> | <img width="329" src="https://walkingpuppy7.s3.ap-northeast-2.amazonaws.com/%EA%B2%8C%EC%8B%9C%EB%AC%BC%EC%9E%91%EC%84%B1.PNG"/> |  
 
