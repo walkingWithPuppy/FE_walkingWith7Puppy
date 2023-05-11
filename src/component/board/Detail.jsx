@@ -162,13 +162,13 @@ const Title = styled.h2`
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 20px;
+  width: 85%;
 `;
 
 const StTitle = styled.span`
   font-size: 24px;
   font-weight: semi-bold;
   color: #fbae03;
-  width: 85%;
 `;
 
 const NickName = styled.p`
