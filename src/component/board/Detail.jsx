@@ -55,7 +55,6 @@ const Detail = () => {
     };
     fetchBoard();
   }, [data]);
-  console.log(idCheck);
 
   const noImg = '/images/board/no-img.jpg';
   const handleImageError = e => (e.target.src = noImg);
