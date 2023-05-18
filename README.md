@@ -3,7 +3,7 @@
 ![Frame 5](https://github.com/xxyeon129/FE_walkingWith7Puppy/assets/102347529/c89a5426-2e35-45b4-a277-cf53bc199dcf)
 
 
-- **FE 배포 링크 :** http://walking-with-puppy.s3-website.ap-northeast-2.amazonaws.com/
+- **FE 배포 링크 :** http://walking-with-puppy.s3-website.ap-northeast-2.amazonaws.com/ - 잠시 닫아둔 상태입니다.
 - **BE 배포 링크 :** [http://ec2-3-34-51-88.ap-northeast-2.compute.amazonaws.com:8080](http://ec2-3-34-51-88.ap-northeast-2.compute.amazonaws.com:8080)<br>
 - **프로젝트 기간 :** 2023.05.04 ~ 2023.05.11
 - **FE 팀원 :** 강희진, 정승연, 김수진
